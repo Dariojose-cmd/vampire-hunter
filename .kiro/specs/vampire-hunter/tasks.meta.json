@@ -62,6 +62,25 @@
         "chatSessionId": "sess_f3dbecbd-7a4b-4cba-9005-a6a45d4d03bb",
         "timestamp": 1793385127651
       }
+    ],
+    "3.1 Create the three synthetic sample CSV files": [
+      {
+        "executionId": "3aad38c6-4beb-4467-b456-edabd3f8a17e",
+        "chatSessionId": "sess_013e2507-697b-4ce4-918e-6637c10de5c0",
+        "timestamp": 1793385540163
+      },
+      {
+        "executionId": "3aad38c6-4beb-4467-b456-edabd3f8a17e",
+        "chatSessionId": "sess_013e2507-697b-4ce4-918e-6637c10de5c0",
+        "timestamp": 1793386617609
+      }
+    ],
+    "3. Sample CSV files": [
+      {
+        "executionId": "3aad38c6-4beb-4467-b456-edabd3f8a17e",
+        "chatSessionId": "sess_013e2507-697b-4ce4-918e-6637c10de5c0",
+        "timestamp": 1793386618049
+      }
     ]
   }
 }

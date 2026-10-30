@@ -34,11 +34,13 @@ Build the Vampire Hunter SPA in a strict bottom-up order: scaffolding → styles
     - Add a `useTranslation` hook in `src/i18n/index.ts` that accepts a language key and returns typed string accessors
     - _Requirements: 12.1, 12.3, 12.4_
 
-- [ ] 3. Sample CSV files
-  - [ ] 3.1 Create the three synthetic sample CSV files
-    - Write `samples/us-bank-usd.csv`: `MM/DD/YYYY` dates, dot decimal, single amount column (negative = debit), USD header; rows include Netflix, Spotify, iCloud, Amazon Prime, a gym, a mobile carrier, a salary credit, and two one-time charges
-    - Write `samples/latam-bank-mxn.csv`: `DD/MM/YYYY` dates, comma decimal, Spanish noise words (`COMPRA`, `CARGO`, `PAGO`) in descriptions, MXN currency; rows include Netflix, Spotify, Disney+, a local streaming service, a gym chain, a salary credit, and transfers
-    - Write `samples/messy-statement.csv`: mixed date formats within the file, extra whitespace in headers, amounts with embedded currency symbols in cells, one missing row, duplicate headers — designed to stress-test parser robustness
+- [x] 3. Sample CSV files
+  - [x] 3.1 Create the four synthetic sample CSV files
+    - All dates must be between May 2026 and October 2026 so predicted next bites are always in the future
+    - Write `samples/us-bank-usd.csv`: `MM/DD/YYYY` dates with charge days above 12 (e.g. 14, 17, 21, 27, 28) so MM/DD/YYYY is unambiguous; dot decimal; single amount column (negative = debit); USD; rows include Netflix (price increase: $15.49 for 2 months then $17.99), Spotify, iCloud ($2.99) and Apple Music ($10.99) both described as `APPLE.COM/BILL` a few days apart each month (interleaved → two vampires), Amazon Prime, Planet Fitness gym, AT&T mobile, a weekly Green Chef meal-box ($6.99/week), a HelloFresh free trial ($0.00 converting to $12.99/month), a Costco annual membership ($139.00 in May 2026 + one prior charge from May 2025), salary credits, and two one-time charges
+    - Write `samples/latam-bank-mxn.csv`: `DD/MM/YYYY` dates, comma decimal (e.g. `"-259,00"`), Spanish noise words (`COMPRA`, `CARGO`, `PAGO`) in descriptions, MXN; rows include Netflix, Spotify, Disney+, Blim TV (local streaming), Smart Fit gym chain, salary credits, and transfers
+    - Write `samples/latam-bank-cop.csv`: `DD/MM/YYYY` dates, dot thousands separator with no decimals (e.g. `"-44.900"`, `"3.500.000"`), Spanish descriptions, COP; rows include Netflix, Spotify, SmartFit gym, Claro mobile carrier, salary credits, and one-time purchases
+    - Write `samples/messy-statement.csv`: mix only `DD/MM/YYYY` and `YYYY-MM-DD` within the date column (never MM/DD alongside DD/MM — that is unresolvable); extra whitespace in headers; amounts with embedded `$`/`USD` symbols in cells; one blank row; duplicate headers mid-file — designed to stress-test parser robustness; still includes detectable monthly Netflix, Spotify, and gym charges
     - Each file must contain only synthetic data — no real personal financial information
     - _Requirements: 1.13, 1.14_
 
@@ -262,7 +264,7 @@ Build the Vampire Hunter SPA in a strict bottom-up order: scaffolding → styles
 - [ ] 17. React UI — upload and column mapping
   - [ ] 17.1 Implement `Uploader.tsx` with drop zone and sample picker
     - Drop zone: `onDragOver` / `onDrop` handlers; keyboard-accessible (native `<input type="file">`); scale + glow animation on drag-over using Framer Motion
-    - "Try a sample" button: `<SamplePicker>` sub-component rendering three buttons for the three sample files; loads the selected sample file object without network request
+    - "Try a sample" button: `<SamplePicker>` sub-component rendering four buttons for the four sample files (`us-bank-usd.csv`, `latam-bank-mxn.csv`, `latam-bank-cop.csv`, `messy-statement.csv`); loads the selected sample file object without network request
     - Privacy notice text from i18n keys
     - On file selection: call Papa Parse in the browser; on success pass result to column detector; on `COLUMN_MAPPING_NEEDED` set error state to show `ColumnMapper`; on invalid CSV show human-readable i18n error
     - _Requirements: 1.1, 1.2, 1.3, 1.13, 1.14, 1.15, 13.3_

@@ -54,6 +54,7 @@ Vampire Hunter is a browser-only web application that helps regular users discov
 15. IF a provided file is not a valid CSV or cannot be parsed, THEN THE App SHALL display a human-readable error message without crashing.
 16. THE App SHALL classify each parsed transaction as a debit (outgoing money) or credit (incoming money). In a single-amount column, negative values are debits and positive values are credits. In a two-column layout, any value in the debit column is an outgoing charge.
 17. THE App SHALL pass only debit transactions to the Detection Engine. Credit transactions (salary, transfers, refunds) SHALL be silently excluded from vampire detection.
+18. THE App SHALL classify zero-amount transactions (0.00) as debits, because free trials appear as zero charges on bank statements.
 
 ---
 

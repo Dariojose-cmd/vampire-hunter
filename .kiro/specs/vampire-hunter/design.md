@@ -103,6 +103,7 @@ vampire-hunter/
 ├── samples/
 │   ├── us-bank-usd.csv
 │   ├── latam-bank-mxn.csv
+│   ├── latam-bank-cop.csv
 │   └── messy-statement.csv
 └── tests/
     ├── parser.test.ts
@@ -347,6 +348,7 @@ inferDateFormat(column: string[]): DateFormat | 'ambiguous'
 
 A transaction is a **debit** if:
 - Single-column layout: parsed amount is negative (stored as positive cents with `type: 'debit'`)
+- Zero amounts (0.00) are classified as debits, because free trials appear as 0.00 charges on bank statements. This lets the free-trial conversion be detected.
 - Two-column layout: value is in the debit column
 
 All credits (`type: 'credit'`) are filtered out before entering the detection pipeline.
@@ -731,21 +733,26 @@ All information and actions available on hover are also accessible via `:focus-v
 
 ## Sample CSV Files
 
+All dates span **May–October 2026** so predicted next bites are always in the future. All files contain **only synthetic data** — no real personal financial information.
+
 ### `samples/us-bank-usd.csv`
 
-US format: `MM/DD/YYYY` dates, dot decimal, single amount column (negative = debit), USD.
-Contains: Netflix, Spotify, iCloud, Amazon Prime, a gym, a mobile carrier, plus salary and one-time charges.
+US format: `MM/DD/YYYY` dates (charge days include 14, 17, 21, 27, 28 — unambiguous day-first vs month-first), dot decimal, single amount column (negative = debit), USD.
+Contains: Netflix (price increase from $15.49 → $17.99 after 2 months), Spotify, two `APPLE.COM/BILL` lines per month at different amounts ($2.99 iCloud and $10.99 Apple Music interleaved → two separate vampires), Amazon Prime, Planet Fitness gym, AT&T mobile, a weekly Green Chef meal-box ($6.99/week), a HelloFresh free trial ($0.00) that converts to $12.99/month, a one-time Costco annual membership ($139.00 in May 2026 with a prior charge from May 2025 visible as a second yearly bite), salary credits, and two one-time charges.
 
 ### `samples/latam-bank-mxn.csv`
 
-Latin American format: `DD/MM/YYYY` dates, comma decimal, Spanish noise words (`COMPRA`, `CARGO`, `PAGO`), MXN.
-Contains: Netflix, Spotify, Disney+, a local streaming service, a gym chain, plus salary and transfers.
+Latin American format: `DD/MM/YYYY` dates, comma decimal (e.g. `"-259,00"`), Spanish noise words (`COMPRA`, `CARGO`, `PAGO`), MXN.
+Contains: Netflix, Spotify, Disney+, Blim TV (local streaming), Smart Fit gym chain, salary credits, and transfers.
+
+### `samples/latam-bank-cop.csv`
+
+Colombian format: `DD/MM/YYYY` dates, dot thousands separator with no decimals (e.g. `"-44.900"`, `"3.500.000"`), Spanish descriptions, COP.
+Contains: Netflix, Spotify, SmartFit gym, Claro mobile carrier, salary credits, and one-time purchases.
 
 ### `samples/messy-statement.csv`
 
-Mixed issues: inconsistent date formats within the file, extra whitespace in headers, amounts with currency symbols embedded in cells, missing rows, duplicate headers. Used to test robustness of the parser.
-
-All sample files contain **only synthetic data**. No real personal financial information.
+Stress-test file combining: `DD/MM/YYYY` and `YYYY-MM-DD` date formats in the same column (never MM/DD in the same file as DD/MM — that would be unresolvable), extra whitespace in all headers, amounts with embedded `$`/`USD` symbols in cells, one blank row, and a duplicate header row mid-file. Still includes detectable monthly Netflix, Spotify, and gym recurring charges.
 
 ---
 
