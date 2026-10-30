@@ -397,7 +397,7 @@ groupByMerchant(transactions: Transaction[]): Map<string, Transaction[]>
       Overlapping clusters ALWAYS remain separate vampires regardless of amounts.
 
   Step 3 — Each resulting cluster becomes an independent RecurrenceCandidate.
-    Cluster ID is derived from: normalizedName + "_" + cluster index (0-based), used as vampireId.
+    Cluster ID is derived from: normalizedName + "_" + cluster index (0-based), used as vampireId. Clusters of the same merchant are indexed by ascending median amount so ids are stable across uploads.
 
   Key invariants:
     - "APPLE.COM/BILL" with interleaved bites at $2.99 (Jan 1), $10.99 (Jan 5), $2.99 (Feb 1),

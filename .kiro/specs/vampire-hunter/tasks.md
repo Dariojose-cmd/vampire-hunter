@@ -44,8 +44,8 @@ Build the Vampire Hunter SPA in a strict bottom-up order: scaffolding → styles
     - Each file must contain only synthetic data — no real personal financial information
     - _Requirements: 1.13, 1.14_
 
-- [ ] 4. Detection engine — shared types and error model
-  - [ ] 4.1 Define all shared TypeScript types and the Result/AppError model
+- [x] 4. Detection engine — shared types and error model
+  - [x] 4.1 Define all shared TypeScript types and the Result/AppError model
     - Create `src/engine/types.ts` with every interface and type from the design: `Transaction`, `TransactionType`, `Cadence`, `RecurrenceCandidate`, `ScoredCandidate`, `ThreatLevel`, `Vampire`, `CatalogEntry`, `UserDecision`, `CryptStorage`, `DetectionInput`, `DetectionResult`, `ColumnLayout`, `ParsedRow`, `AppError`, `Result<T, E>`
     - All monetary fields typed as `number` (integer cents); all date fields typed as `string` (ISO 8601)
     - `AppError` union: `PARSE_FAILED`, `COLUMN_MAPPING_NEEDED`, `DATE_FORMAT_AMBIGUOUS`, `NO_VALID_ROWS`, `STORAGE_UNAVAILABLE`

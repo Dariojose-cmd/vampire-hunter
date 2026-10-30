@@ -81,6 +81,25 @@
         "chatSessionId": "sess_013e2507-697b-4ce4-918e-6637c10de5c0",
         "timestamp": 1793386618049
       }
+    ],
+    "4.1 Define all shared TypeScript types and the Result/AppError model": [
+      {
+        "executionId": "8e63f762-656a-4baf-a470-71baf65ef286",
+        "chatSessionId": "sess_a21a7e13-316b-4bc2-a6a4-6dfc92aad18d",
+        "timestamp": 1793387165012
+      },
+      {
+        "executionId": "8e63f762-656a-4baf-a470-71baf65ef286",
+        "chatSessionId": "sess_a21a7e13-316b-4bc2-a6a4-6dfc92aad18d",
+        "timestamp": 1793387372485
+      }
+    ],
+    "4. Detection engine — shared types and error model": [
+      {
+        "executionId": "8e63f762-656a-4baf-a470-71baf65ef286",
+        "chatSessionId": "sess_a21a7e13-316b-4bc2-a6a4-6dfc92aad18d",
+        "timestamp": 1793387372780
+      }
     ]
   }
 }
