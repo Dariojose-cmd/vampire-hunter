@@ -1,0 +1,190 @@
+{
+  "lang": "en",
+
+  "nav": {
+    "languageSwitch": "Español",
+    "languageSwitchAriaLabel": "Switch to Spanish"
+  },
+
+  "upload": {
+    "title": "Find Your Vampires",
+    "subtitle": "Upload your bank statement and we'll hunt down every sneaky recurring charge.",
+    "dropZoneLabel": "Drop your CSV here or click to browse",
+    "dropZoneActive": "Release to unleash the hunt…",
+    "browseButton": "Pick a file",
+    "orText": "or",
+    "trySampleButton": "Try a sample",
+    "privacyNotice": "🔒 Your data never leaves your device. Everything runs in your browser.",
+    "privacyNoticeDetail": "No accounts. No servers. No analytics. Your bank data stays on your computer.",
+    "supportedFormats": "Supports CSV files from most banks.",
+    "samplePicker": {
+      "title": "Choose a sample statement",
+      "us": "US Bank (USD, dot decimal)",
+      "latam": "Latin American Bank (MXN, comma decimal)",
+      "messy": "Messy Statement (stress test)",
+      "close": "Close sample picker"
+    }
+  },
+
+  "columnMapper": {
+    "title": "Help Us Read Your Statement",
+    "subtitle": "We couldn't auto-detect all the columns. Tell us which is which.",
+    "dateColumn": "Date column",
+    "descriptionColumn": "Description column",
+    "amountColumn": "Amount column",
+    "debitColumn": "Debit column",
+    "creditColumn": "Credit column",
+    "dateFormat": "Date format",
+    "dateFormatDdMmYyyy": "DD/MM/YYYY (e.g. 31/12/2024)",
+    "dateFormatMmDdYyyy": "MM/DD/YYYY (e.g. 12/31/2024)",
+    "selectColumn": "Select a column…",
+    "selectFormat": "Select a format…",
+    "confirmButton": "Hunt for vampires",
+    "cancelButton": "Go back",
+    "requiredHint": "All marked fields are required."
+  },
+
+  "crypt": {
+    "title": "The Crypt",
+    "subtitle": "These vampires are draining your blood every month.",
+    "emptyFilter": "No vampires match this filter.",
+    "sortLabel": "Sort by",
+    "sortThreat": "Threat level",
+    "sortAmount": "Annual cost",
+    "sortName": "Name",
+    "filterAll": "All",
+    "filterStaked": "Staked",
+    "filterSpared": "Spared",
+    "filterGarlic": "Garlic",
+    "possibleVampiresToggle": "Show possible vampires",
+    "possibleVampiresLabel": "Possible Vampires",
+    "possibleVampiresHint": "These look suspicious but we're not 100% sure.",
+    "vampireCount": "{{count}} vampire found",
+    "vampireCount_plural": "{{count}} vampires found",
+    "noVampires": "No vampires detected. Your blood is safe… for now.",
+    "uploadAnother": "Upload another statement"
+  },
+
+  "vampireCard": {
+    "ariaLabel": "{{name}} – {{threatLevel}} threat – {{annualLoss}} per year",
+    "cadenceWeekly": "bites every week",
+    "cadenceMonthly": "bites every month",
+    "cadenceQuarterly": "bites every quarter",
+    "cadenceYearly": "bites every year",
+    "amountPerBite": "{{amount}} per bite",
+    "bloodDrained": "Blood drained",
+    "bloodDrainedValue": "{{amount}} total",
+    "firstBite": "First bite",
+    "nextBite": "Next bite",
+    "annualBloodLoss": "Annual blood loss",
+    "priceIncreaseLabel": "Price history",
+    "freeTrial": "Started as a free trial",
+    "confidenceScore": "Confidence",
+    "possibleVampireHint": "Possible vampire – we're not certain this is recurring.",
+    "stakeButton": "Stake",
+    "stakeAriaLabel": "Stake {{name}} – cancel this subscription",
+    "spareButton": "Spare",
+    "spareAriaLabel": "Spare {{name}} – keep this subscription",
+    "garlicButton": "Garlic",
+    "garlicAriaLabel": "Set garlic reminder for {{name}} – next charge on {{nextDate}}"
+  },
+
+  "threatLevel": {
+    "Low": "Low",
+    "Medium": "Medium",
+    "High": "High",
+    "Critical": "Critical",
+    "Low_ariaLabel": "Low threat",
+    "Medium_ariaLabel": "Medium threat",
+    "High_ariaLabel": "High threat",
+    "Critical_ariaLabel": "Critical threat"
+  },
+
+  "bloodMeter": {
+    "ariaLabel": "Blood meter – total annual drain",
+    "draining": "Draining",
+    "saved": "Saved",
+    "drainingValue": "{{amount}} / year",
+    "savedValue": "{{amount}} saved",
+    "allStaked": "All vampires staked! Your blood is safe. 🧛‍♂️",
+    "totalDrained": "Total drained so far"
+  },
+
+  "stakeModal": {
+    "title": "Stake {{name}}",
+    "ariaLabel": "Stake {{name}} modal – cancellation instructions",
+    "cancelUrlLabel": "Cancellation page",
+    "cancelUrlButton": "Go to cancellation page",
+    "stepsTitle": "How to cancel",
+    "noStepsAvailable": "No cancellation instructions available. Search for \"{{name}} cancel\" online.",
+    "emailDraftTitle": "Cancellation email draft",
+    "emailDraftAriaLabel": "Generated cancellation email draft",
+    "copyEmailButton": "Copy email",
+    "copyEmailSuccess": "Copied!",
+    "copyEmailAriaLabel": "Copy cancellation email to clipboard",
+    "confirmStakeButton": "Confirm stake",
+    "confirmStakeAriaLabel": "Confirm – stake {{name}} and mark as cancelled",
+    "closeButton": "Close",
+    "closeAriaLabel": "Close cancellation modal",
+    "emailSubject": "Cancellation request – {{name}}",
+    "emailBody": "Hello,\n\nI am writing to request the cancellation of my {{name}} subscription, effective immediately.\n\nPlease confirm the cancellation in writing and ensure I will not be charged after this date.\n\nThank you,\n[Your name]"
+  },
+
+  "garlic": {
+    "icsEventSummary": "⚠️ {{name}} charge in 3 days",
+    "icsEventDescription": "Your {{name}} subscription is about to charge {{amount}}. Decide now: cancel or keep it.\n\nOpened with Vampire Hunter – your bank data never left your device.",
+    "icsFilename": "vampire-reminder-{{name}}.ics",
+    "downloadSuccess": "Reminder added to your calendar.",
+    "downloadError": "Could not generate the reminder. Try again."
+  },
+
+  "burn": {
+    "buttonLabel": "Burn the Crypt",
+    "buttonAriaLabel": "Burn the Crypt – delete all saved decisions",
+    "confirmTitle": "Are you sure?",
+    "confirmMessage": "This will destroy all your vampire decisions and clear your saved data. The flames are permanent.",
+    "confirmButton": "Yes, burn it all",
+    "confirmAriaLabel": "Confirm – burn the crypt and delete all data",
+    "cancelButton": "Cancel",
+    "cancelAriaLabel": "Cancel – do not burn the crypt",
+    "successMessage": "The crypt is ash. Upload a new statement to start fresh."
+  },
+
+  "emptyState": {
+    "title": "No Vampires Found",
+    "subtitle": "Your crypt is empty. Upload a bank statement to begin the hunt.",
+    "ctaButton": "Upload a statement",
+    "sampleButton": "Try a sample",
+    "tip": "Tip: vampires hide in recurring charges like streaming, cloud storage, and gym memberships."
+  },
+
+  "errors": {
+    "fileNotCsv": "That file doesn't look like a CSV. Please upload a .csv file.",
+    "parseFailed": "We couldn't read your file. Make sure it's a valid CSV and try again.",
+    "columnMappingNeeded": "We couldn't figure out your column layout. Please assign the columns manually.",
+    "dateFormatAmbiguous": "Your date format is ambiguous. Please select it manually.",
+    "noValidRows": "No readable transactions found. Your file may be empty or corrupted.",
+    "storageUnavailable": "We couldn't save your decisions. Your browser may have storage disabled.",
+    "generic": "Something went wrong. Please try again.",
+    "dismissAriaLabel": "Dismiss error"
+  },
+
+  "currencySelector": {
+    "label": "Currency",
+    "ariaLabel": "Select display currency",
+    "autoDetected": "Auto-detected: {{currency}}"
+  },
+
+  "common": {
+    "loading": "Hunting vampires…",
+    "close": "Close",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "copy": "Copy",
+    "copied": "Copied!",
+    "back": "Back",
+    "next": "Next",
+    "skip": "Skip",
+    "or": "or"
+  }
+}

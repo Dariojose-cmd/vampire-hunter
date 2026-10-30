@@ -21,14 +21,14 @@ Build the Vampire Hunter SPA in a strict bottom-up order: scaffolding → styles
     - Create empty `src/engine/`, `src/data/`, `src/components/`, `src/i18n/`, `src/styles/`, `samples/`, `tests/` directories with `.gitkeep` placeholders
     - _Requirements: project structure rule_
 
-- [ ] 2. Design tokens, global styles, and i18n foundations
-  - [ ] 2.1 Create CSS design tokens and global stylesheet
+- [x] 2. Design tokens, global styles, and i18n foundations
+  - [x] 2.1 Create CSS design tokens and global stylesheet
     - Write `src/styles/tokens.css` with all CSS custom properties: `--color-bg: #0d0d1a`, `--color-surface: #1a1a2e`, `--color-text: #e8e0f0`, `--color-text-muted: #a89bc0`, `--color-accent: #c0392b`, `--color-accent-light: #e74c3c`, `--color-low: #27ae60`, `--color-medium: #f39c12`, `--color-high: #e67e22`, `--color-critical: #c0392b`, `--color-focus: #f0e68c`; spacing scale and font variables
     - Write `src/styles/global.css` importing tokens; set `*:focus-visible { outline: 3px solid var(--color-focus); outline-offset: 2px; }` and responsive base styles
     - Import both files in `src/main.tsx`
     - _Requirements: 15.2, 15.3_
 
-  - [ ] 2.2 Create English and Spanish i18n JSON files
+  - [x] 2.2 Create English and Spanish i18n JSON files
     - Write `src/i18n/en.json` with keys for every UI string: upload screen, column mapper, crypt labels, action button labels (with ARIA patterns), blood meter, stake modal (cancellation email template), garlic ICS description, burn confirmation, empty state, error messages, privacy notice, threat level labels, cadence descriptions ("bites every month", etc.)
     - Write `src/i18n/es.json` with the Spanish equivalents for every key in `en.json`
     - Add a `useTranslation` hook in `src/i18n/index.ts` that accepts a language key and returns typed string accessors

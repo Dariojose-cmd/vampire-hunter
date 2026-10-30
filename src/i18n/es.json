@@ -1,0 +1,190 @@
+{
+  "lang": "es",
+
+  "nav": {
+    "languageSwitch": "English",
+    "languageSwitchAriaLabel": "Cambiar a inglés"
+  },
+
+  "upload": {
+    "title": "Encuentra Tus Vampiros",
+    "subtitle": "Sube tu estado de cuenta y cazaremos cada cargo recurrente que se esconde en las sombras.",
+    "dropZoneLabel": "Suelta tu CSV aquí o haz clic para buscar",
+    "dropZoneActive": "Suéltalo para comenzar la cacería…",
+    "browseButton": "Elegir archivo",
+    "orText": "o",
+    "trySampleButton": "Probar un ejemplo",
+    "privacyNotice": "🔒 Tus datos nunca salen de tu dispositivo. Todo ocurre en tu navegador.",
+    "privacyNoticeDetail": "Sin cuentas. Sin servidores. Sin analíticas. Tus datos bancarios se quedan en tu computadora.",
+    "supportedFormats": "Compatible con archivos CSV de la mayoría de los bancos.",
+    "samplePicker": {
+      "title": "Elige un estado de cuenta de muestra",
+      "us": "Banco de EE.UU. (USD, punto decimal)",
+      "latam": "Banco latinoamericano (MXN, coma decimal)",
+      "messy": "Estado desordenado (prueba de robustez)",
+      "close": "Cerrar selector de ejemplos"
+    }
+  },
+
+  "columnMapper": {
+    "title": "Ayúdanos a Leer tu Estado",
+    "subtitle": "No pudimos detectar todas las columnas automáticamente. Dinos cuál es cuál.",
+    "dateColumn": "Columna de fecha",
+    "descriptionColumn": "Columna de descripción",
+    "amountColumn": "Columna de monto",
+    "debitColumn": "Columna de débito",
+    "creditColumn": "Columna de crédito",
+    "dateFormat": "Formato de fecha",
+    "dateFormatDdMmYyyy": "DD/MM/AAAA (ej. 31/12/2024)",
+    "dateFormatMmDdYyyy": "MM/DD/AAAA (ej. 12/31/2024)",
+    "selectColumn": "Selecciona una columna…",
+    "selectFormat": "Selecciona un formato…",
+    "confirmButton": "Cazar vampiros",
+    "cancelButton": "Regresar",
+    "requiredHint": "Todos los campos marcados son obligatorios."
+  },
+
+  "crypt": {
+    "title": "La Cripta",
+    "subtitle": "Estos vampiros te están drenando la sangre cada mes.",
+    "emptyFilter": "Ningún vampiro coincide con este filtro.",
+    "sortLabel": "Ordenar por",
+    "sortThreat": "Nivel de amenaza",
+    "sortAmount": "Costo anual",
+    "sortName": "Nombre",
+    "filterAll": "Todos",
+    "filterStaked": "Estacados",
+    "filterSpared": "Perdonados",
+    "filterGarlic": "Ajo",
+    "possibleVampiresToggle": "Mostrar posibles vampiros",
+    "possibleVampiresLabel": "Posibles Vampiros",
+    "possibleVampiresHint": "Estos parecen sospechosos pero no estamos 100% seguros.",
+    "vampireCount": "{{count}} vampiro encontrado",
+    "vampireCount_plural": "{{count}} vampiros encontrados",
+    "noVampires": "No se detectaron vampiros. Tu sangre está a salvo… por ahora.",
+    "uploadAnother": "Subir otro estado de cuenta"
+  },
+
+  "vampireCard": {
+    "ariaLabel": "{{name}} – amenaza {{threatLevel}} – {{annualLoss}} por año",
+    "cadenceWeekly": "muerde cada semana",
+    "cadenceMonthly": "muerde cada mes",
+    "cadenceQuarterly": "muerde cada trimestre",
+    "cadenceYearly": "muerde cada año",
+    "amountPerBite": "{{amount}} por mordida",
+    "bloodDrained": "Sangre drenada",
+    "bloodDrainedValue": "{{amount}} en total",
+    "firstBite": "Primera mordida",
+    "nextBite": "Próxima mordida",
+    "annualBloodLoss": "Pérdida de sangre anual",
+    "priceIncreaseLabel": "Historial de precios",
+    "freeTrial": "Comenzó como prueba gratuita",
+    "confidenceScore": "Confianza",
+    "possibleVampireHint": "Posible vampiro – no estamos seguros de que sea recurrente.",
+    "stakeButton": "Estaca",
+    "stakeAriaLabel": "Estaca a {{name}} – cancelar esta suscripción",
+    "spareButton": "Perdonar",
+    "spareAriaLabel": "Perdona a {{name}} – mantener esta suscripción",
+    "garlicButton": "Ajo",
+    "garlicAriaLabel": "Poner recordatorio de ajo para {{name}} – próximo cargo el {{nextDate}}"
+  },
+
+  "threatLevel": {
+    "Low": "Bajo",
+    "Medium": "Medio",
+    "High": "Alto",
+    "Critical": "Crítico",
+    "Low_ariaLabel": "Amenaza baja",
+    "Medium_ariaLabel": "Amenaza media",
+    "High_ariaLabel": "Amenaza alta",
+    "Critical_ariaLabel": "Amenaza crítica"
+  },
+
+  "bloodMeter": {
+    "ariaLabel": "Medidor de sangre – drenaje anual total",
+    "draining": "Drenando",
+    "saved": "Ahorrado",
+    "drainingValue": "{{amount}} / año",
+    "savedValue": "{{amount}} ahorrados",
+    "allStaked": "¡Todos los vampiros estacados! Tu sangre está a salvo. 🧛‍♂️",
+    "totalDrained": "Total drenado hasta ahora"
+  },
+
+  "stakeModal": {
+    "title": "Estaca a {{name}}",
+    "ariaLabel": "Modal para estaca a {{name}} – instrucciones de cancelación",
+    "cancelUrlLabel": "Página de cancelación",
+    "cancelUrlButton": "Ir a la página de cancelación",
+    "stepsTitle": "Cómo cancelar",
+    "noStepsAvailable": "No hay instrucciones de cancelación disponibles. Busca '{{name}} cancelar' en línea.",
+    "emailDraftTitle": "Borrador de correo de cancelación",
+    "emailDraftAriaLabel": "Borrador generado del correo de cancelación",
+    "copyEmailButton": "Copiar correo",
+    "copyEmailSuccess": "¡Copiado!",
+    "copyEmailAriaLabel": "Copiar correo de cancelación al portapapeles",
+    "confirmStakeButton": "Confirmar estaca",
+    "confirmStakeAriaLabel": "Confirmar – estaca a {{name}} y marcar como cancelado",
+    "closeButton": "Cerrar",
+    "closeAriaLabel": "Cerrar modal de cancelación",
+    "emailSubject": "Solicitud de cancelación – {{name}}",
+    "emailBody": "Estimados,\n\nLes escribo para solicitar la cancelación de mi suscripción a {{name}}, con efecto inmediato.\n\nPor favor confirmen la cancelación por escrito y asegúrense de que no se me realice ningún cargo después de esta fecha.\n\nGracias,\n[Tu nombre]"
+  },
+
+  "garlic": {
+    "icsEventSummary": "⚠️ Cargo de {{name}} en 3 días",
+    "icsEventDescription": "Tu suscripción de {{name}} está a punto de cargarte {{amount}}. Decide ahora: cancela o consérvala.\n\nGenerado con Vampire Hunter – tus datos bancarios nunca salieron de tu dispositivo.",
+    "icsFilename": "recordatorio-vampiro-{{name}}.ics",
+    "downloadSuccess": "Recordatorio agregado a tu calendario.",
+    "downloadError": "No se pudo generar el recordatorio. Inténtalo de nuevo."
+  },
+
+  "burn": {
+    "buttonLabel": "Quemar la Cripta",
+    "buttonAriaLabel": "Quemar la Cripta – eliminar todas las decisiones guardadas",
+    "confirmTitle": "¿Estás seguro?",
+    "confirmMessage": "Esto destruirá todas tus decisiones sobre vampiros y borrará tus datos guardados. Las llamas son permanentes.",
+    "confirmButton": "Sí, quémalo todo",
+    "confirmAriaLabel": "Confirmar – quemar la cripta y eliminar todos los datos",
+    "cancelButton": "Cancelar",
+    "cancelAriaLabel": "Cancelar – no quemar la cripta",
+    "successMessage": "La cripta es ceniza. Sube un nuevo estado de cuenta para empezar de nuevo."
+  },
+
+  "emptyState": {
+    "title": "No Se Encontraron Vampiros",
+    "subtitle": "Tu cripta está vacía. Sube un estado de cuenta bancario para comenzar la cacería.",
+    "ctaButton": "Subir un estado de cuenta",
+    "sampleButton": "Probar un ejemplo",
+    "tip": "Tip: los vampiros se esconden en cargos recurrentes como streaming, almacenamiento en la nube y membresías de gimnasios."
+  },
+
+  "errors": {
+    "fileNotCsv": "Ese archivo no parece un CSV. Por favor sube un archivo .csv.",
+    "parseFailed": "No pudimos leer tu archivo. Asegúrate de que sea un CSV válido e inténtalo de nuevo.",
+    "columnMappingNeeded": "No pudimos determinar el diseño de columnas. Por favor asígnalas manualmente.",
+    "dateFormatAmbiguous": "El formato de tu fecha es ambiguo. Por favor selecciónalo manualmente.",
+    "noValidRows": "No se encontraron transacciones legibles. Tu archivo puede estar vacío o dañado.",
+    "storageUnavailable": "No pudimos guardar tus decisiones. Tu navegador puede tener el almacenamiento desactivado.",
+    "generic": "Algo salió mal. Por favor inténtalo de nuevo.",
+    "dismissAriaLabel": "Cerrar error"
+  },
+
+  "currencySelector": {
+    "label": "Moneda",
+    "ariaLabel": "Seleccionar moneda de visualización",
+    "autoDetected": "Detectada automáticamente: {{currency}}"
+  },
+
+  "common": {
+    "loading": "Cazando vampiros…",
+    "close": "Cerrar",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "copy": "Copiar",
+    "copied": "¡Copiado!",
+    "back": "Regresar",
+    "next": "Siguiente",
+    "skip": "Omitir",
+    "or": "o"
+  }
+}
