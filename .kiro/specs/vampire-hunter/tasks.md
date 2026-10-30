@@ -6,16 +6,18 @@ Build the Vampire Hunter SPA in a strict bottom-up order: scaffolding → styles
 
 ## Tasks
 
-- [ ] 1. Project scaffolding and tooling
-  - [ ] 1.1 Initialize Vite + React 18 + TypeScript project with strict mode
-    - Run `npm create vite@latest vampire-hunter -- --template react-ts`, then enable `"strict": true` in `tsconfig.json`
+- [x] 1. Project scaffolding and tooling
+  - [x] 1.1 Initialize Vite + React + TypeScript project with strict mode
+    - The repo root already contains `.kiro/` and `LICENSE`, which must NEVER be deleted or overwritten. Scaffold in a temporary folder (`npm create vite@latest /tmp/vh-scaffold -- --template react-ts`), copy its files into the repo root, then delete the temporary folder. Do not use the "remove existing files" option
+    - Enable `"strict": true` in `tsconfig.json`
+    - Add a `.gitignore` with `node_modules/` and `dist/` (never ignore `.kiro/`)
     - Add `paths` aliases: `@engine`, `@data`, `@components`, `@i18n`, `@styles` pointing to `src/*`
     - Install production dependencies: `framer-motion`, `papaparse`, `@types/papaparse`
     - Install dev dependencies: `vitest`, `@vitest/ui`, `fast-check`, `@testing-library/react`, `@testing-library/user-event`, `@axe-core/react`, `jsdom`
     - Configure `vitest.config.ts` with `environment: 'jsdom'` and the path aliases
     - _Requirements: 13.1 (all processing in browser), 13.4 (no analytics)_
 
-  - [ ] 1.2 Create the project directory skeleton
+  - [x] 1.2 Create the project directory skeleton
     - Create empty `src/engine/`, `src/data/`, `src/components/`, `src/i18n/`, `src/styles/`, `samples/`, `tests/` directories with `.gitkeep` placeholders
     - _Requirements: project structure rule_
 

@@ -1,6 +1,6 @@
 # Tech stack
 
-- Vite + React 18 + TypeScript (strict mode)
+- Vite + React (the version installed by the Vite react-ts template) + TypeScript (strict mode)
 - Styling: CSS modules or plain CSS with design tokens (CSS variables)
 - Animation: Framer Motion
 - CSV parsing: Papa Parse

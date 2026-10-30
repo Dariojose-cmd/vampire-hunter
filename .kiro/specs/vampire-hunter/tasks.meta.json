@@ -1,0 +1,36 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1.1 Initialize Vite + React + TypeScript project with strict mode": [
+      {
+        "executionId": "29de2247-cfe5-428b-a76b-7c2d29e57b77",
+        "chatSessionId": "sess_86044ca6-e175-4dd3-8cb0-3d88a508e81f",
+        "timestamp": 1793384518184
+      },
+      {
+        "executionId": "29de2247-cfe5-428b-a76b-7c2d29e57b77",
+        "chatSessionId": "sess_86044ca6-e175-4dd3-8cb0-3d88a508e81f",
+        "timestamp": 1793384799030
+      }
+    ],
+    "1.2 Create the project directory skeleton": [
+      {
+        "executionId": "29de2247-cfe5-428b-a76b-7c2d29e57b77",
+        "chatSessionId": "sess_86044ca6-e175-4dd3-8cb0-3d88a508e81f",
+        "timestamp": 1793384801244
+      },
+      {
+        "executionId": "29de2247-cfe5-428b-a76b-7c2d29e57b77",
+        "chatSessionId": "sess_86044ca6-e175-4dd3-8cb0-3d88a508e81f",
+        "timestamp": 1793384825305
+      }
+    ],
+    "1. Project scaffolding and tooling": [
+      {
+        "executionId": "29de2247-cfe5-428b-a76b-7c2d29e57b77",
+        "chatSessionId": "sess_86044ca6-e175-4dd3-8cb0-3d88a508e81f",
+        "timestamp": 1793384825388
+      }
+    ]
+  }
+}
