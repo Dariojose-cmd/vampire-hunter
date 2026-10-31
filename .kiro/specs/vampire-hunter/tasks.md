@@ -68,8 +68,8 @@ Build the Vampire Hunter SPA in a strict bottom-up order: scaffolding → styles
     - Implement `parseRows(rows: string[][], layout: ColumnLayout, dateFormat: DateFormat, numberFormat: NumberFormat): { transactions: Transaction[]; skipped: number }`: iterate rows, call `parseDate` and `parseCents`, classify debit/credit (single-column: negative = debit; two-column: debit-column presence), set `type`, convert to `Transaction`; skip invalid rows and count them; assign a deterministic `id` from row index + description hash; never throw
     - _Requirements: 1.3, 1.4, 1.5, 1.6, 1.7, 1.16, 1.17_
 
-- [ ] 6. Detection engine — normalizer (`normalizer.ts`)
-  - [ ] 6.1 Implement the `normalize` function
+- [x] 6. Detection engine — normalizer (`normalizer.ts`)
+  - [x] 6.1 Implement the `normalize` function
     - In `src/engine/normalizer.ts`, implement `normalize(s: string): string` in this exact order: (1) uppercase, (2) remove noise keywords `POS|PURCHASE|COMPRA|PAGO|CARGO|DEBIT|PAYMENT` with word-boundary regex, (3) remove card-number patterns (4+ consecutive digits), (4) remove reference-code patterns (alphanumeric tokens of 6+ chars at start/end of string), (5) collapse consecutive whitespace to single space, (6) trim
     - Zero React imports
     - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5_

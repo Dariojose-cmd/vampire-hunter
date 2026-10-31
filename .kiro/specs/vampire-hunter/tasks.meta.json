@@ -100,6 +100,30 @@
         "chatSessionId": "sess_a21a7e13-316b-4bc2-a6a4-6dfc92aad18d",
         "timestamp": 1793387372780
       }
+    ],
+    "6.1 Implement the `normalize` function": [
+      {
+        "executionId": "a42f6842-e965-44f3-a5b0-1aa2153d1aeb",
+        "chatSessionId": "sess_b894c118-f93f-44a1-9644-c6599c867fe3",
+        "timestamp": 1793387493825
+      },
+      {
+        "executionId": "019abe69-7748-41f4-973b-15ba3c769b10",
+        "chatSessionId": "sess_ec5732f3-fada-47ab-baf8-7d687f0aa67c",
+        "timestamp": 1793421327861
+      },
+      {
+        "executionId": "019abe69-7748-41f4-973b-15ba3c769b10",
+        "chatSessionId": "sess_ec5732f3-fada-47ab-baf8-7d687f0aa67c",
+        "timestamp": 1793421543230
+      }
+    ],
+    "6. Detection engine — normalizer (`normalizer.ts`)": [
+      {
+        "executionId": "019abe69-7748-41f4-973b-15ba3c769b10",
+        "chatSessionId": "sess_ec5732f3-fada-47ab-baf8-7d687f0aa67c",
+        "timestamp": 1793421543655
+      }
     ]
   }
 }
