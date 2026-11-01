@@ -6,8 +6,12 @@
  * primary group into amount-based clusters using iterative k-medians convergence
  * to guarantee order-independence (Step 2a).
  *
- * Step 2b (price-increase merge): non-overlapping clusters from the same merchant
- * are merged when the price step is ≤ 50% and the trend is upward.
+ * Step 2b has two sub-passes:
+ *   2b-i  Free-trial merge: a cluster whose bites are all 0 or < 20% of another
+ *          cluster's median, entirely before that cluster, last bite ≤ 45 days
+ *          before the other cluster's first bite → absorbed as leading bites.
+ *   2b-ii Price-increase merge: non-overlapping clusters from the same merchant
+ *          merged when the price step is ≤ 50% and the trend is upward.
  */
 
 import type { Transaction } from './types';
@@ -20,8 +24,6 @@ import type { Transaction } from './types';
  * Compute the median of a sorted array of numbers.
  * Returns the middle element (odd length) or the floor of the average of the
  * two middle elements (even length). Uses integer math to keep cents as ints.
- *
- * The caller is responsible for sorting the array before passing it.
  */
 function median(sorted: number[]): number {
   const len = sorted.length;
@@ -30,13 +32,12 @@ function median(sorted: number[]): number {
   if (len % 2 === 1) {
     return sorted[mid];
   }
-  // Even length: floor of average to keep integers
   return Math.floor((sorted[mid - 1] + sorted[mid]) / 2);
 }
 
 /**
- * Compute the running median for an unsorted array of amount values.
- * Sorts a copy internally so the source order is not mutated.
+ * Compute the median for an unsorted array of amount values.
+ * Sorts a copy internally so the source is not mutated.
  */
 function computeMedian(amounts: number[]): number {
   const sorted = [...amounts].sort((a, b) => a - b);
@@ -45,7 +46,7 @@ function computeMedian(amounts: number[]): number {
 
 /**
  * Returns true if `amount` is within 10% of `clusterMedian` (inclusive).
- * Guard against division-by-zero: a cluster with median 0 accepts only 0.
+ * A cluster with median 0 accepts only 0.
  */
 function isWithinTolerance(amount: number, clusterMedian: number): boolean {
   if (clusterMedian === 0) return amount === 0;
@@ -54,47 +55,59 @@ function isWithinTolerance(amount: number, clusterMedian: number): boolean {
 
 /**
  * Absolute percentage difference between `amount` and `clusterMedian`.
- * Used to break ties when a bite falls within 10% of multiple clusters.
  */
 function absPctDiff(amount: number, clusterMedian: number): number {
   if (clusterMedian === 0) return amount === 0 ? 0 : Infinity;
   return Math.abs(amount - clusterMedian) / clusterMedian;
 }
 
-// ---------------------------------------------------------------------------
-// Iterative k-medians clustering (order-independent)
-// ---------------------------------------------------------------------------
+/** Returns the earliest ISO date string in a non-empty array of bites. */
+function earliestDate(bites: Transaction[]): string {
+  return bites.reduce((min, b) => (b.date < min ? b.date : min), bites[0].date);
+}
+
+/** Returns the latest ISO date string in a non-empty array of bites. */
+function latestDate(bites: Transaction[]): string {
+  return bites.reduce((max, b) => (b.date > max ? b.date : max), bites[0].date);
+}
+
+/** Returns the number of calendar days between two ISO date strings (b - a). */
+function daysBetween(isoA: string, isoB: string): number {
+  const msPerDay = 86_400_000;
+  return (Date.parse(isoB) - Date.parse(isoA)) / msPerDay;
+}
 
 /**
- * Cluster a flat array of transactions from a single merchant into amount-based
- * groups using the iterative convergence approach described in the design.
- *
- * Algorithm:
- *  1. Initial assignment: iterate bites once, assign each to an existing cluster
- *     (if within 10% of its median) or start a new cluster.
- *  2. Recompute each cluster's median.
- *  3. Reassign ALL bites to the best cluster given updated medians.
- *  4. Repeat 2-3 until no bite changes cluster (stable assignment).
- *
- * This is equivalent to k-medians with dynamic k, which converges to a stable
- * partition that is independent of the original input order.
- *
- * @returns An array of transaction arrays, one per cluster, unsorted by cluster index.
+ * True when every bite in A is strictly before every bite in B.
  */
+function isNonOverlapping(a: Transaction[], b: Transaction[]): boolean {
+  return latestDate(a) < earliestDate(b);
+}
+
+/** Amount of the chronologically first bite. */
+function firstBiteAmount(bites: Transaction[]): number {
+  const sorted = [...bites].sort((a, b) => a.date.localeCompare(b.date));
+  return sorted[0].amountCents;
+}
+
+/** Amount of the chronologically last bite. */
+function lastBiteAmount(bites: Transaction[]): number {
+  const sorted = [...bites].sort((a, b) => a.date.localeCompare(b.date));
+  return sorted[sorted.length - 1].amountCents;
+}
+
+// ---------------------------------------------------------------------------
+// Iterative k-medians clustering (order-independent) — Step 2a
+// ---------------------------------------------------------------------------
+
 function clusterByAmount(bites: Transaction[]): Transaction[][] {
   if (bites.length === 0) return [];
 
-  // ---- Step 1: Initial single-pass seed clustering ----
-  // We collect the amounts first and seed clusters greedily.
-  // The initial assignment may be order-dependent, but convergence corrects it.
-
-  let clusterAmounts: number[][] = []; // parallel to clusters; stores cents only
+  let clusterAmounts: number[][] = [];
   let clusterBites: Transaction[][] = [];
 
   for (const bite of bites) {
     const amount = bite.amountCents;
-
-    // Find all clusters within 10% tolerance
     const eligible: { idx: number; diff: number }[] = [];
     for (let i = 0; i < clusterAmounts.length; i++) {
       const med = computeMedian(clusterAmounts[i]);
@@ -102,13 +115,10 @@ function clusterByAmount(bites: Transaction[]): Transaction[][] {
         eligible.push({ idx: i, diff: absPctDiff(amount, med) });
       }
     }
-
     if (eligible.length === 0) {
-      // No matching cluster — create a new one
       clusterAmounts.push([amount]);
       clusterBites.push([bite]);
     } else {
-      // Assign to closest cluster (smallest % diff)
       eligible.sort((a, b) => a.diff - b.diff);
       const best = eligible[0].idx;
       clusterAmounts[best].push(amount);
@@ -116,33 +126,23 @@ function clusterByAmount(bites: Transaction[]): Transaction[][] {
     }
   }
 
-  // ---- Steps 2-4: Iterative reassignment until stable ----
   let changed = true;
   while (changed) {
     changed = false;
-
-    // Recompute medians from current assignment
     const medians = clusterAmounts.map((amounts) => computeMedian(amounts));
-
-    // Build new empty clusters
     const newClusterAmounts: number[][] = medians.map(() => []);
     const newClusterBites: Transaction[][] = medians.map(() => []);
 
     for (const bite of bites) {
       const amount = bite.amountCents;
-
-      // Find best cluster based on current medians
       const eligible: { idx: number; diff: number }[] = [];
       for (let i = 0; i < medians.length; i++) {
         if (isWithinTolerance(amount, medians[i])) {
           eligible.push({ idx: i, diff: absPctDiff(amount, medians[i]) });
         }
       }
-
       let targetIdx: number;
       if (eligible.length === 0) {
-        // Bite no longer fits any cluster — start a new one for this iteration.
-        // This can happen transiently during convergence as medians shift.
         targetIdx = newClusterAmounts.length;
         newClusterAmounts.push([]);
         newClusterBites.push([]);
@@ -150,12 +150,10 @@ function clusterByAmount(bites: Transaction[]): Transaction[][] {
         eligible.sort((a, b) => a.diff - b.diff);
         targetIdx = eligible[0].idx;
       }
-
       newClusterAmounts[targetIdx].push(amount);
       newClusterBites[targetIdx].push(bite);
     }
 
-    // Remove any empty clusters that may have been vacated
     const nonEmpty = newClusterAmounts
       .map((amounts, i) => ({ amounts, bites: newClusterBites[i] }))
       .filter((c) => c.amounts.length > 0);
@@ -163,23 +161,10 @@ function clusterByAmount(bites: Transaction[]): Transaction[][] {
     const nextAmounts = nonEmpty.map((c) => c.amounts);
     const nextBites = nonEmpty.map((c) => c.bites);
 
-    // Check if membership changed (compare sorted bite IDs per cluster)
-    const oldSets = clusterBites.map((c) =>
-      c.map((t) => t.id).sort().join(','),
-    );
-    const newSets = nextBites.map((c) =>
-      c.map((t) => t.id).sort().join(','),
-    );
+    const oldKey = [...clusterBites.map((c) => c.map((t) => t.id).sort().join(','))].sort().join('|');
+    const newKey = [...nextBites.map((c) => c.map((t) => t.id).sort().join(','))].sort().join('|');
 
-    // Compare as sorted sets of cluster sets (cluster identity is not stable
-    // across iterations, so we compare set-of-sets)
-    const oldKey = [...oldSets].sort().join('|');
-    const newKey = [...newSets].sort().join('|');
-
-    if (oldKey !== newKey) {
-      changed = true;
-    }
-
+    if (oldKey !== newKey) changed = true;
     clusterAmounts = nextAmounts;
     clusterBites = nextBites;
   }
@@ -188,64 +173,59 @@ function clusterByAmount(bites: Transaction[]): Transaction[][] {
 }
 
 // ---------------------------------------------------------------------------
-// Public API
-// ---------------------------------------------------------------------------
-
-// ---------------------------------------------------------------------------
-// Step 2b: Price-increase merge helpers
+// Step 2b-i: Free-trial merge
 // ---------------------------------------------------------------------------
 
 /**
- * Returns the earliest ISO date string in a set of bites.
- * Bites must be non-empty.
- */
-function earliestDate(bites: Transaction[]): string {
-  return bites.reduce((min, b) => (b.date < min ? b.date : min), bites[0].date);
-}
-
-/**
- * Returns the latest ISO date string in a set of bites.
- * Bites must be non-empty.
- */
-function latestDate(bites: Transaction[]): string {
-  return bites.reduce((max, b) => (b.date > max ? b.date : max), bites[0].date);
-}
-
-/**
- * Returns true when cluster A and cluster B do NOT overlap in time —
- * i.e. every bite in A is strictly before every bite in B.
- */
-function isNonOverlapping(a: Transaction[], b: Transaction[]): boolean {
-  const aLast = latestDate(a);
-  const bFirst = earliestDate(b);
-  return aLast < bFirst;
-}
-
-/**
- * The amount of the chronologically first bite in a cluster.
- */
-function firstBiteAmount(bites: Transaction[]): number {
-  const sorted = [...bites].sort((a, b) => a.date.localeCompare(b.date));
-  return sorted[0].amountCents;
-}
-
-/**
- * The amount of the chronologically last bite in a cluster.
- */
-function lastBiteAmount(bites: Transaction[]): number {
-  const sorted = [...bites].sort((a, b) => a.date.localeCompare(b.date));
-  return sorted[sorted.length - 1].amountCents;
-}
-
-/**
- * Attempt a single round of price-increase merges on a flat array of clusters.
+ * A cluster T is a "trial cluster" relative to paid cluster P when ALL hold:
+ *   1. Every bite in T is 0 cents or < 20% of P's median.
+ *   2. T is entirely before P (non-overlapping).
+ *   3. T's last bite is ≤ 45 days before P's first bite.
  *
- * Iterates over all ordered pairs (A, B) where A entirely precedes B in time.
- * Merges the first eligible pair found, then returns `{ clusters, merged: true }`
- * so the caller can loop until stable.
+ * When matched, T's bites are prepended to P as the leading (trial) bites.
+ * The merged cluster is NOT marked hasPriceIncrease (it's a trial, not a step).
  *
- * Two clusters A (earlier) and B (later) can be merged when ALL hold:
- *   1. Non-overlapping: every bite in A is strictly before every bite in B.
+ * Runs one scan per call; caller loops until stable.
+ */
+function mergeTrialRound(
+  clusters: Transaction[][],
+): { clusters: Transaction[][]; merged: boolean } {
+  for (let t = 0; t < clusters.length; t++) {
+    for (let p = 0; p < clusters.length; p++) {
+      if (t === p) continue;
+
+      const trial = clusters[t];
+      const paid = clusters[p];
+
+      // Condition 1: T entirely before P
+      if (!isNonOverlapping(trial, paid)) continue;
+
+      // Condition 2: gap ≤ 45 days
+      const gap = daysBetween(latestDate(trial), earliestDate(paid));
+      if (gap > 45) continue;
+
+      // Condition 3: all bites in T are 0 or < 20% of P's median
+      const medP = computeMedian(paid.map((tx) => tx.amountCents));
+      const threshold = medP * 0.2;
+      const allTrial = trial.every((tx) => tx.amountCents === 0 || tx.amountCents < threshold);
+      if (!allTrial) continue;
+
+      // Match — absorb T into P
+      const merged = [...trial, ...paid];
+      const rest = clusters.filter((_, idx) => idx !== t && idx !== p);
+      return { clusters: [...rest, merged], merged: true };
+    }
+  }
+  return { clusters, merged: false };
+}
+
+// ---------------------------------------------------------------------------
+// Step 2b-ii: Price-increase merge
+// ---------------------------------------------------------------------------
+
+/**
+ * Attempts one price-increase merge across all ordered pairs (A before B):
+ *   1. Non-overlapping.
  *   2. B's first bite amount ≤ A's last bite amount × 1.5 (≤ 50% higher).
  *   3. B's median > A's median (upward trend).
  */
@@ -259,71 +239,79 @@ function mergePriceIncreaseRound(
       const a = clusters[i];
       const b = clusters[j];
 
-      // Condition 1: a entirely precedes b
       if (!isNonOverlapping(a, b)) continue;
 
-      // Condition 2: B's first bite amount ≤ A's last × 1.5
       const aLast = lastBiteAmount(a);
       const bFirst = firstBiteAmount(b);
       if (bFirst > aLast * 1.5) continue;
 
-      // Condition 3: upward trend (B median > A median)
       const medA = computeMedian(a.map((t) => t.amountCents));
       const medB = computeMedian(b.map((t) => t.amountCents));
       if (medB <= medA) continue;
 
-      // All conditions met — merge a and b into one cluster
       const merged = [...a, ...b];
       const rest = clusters.filter((_, idx) => idx !== i && idx !== j);
       return { clusters: [...rest, merged], merged: true };
     }
   }
-
   return { clusters, merged: false };
 }
 
+// ---------------------------------------------------------------------------
+// Step 2b: Combined merge pass
+// ---------------------------------------------------------------------------
+
 /**
- * Repeatedly apply price-increase merges until no more merges are possible.
- * Returns the final stable array of clusters together with a Set of cluster
- * references (by their sorted bite-ID key) that were formed via a merge — so
- * the caller can set `hasPriceIncrease = true` on those clusters.
+ * Applies trial merges (2b-i) first, then price-increase merges (2b-ii),
+ * repeating until stable. Returns the final clusters and two sets of
+ * membership keys: those merged via trial and those merged via price increase.
  */
-function applyPriceIncreaseMerge(
-  initialClusters: Transaction[][],
-): { clusters: Transaction[][]; mergedKeys: Set<string> } {
+function applyStep2b(initialClusters: Transaction[][]): {
+  clusters: Transaction[][];
+  trialMergedKeys: Set<string>;
+  priceIncreaseMergedKeys: Set<string>;
+} {
+  const clusterKey = (c: Transaction[]) =>
+    c.map((t) => t.id).sort().join(',');
+
+  // Track clusters that existed before any merging
+  const originalKeys = new Set(initialClusters.map(clusterKey));
+
   let current = initialClusters;
 
-  // Track which clusters existed before this step so we can detect new ones
-  const originalKeys = new Set(
-    initialClusters.map((c) =>
-      c
-        .map((t) => t.id)
-        .sort()
-        .join(','),
-    ),
-  );
-
+  // Phase 1: free-trial merges
   let merged = true;
   while (merged) {
-    const result = mergePriceIncreaseRound(current);
-    merged = result.merged;
-    current = result.clusters;
+    const r = mergeTrialRound(current);
+    merged = r.merged;
+    current = r.clusters;
   }
 
-  // Any cluster whose membership key was not present in the original set
-  // was created by a merge and should have hasPriceIncrease = true.
-  const mergedKeys = new Set<string>();
+  // Clusters that are new after trial merges
+  const afterTrialKeys = new Set(current.map(clusterKey));
+  const trialMergedKeys = new Set<string>();
+  for (const k of afterTrialKeys) {
+    if (!originalKeys.has(k)) trialMergedKeys.add(k);
+  }
+
+  // Phase 2: price-increase merges
+  merged = true;
+  while (merged) {
+    const r = mergePriceIncreaseRound(current);
+    merged = r.merged;
+    current = r.clusters;
+  }
+
+  // Clusters that are new after price-increase merges (excluding trial-only ones)
+  const priceIncreaseMergedKeys = new Set<string>();
   for (const cluster of current) {
-    const key = cluster
-      .map((t) => t.id)
-      .sort()
-      .join(',');
-    if (!originalKeys.has(key)) {
-      mergedKeys.add(key);
+    const k = clusterKey(cluster);
+    if (!originalKeys.has(k) && !trialMergedKeys.has(k)) {
+      priceIncreaseMergedKeys.add(k);
     }
   }
 
-  return { clusters: current, mergedKeys };
+  return { clusters: current, trialMergedKeys, priceIncreaseMergedKeys };
 }
 
 // ---------------------------------------------------------------------------
@@ -331,30 +319,18 @@ function applyPriceIncreaseMerge(
 // ---------------------------------------------------------------------------
 
 /**
- * Group transactions by normalized merchant name (Step 1), then split each
- * merchant group into amount clusters (Step 2a).
+ * Group transactions by normalized merchant name (Step 1) and apply amount
+ * clustering (Step 2a). Does NOT apply Step 2b merges.
  *
- * Returns a `Map<string, Transaction[]>` where:
- *   - Key:   `normalizedName + "_" + clusterIndex`  (0-based, indexed by
- *             ascending cluster median so IDs are stable across uploads)
- *   - Value: All transaction bites belonging to that cluster, in the order
- *             they were encountered in the input (unsorted; callers sort by
- *             date as needed).
- *
- * Step 2b (price-increase merge) is NOT applied here (it requires knowing the
- * per-merchant cluster context). Use `buildCandidates` to get the full pipeline
- * including Step 2b.
+ * Returns `Map<clusterId, Transaction[]>` where key is
+ * `normalizedName + "_" + clusterIndex` (0-based, ascending by median).
  *
  * Requirements: 4.1, 4.5
- *
- * @param transactions - Debit transactions with populated `normalizedName` fields.
  */
 export function groupByMerchant(
   transactions: Transaction[],
 ): Map<string, Transaction[]> {
-  // ---- Step 1: Primary grouping by normalizedName ----
   const primaryGroups = new Map<string, Transaction[]>();
-
   for (const txn of transactions) {
     const name = txn.normalizedName;
     const existing = primaryGroups.get(name);
@@ -365,40 +341,27 @@ export function groupByMerchant(
     }
   }
 
-  // ---- Step 2a: Amount clustering within each primary group ----
   const result = new Map<string, Transaction[]>();
-
   for (const [normalizedName, group] of primaryGroups) {
     const clusters = clusterByAmount(group);
+    const withMedian = clusters
+      .map((bites) => ({ bites, median: computeMedian(bites.map((b) => b.amountCents)) }))
+      .sort((a, b) => a.median - b.median);
 
-    // Sort clusters by their median amount (ascending) so cluster indices are
-    // stable across different input orderings — same merchant always gets the
-    // same index for the same amount level.
-    const clustersWithMedian = clusters.map((bites) => ({
-      bites,
-      median: computeMedian(bites.map((b) => b.amountCents)),
-    }));
-
-    clustersWithMedian.sort((a, b) => a.median - b.median);
-
-    // Emit each cluster with its stable ID
-    for (let i = 0; i < clustersWithMedian.length; i++) {
-      const clusterId = `${normalizedName}_${i}`;
-      result.set(clusterId, clustersWithMedian[i].bites);
+    for (let i = 0; i < withMedian.length; i++) {
+      result.set(`${normalizedName}_${i}`, withMedian[i].bites);
     }
   }
-
   return result;
 }
 
 // ---------------------------------------------------------------------------
-// Partial RecurrenceCandidate (cadence and hasFreeTrial set by cadenceDetector)
+// Partial RecurrenceCandidate
 // ---------------------------------------------------------------------------
 
 /**
  * The subset of `RecurrenceCandidate` that `buildCandidates` can fill in.
- * `cadence` and `hasFreeTrial` require cadence analysis and are left for
- * `cadenceDetector.ts` to populate.
+ * `cadence` and `hasFreeTrial` require cadence analysis and are set later.
  */
 export interface PartialCandidate {
   normalizedName: string;
@@ -410,30 +373,23 @@ export interface PartialCandidate {
 }
 
 /**
- * Run the full grouping pipeline (Steps 1, 2a, 2b) and convert each resulting
- * cluster into a `PartialCandidate`.
+ * Run the full grouping pipeline (Steps 1 → 2a → 2b) and convert each cluster
+ * into a `PartialCandidate`.
  *
- * The full pipeline:
- *   1. Primary grouping by `normalizedName`
- *   2a. Intra-merchant amount clustering (order-independent k-medians)
- *   2b. Price-increase merge of non-overlapping clusters
- *   3. Finalize each cluster into a `PartialCandidate`
+ * Step 2b applies, in order:
+ *   - Free-trial merge (2b-i): trial bites (all 0 or < 20% of paid median, ≤ 45
+ *     days gap, entirely before) are absorbed into the paid cluster.
+ *   - Price-increase merge (2b-ii): non-overlapping clusters where B_first ≤
+ *     A_last × 1.5 and B median > A median are merged with hasPriceIncrease=true.
  *
- * Cluster IDs are `normalizedName + "_" + i` where `i` is the 0-based index
- * ordered by ascending median amount (same merchant, same amounts → same ID
- * across re-uploads of the same file).
+ * Cluster IDs: `normalizedName + "_" + i` (0-based, ascending by median).
  *
  * Requirements: 4.1, 4.5, 4.6
- *
- * @param transactions - Debit transactions with populated `normalizedName` fields.
- * @returns Array of `{ id, candidate }` objects ready for cadence detection.
  */
 export function buildCandidates(
   transactions: Transaction[],
 ): Array<{ id: string; candidate: PartialCandidate }> {
-  // ---- Step 1: Primary grouping by normalizedName ----
   const primaryGroups = new Map<string, Transaction[]>();
-
   for (const txn of transactions) {
     const name = txn.normalizedName;
     const existing = primaryGroups.get(name);
@@ -447,48 +403,32 @@ export function buildCandidates(
   const output: Array<{ id: string; candidate: PartialCandidate }> = [];
 
   for (const [normalizedName, group] of primaryGroups) {
-    // ---- Step 2a: Amount clustering ----
     const rawClusters = clusterByAmount(group);
+    const { clusters: mergedClusters, priceIncreaseMergedKeys } =
+      applyStep2b(rawClusters);
 
-    // ---- Step 2b: Price-increase merge ----
-    const { clusters: mergedClusters, mergedKeys } =
-      applyPriceIncreaseMerge(rawClusters);
+    const clusterKey = (c: Transaction[]) => c.map((t) => t.id).sort().join(',');
 
-    // Sort merged clusters by ascending median for stable indexing
-    const clustersWithMedian = mergedClusters.map((bites) => {
-      const amounts = bites.map((b) => b.amountCents);
-      const med = computeMedian(amounts);
-      const key = bites
-        .map((t) => t.id)
-        .sort()
-        .join(',');
-      return { bites, median: med, hasPriceIncrease: mergedKeys.has(key) };
+    const withMedian = mergedClusters.map((bites) => {
+      const med = computeMedian(bites.map((b) => b.amountCents));
+      const key = clusterKey(bites);
+      return { bites, median: med, hasPriceIncrease: priceIncreaseMergedKeys.has(key) };
     });
 
-    clustersWithMedian.sort((a, b) => a.median - b.median);
+    withMedian.sort((a, b) => a.median - b.median);
 
-    // ---- Step 3: Finalize into PartialCandidate ----
-    for (let i = 0; i < clustersWithMedian.length; i++) {
-      const { bites, median: med, hasPriceIncrease } = clustersWithMedian[i];
-
-      // Sort bites chronologically for amountHistory and stability check
-      const sortedBites = [...bites].sort((a, b) =>
-        a.date.localeCompare(b.date),
-      );
+    for (let i = 0; i < withMedian.length; i++) {
+      const { bites, median: med, hasPriceIncrease } = withMedian[i];
+      const sortedBites = [...bites].sort((a, b) => a.date.localeCompare(b.date));
       const amountHistory = sortedBites.map((b) => b.amountCents);
 
-      // isAmountStable: all bites within 10% of median
       const isAmountStable =
         med === 0
           ? amountHistory.every((a) => a === 0)
-          : amountHistory.every(
-              (a) => Math.abs(a - med) / med <= 0.1,
-            );
-
-      const id = `${normalizedName}_${i}`;
+          : amountHistory.every((a) => Math.abs(a - med) / med <= 0.1);
 
       output.push({
-        id,
+        id: `${normalizedName}_${i}`,
         candidate: {
           normalizedName,
           bites: sortedBites,

@@ -463,3 +463,126 @@ describe('buildCandidates — candidate finalization', () => {
     expect(buildCandidates([])).toEqual([]);
   });
 });
+
+// ---------------------------------------------------------------------------
+// Step 2b-i: Free-trial merge
+// ---------------------------------------------------------------------------
+
+describe('buildCandidates — Step 2b-i: free-trial merge', () => {
+  it('HelloFresh sample: $0 trial + five $12.99 charges → one cluster, amountHistory [0,1299,1299,1299,1299,1299]', () => {
+    // Mirrors the us-bank-usd.csv HelloFresh rows (dates are already ISO here)
+    const txns: Transaction[] = [
+      { id: 'hf1', date: '2026-05-21', description: 'MEALBOX HELLOFRESH SUBSCRIPTION', normalizedName: 'HELLOFRESH', amountCents: 0,    type: 'debit', currency: 'USD' },
+      { id: 'hf2', date: '2026-06-21', description: 'MEALBOX HELLOFRESH SUBSCRIPTION', normalizedName: 'HELLOFRESH', amountCents: 1299, type: 'debit', currency: 'USD' },
+      { id: 'hf3', date: '2026-07-21', description: 'MEALBOX HELLOFRESH SUBSCRIPTION', normalizedName: 'HELLOFRESH', amountCents: 1299, type: 'debit', currency: 'USD' },
+      { id: 'hf4', date: '2026-08-21', description: 'MEALBOX HELLOFRESH SUBSCRIPTION', normalizedName: 'HELLOFRESH', amountCents: 1299, type: 'debit', currency: 'USD' },
+      { id: 'hf5', date: '2026-09-21', description: 'MEALBOX HELLOFRESH SUBSCRIPTION', normalizedName: 'HELLOFRESH', amountCents: 1299, type: 'debit', currency: 'USD' },
+      { id: 'hf6', date: '2026-10-21', description: 'MEALBOX HELLOFRESH SUBSCRIPTION', normalizedName: 'HELLOFRESH', amountCents: 1299, type: 'debit', currency: 'USD' },
+    ];
+
+    const result = buildCandidates(txns);
+
+    expect(result).toHaveLength(1);
+    expect(result[0].id).toBe('HELLOFRESH_0');
+    expect(result[0].candidate.amountHistory).toEqual([0, 1299, 1299, 1299, 1299, 1299]);
+    expect(result[0].candidate.hasPriceIncrease).toBe(false);
+  });
+
+  it('trial bite at exactly 0 merges into paid cluster within 45-day gap', () => {
+    const txns: Transaction[] = [
+      { id: 't1', date: '2026-01-01', description: 'SVC', normalizedName: 'SVC', amountCents: 0,    type: 'debit', currency: 'USD' },
+      { id: 't2', date: '2026-02-01', description: 'SVC', normalizedName: 'SVC', amountCents: 999,  type: 'debit', currency: 'USD' },
+      { id: 't3', date: '2026-03-01', description: 'SVC', normalizedName: 'SVC', amountCents: 999,  type: 'debit', currency: 'USD' },
+    ];
+
+    const result = buildCandidates(txns);
+    expect(result).toHaveLength(1);
+    expect(result[0].candidate.amountHistory).toEqual([0, 999, 999]);
+    expect(result[0].candidate.hasPriceIncrease).toBe(false);
+  });
+
+  it('trial bite < 20% of paid median merges within 45-day gap', () => {
+    // Paid median 1000, trial bite 150 cents (15% of 1000 < 20%) → merge
+    const txns: Transaction[] = [
+      { id: 't1', date: '2026-01-01', description: 'SVC', normalizedName: 'SVC', amountCents: 150,  type: 'debit', currency: 'USD' },
+      { id: 't2', date: '2026-02-01', description: 'SVC', normalizedName: 'SVC', amountCents: 1000, type: 'debit', currency: 'USD' },
+      { id: 't3', date: '2026-03-01', description: 'SVC', normalizedName: 'SVC', amountCents: 1000, type: 'debit', currency: 'USD' },
+    ];
+
+    const result = buildCandidates(txns);
+    expect(result).toHaveLength(1);
+    expect(result[0].candidate.amountHistory[0]).toBe(150);
+  });
+
+  it('trial bite ≥ 20% of paid median does NOT merge (stays separate)', () => {
+    // Paid median 1000, trial bite 250 cents (25% of 1000 ≥ 20%) → no merge
+    const txns: Transaction[] = [
+      { id: 't1', date: '2026-01-01', description: 'SVC', normalizedName: 'SVC', amountCents: 250,  type: 'debit', currency: 'USD' },
+      { id: 't2', date: '2026-02-01', description: 'SVC', normalizedName: 'SVC', amountCents: 1000, type: 'debit', currency: 'USD' },
+      { id: 't3', date: '2026-03-01', description: 'SVC', normalizedName: 'SVC', amountCents: 1000, type: 'debit', currency: 'USD' },
+    ];
+
+    const result = buildCandidates(txns);
+    // 250 is > 10% below 1000 so it forms its own cluster in 2a.
+    // 250 >= 200 (20% of 1000) so trial merge does NOT apply.
+    expect(result).toHaveLength(2);
+    expect(result.every((r) => !r.candidate.hasPriceIncrease)).toBe(true);
+  });
+
+  it('gap of exactly 45 days between trial last bite and paid first bite → merges', () => {
+    const txns: Transaction[] = [
+      { id: 't1', date: '2026-01-01', description: 'SVC', normalizedName: 'SVC', amountCents: 0,    type: 'debit', currency: 'USD' },
+      { id: 't2', date: '2026-02-15', description: 'SVC', normalizedName: 'SVC', amountCents: 999,  type: 'debit', currency: 'USD' }, // 45 days later
+      { id: 't3', date: '2026-03-15', description: 'SVC', normalizedName: 'SVC', amountCents: 999,  type: 'debit', currency: 'USD' },
+    ];
+
+    const result = buildCandidates(txns);
+    expect(result).toHaveLength(1);
+  });
+
+  it('gap of 46 days → does NOT merge (stays separate)', () => {
+    const txns: Transaction[] = [
+      { id: 't1', date: '2026-01-01', description: 'SVC', normalizedName: 'SVC', amountCents: 0,    type: 'debit', currency: 'USD' },
+      { id: 't2', date: '2026-02-16', description: 'SVC', normalizedName: 'SVC', amountCents: 999,  type: 'debit', currency: 'USD' }, // 46 days later
+      { id: 't3', date: '2026-03-16', description: 'SVC', normalizedName: 'SVC', amountCents: 999,  type: 'debit', currency: 'USD' },
+    ];
+
+    const result = buildCandidates(txns);
+    expect(result).toHaveLength(2);
+  });
+
+  it('trial merge does not fire when trial and paid clusters overlap in time', () => {
+    const txns: Transaction[] = [
+      { id: 't1', date: '2026-01-01', description: 'SVC', normalizedName: 'SVC', amountCents: 0,    type: 'debit', currency: 'USD' },
+      { id: 't2', date: '2026-01-15', description: 'SVC', normalizedName: 'SVC', amountCents: 999,  type: 'debit', currency: 'USD' },
+      { id: 't3', date: '2026-01-20', description: 'SVC', normalizedName: 'SVC', amountCents: 0,    type: 'debit', currency: 'USD' }, // same timeframe
+      { id: 't4', date: '2026-02-15', description: 'SVC', normalizedName: 'SVC', amountCents: 999,  type: 'debit', currency: 'USD' },
+    ];
+
+    const result = buildCandidates(txns);
+    // The 0-amount bites overlap with 999-amount bites → no trial merge
+    expect(result).toHaveLength(2);
+  });
+
+  it('trial merge is independent per merchant', () => {
+    const txns: Transaction[] = [
+      // NETFLIX: trial then paid → merge
+      { id: 'n1', date: '2026-01-01', description: 'NETFLIX', normalizedName: 'NETFLIX', amountCents: 0,    type: 'debit', currency: 'USD' },
+      { id: 'n2', date: '2026-02-01', description: 'NETFLIX', normalizedName: 'NETFLIX', amountCents: 1549, type: 'debit', currency: 'USD' },
+      { id: 'n3', date: '2026-03-01', description: 'NETFLIX', normalizedName: 'NETFLIX', amountCents: 1549, type: 'debit', currency: 'USD' },
+      // SPOTIFY: no trial → stays one cluster already
+      { id: 's1', date: '2026-01-21', description: 'SPOTIFY', normalizedName: 'SPOTIFY', amountCents: 999,  type: 'debit', currency: 'USD' },
+      { id: 's2', date: '2026-02-21', description: 'SPOTIFY', normalizedName: 'SPOTIFY', amountCents: 999,  type: 'debit', currency: 'USD' },
+    ];
+
+    const result = buildCandidates(txns);
+    expect(result).toHaveLength(2);
+
+    const netflix = result.find((r) => r.candidate.normalizedName === 'NETFLIX')!;
+    const spotify = result.find((r) => r.candidate.normalizedName === 'SPOTIFY')!;
+
+    expect(netflix.candidate.amountHistory).toEqual([0, 1549, 1549]);
+    expect(netflix.candidate.hasPriceIncrease).toBe(false);
+    expect(spotify.candidate.amountHistory).toEqual([999, 999]);
+  });
+});
