@@ -86,8 +86,8 @@ Build the Vampire Hunter SPA in a strict bottom-up order: scaffolding → styles
     - Each resulting cluster becomes an independent `RecurrenceCandidate`; assign cluster ID as `normalizedName + "_" + clusterIndex`
     - _Requirements: 4.5, 4.6_
 
-- [ ] 8. Detection engine — cadence detector (`cadenceDetector.ts`)
-  - [ ] 8.1 Implement `detectCadence` with free-trial and price-increase flags
+- [x] 8. Detection engine — cadence detector (`cadenceDetector.ts`)
+  - [x] 8.1 Implement `detectCadence` with free-trial and price-increase flags
     - In `src/engine/cadenceDetector.ts`, implement `detectCadence(dates: string[]): Cadence | null`: sort dates, compute consecutive gaps, compute median gap, match to buckets `[5–9]→weekly`, `[26–35]→monthly`, `[85–97]→quarterly`, `[355–375]→yearly`; require ≥ 60% of gaps within the matched bucket; return `null` if < 2 transactions or no bucket matches
     - Implement `detectFreeTrial(bites: Transaction[], medianCents: number): boolean`: flag if first bite is 0 cents or < 20% of median
     - Implement `detectPriceIncrease(bites: Transaction[]): boolean`: flag if amounts are monotonically non-decreasing with at least one increase > 5%

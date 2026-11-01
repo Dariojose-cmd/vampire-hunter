@@ -198,6 +198,25 @@
         "chatSessionId": "sess_b7c2d1b3-4f7d-4316-8376-1480572ffaef",
         "timestamp": 1793507631992
       }
+    ],
+    "8.1 Implement `detectCadence` with free-trial and price-increase flags": [
+      {
+        "executionId": "8d1071ff-5266-4ab2-b279-9a4b5585bb1b",
+        "chatSessionId": "sess_7a5f5105-23c6-42eb-939b-4eadc723d71d",
+        "timestamp": 1793508355180
+      },
+      {
+        "executionId": "8d1071ff-5266-4ab2-b279-9a4b5585bb1b",
+        "chatSessionId": "sess_7a5f5105-23c6-42eb-939b-4eadc723d71d",
+        "timestamp": 1793508434381
+      }
+    ],
+    "8. Detection engine — cadence detector (`cadenceDetector.ts`)": [
+      {
+        "executionId": "8d1071ff-5266-4ab2-b279-9a4b5585bb1b",
+        "chatSessionId": "sess_7a5f5105-23c6-42eb-939b-4eadc723d71d",
+        "timestamp": 1793508434474
+      }
     ]
   }
 }
