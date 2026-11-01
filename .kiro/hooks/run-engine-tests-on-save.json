@@ -1,0 +1,16 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Run engine tests on save",
+      "trigger": "PostFileSave",
+      "action": {
+        "type": "command",
+        "command": "npm test 2>&1 | tail -25"
+      },
+      "description": "Runs the Vitest suite (unit + property-based tests) every time a detection engine or test file is saved, so Kiro sees failures immediately.",
+      "matcher": "(src/engine|tests)/.*\\.ts$",
+      "enabled": true
+    }
+  ]
+}
