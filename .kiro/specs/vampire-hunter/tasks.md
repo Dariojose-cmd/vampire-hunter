@@ -74,14 +74,14 @@ Build the Vampire Hunter SPA in a strict bottom-up order: scaffolding → styles
     - Zero React imports
     - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5_
 
-- [ ] 7. Detection engine — grouper (`grouper.ts`)
-  - [ ] 7.1 Implement Step 1 (primary grouping) and Step 2a (amount clustering)
+- [x] 7. Detection engine — grouper (`grouper.ts`)
+  - [x] 7.1 Implement Step 1 (primary grouping) and Step 2a (amount clustering)
     - In `src/engine/grouper.ts`, implement `groupByMerchant(transactions: Transaction[]): Map<string, Transaction[]>` with two-pass logic
     - Step 1: group all transactions by `normalizedName`
     - Step 2a: within each primary group, assign bites to amount clusters using running median comparison (within 10% of cluster median → assign; within 10% of multiple → closest; outside all → new cluster); order of iteration must not affect final cluster membership (order-independence)
     - _Requirements: 4.1, 4.5_
 
-  - [ ] 7.2 Implement Step 2b (price-increase merge) and cluster finalization
+  - [x] 7.2 Implement Step 2b (price-increase merge) and cluster finalization
     - In `src/engine/grouper.ts`, extend `groupByMerchant` with Step 2b: attempt to merge non-overlapping clusters where B_first ≤ A_last × 1.5 and B median > A median; merge only if clusters do not overlap in time; set `hasPriceIncrease = true` on merged cluster
     - Each resulting cluster becomes an independent `RecurrenceCandidate`; assign cluster ID as `normalizedName + "_" + clusterIndex`
     - _Requirements: 4.5, 4.6_

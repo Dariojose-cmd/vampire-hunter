@@ -167,6 +167,37 @@
         "chatSessionId": "sess_cf2d65ba-2961-4b07-aa8e-12a4937072c8",
         "timestamp": 1793506489702
       }
+    ],
+    "7.1 Implement Step 1 (primary grouping) and Step 2a (amount clustering)": [
+      {
+        "executionId": "e7a6dab0-0b01-497b-9f2a-f152f9ca0cf0",
+        "chatSessionId": "sess_b7c2d1b3-4f7d-4316-8376-1480572ffaef",
+        "timestamp": 1793507370042
+      },
+      {
+        "executionId": "e7a6dab0-0b01-497b-9f2a-f152f9ca0cf0",
+        "chatSessionId": "sess_b7c2d1b3-4f7d-4316-8376-1480572ffaef",
+        "timestamp": 1793507491886
+      }
+    ],
+    "7.2 Implement Step 2b (price-increase merge) and cluster finalization": [
+      {
+        "executionId": "e7a6dab0-0b01-497b-9f2a-f152f9ca0cf0",
+        "chatSessionId": "sess_b7c2d1b3-4f7d-4316-8376-1480572ffaef",
+        "timestamp": 1793507496719
+      },
+      {
+        "executionId": "e7a6dab0-0b01-497b-9f2a-f152f9ca0cf0",
+        "chatSessionId": "sess_b7c2d1b3-4f7d-4316-8376-1480572ffaef",
+        "timestamp": 1793507631880
+      }
+    ],
+    "7. Detection engine — grouper (`grouper.ts`)": [
+      {
+        "executionId": "e7a6dab0-0b01-497b-9f2a-f152f9ca0cf0",
+        "chatSessionId": "sess_b7c2d1b3-4f7d-4316-8376-1480572ffaef",
+        "timestamp": 1793507631992
+      }
     ]
   }
 }
