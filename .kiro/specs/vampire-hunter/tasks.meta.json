@@ -217,6 +217,25 @@
         "chatSessionId": "sess_7a5f5105-23c6-42eb-939b-4eadc723d71d",
         "timestamp": 1793508434474
       }
+    ],
+    "9.1 Implement `computeScore`": [
+      {
+        "executionId": "cda04772-842c-4980-9135-8e44380b875e",
+        "chatSessionId": "sess_340a61b4-4aed-4f4a-b86d-71422b7ec836",
+        "timestamp": 1793509502607
+      },
+      {
+        "executionId": "cda04772-842c-4980-9135-8e44380b875e",
+        "chatSessionId": "sess_340a61b4-4aed-4f4a-b86d-71422b7ec836",
+        "timestamp": 1793509546999
+      }
+    ],
+    "9. Detection engine — scorer (`scorer.ts`)": [
+      {
+        "executionId": "cda04772-842c-4980-9135-8e44380b875e",
+        "chatSessionId": "sess_340a61b4-4aed-4f4a-b86d-71422b7ec836",
+        "timestamp": 1793509547113
+      }
     ]
   }
 }

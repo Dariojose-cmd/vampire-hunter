@@ -93,8 +93,8 @@ Build the Vampire Hunter SPA in a strict bottom-up order: scaffolding → styles
     - Implement `detectPriceIncrease(bites: Transaction[]): boolean`: flag if amounts are monotonically non-decreasing with at least one increase > 5%
     - _Requirements: 4.2, 4.3, 4.7_
 
-- [ ] 9. Detection engine — scorer (`scorer.ts`)
-  - [ ] 9.1 Implement `computeScore`
+- [x] 9. Detection engine — scorer (`scorer.ts`)
+  - [x] 9.1 Implement `computeScore`
     - In `src/engine/scorer.ts`, implement `computeScore(candidate: RecurrenceCandidate, hasCatalogMatch: boolean): number`
     - Accumulate points: bites=2 → +20; bites 3–5 → +30; bites ≥ 6 → +40; cadence regularity (< 2 day gap variance) → +20; amount stable → +20; catalog match → +20
     - Clamp result to `[0, 100]` using `Math.max(0, Math.min(100, score))`

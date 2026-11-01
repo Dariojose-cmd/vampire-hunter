@@ -422,10 +422,21 @@ export function buildCandidates(
       const sortedBites = [...bites].sort((a, b) => a.date.localeCompare(b.date));
       const amountHistory = sortedBites.map((b) => b.amountCents);
 
+      // Leading free-trial bites (0 or < 20% of the median) do not count
+      // against stability: they are part of the trial, not a price change.
+      let firstPaid = 0;
+      while (
+        firstPaid < amountHistory.length - 1 &&
+        (amountHistory[firstPaid] === 0 || amountHistory[firstPaid] < med * 0.2)
+      ) {
+        firstPaid++;
+      }
+      const paidHistory = amountHistory.slice(firstPaid);
+      const paidMedian = computeMedian(paidHistory);
       const isAmountStable =
-        med === 0
-          ? amountHistory.every((a) => a === 0)
-          : amountHistory.every((a) => Math.abs(a - med) / med <= 0.1);
+        paidMedian === 0
+          ? paidHistory.every((a) => a === 0)
+          : paidHistory.every((a) => Math.abs(a - paidMedian) / paidMedian <= 0.1);
 
       output.push({
         id: `${normalizedName}_${i}`,

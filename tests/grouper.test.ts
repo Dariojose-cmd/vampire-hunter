@@ -486,6 +486,8 @@ describe('buildCandidates — Step 2b-i: free-trial merge', () => {
     expect(result[0].id).toBe('HELLOFRESH_0');
     expect(result[0].candidate.amountHistory).toEqual([0, 1299, 1299, 1299, 1299, 1299]);
     expect(result[0].candidate.hasPriceIncrease).toBe(false);
+    // The $0 trial bite must not make the subscription look unstable
+    expect(result[0].candidate.isAmountStable).toBe(true);
   });
 
   it('trial bite at exactly 0 merges into paid cluster within 45-day gap', () => {
