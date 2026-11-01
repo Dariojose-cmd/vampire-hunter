@@ -11,7 +11,7 @@
  * Noise keywords to strip from descriptions (word-boundary matched,
  * case-insensitive). Order does not matter — all are removed in one pass.
  */
-const NOISE_KEYWORDS_RE = /\b(?:POS|PURCHASE|COMPRA|PAGO|CARGO|DEBIT|PAYMENT)\b/gi;
+const NOISE_KEYWORDS_RE = /\b(?:POS|PURCHASE|COMPRA|PAGO|CARGO|DEBITO|DEBIT|PAYMENT)\b/gi;
 
 /**
  * Card-number pattern: 4 or more consecutive digits.

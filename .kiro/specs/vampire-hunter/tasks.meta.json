@@ -124,6 +124,49 @@
         "chatSessionId": "sess_ec5732f3-fada-47ab-baf8-7d687f0aa67c",
         "timestamp": 1793421543655
       }
+    ],
+    "5.1 Implement `inferNumberFormat` and `parseCents`": [
+      {
+        "executionId": "18d9d1b0-50d8-45ce-9d8d-933c395cf23b",
+        "chatSessionId": "sess_cf2d65ba-2961-4b07-aa8e-12a4937072c8",
+        "timestamp": 1793505604781
+      },
+      {
+        "executionId": "18d9d1b0-50d8-45ce-9d8d-933c395cf23b",
+        "chatSessionId": "sess_cf2d65ba-2961-4b07-aa8e-12a4937072c8",
+        "timestamp": 1793506368848
+      }
+    ],
+    "5.2 Implement `parseDate` and `inferDateFormat`": [
+      {
+        "executionId": "18d9d1b0-50d8-45ce-9d8d-933c395cf23b",
+        "chatSessionId": "sess_cf2d65ba-2961-4b07-aa8e-12a4937072c8",
+        "timestamp": 1793505607167
+      },
+      {
+        "executionId": "18d9d1b0-50d8-45ce-9d8d-933c395cf23b",
+        "chatSessionId": "sess_cf2d65ba-2961-4b07-aa8e-12a4937072c8",
+        "timestamp": 1793506372917
+      }
+    ],
+    "5.3 Implement column auto-detection and full row parsing": [
+      {
+        "executionId": "18d9d1b0-50d8-45ce-9d8d-933c395cf23b",
+        "chatSessionId": "sess_cf2d65ba-2961-4b07-aa8e-12a4937072c8",
+        "timestamp": 1793506376696
+      },
+      {
+        "executionId": "18d9d1b0-50d8-45ce-9d8d-933c395cf23b",
+        "chatSessionId": "sess_cf2d65ba-2961-4b07-aa8e-12a4937072c8",
+        "timestamp": 1793506488880
+      }
+    ],
+    "5. Detection engine — parser (`parser.ts`)": [
+      {
+        "executionId": "18d9d1b0-50d8-45ce-9d8d-933c395cf23b",
+        "chatSessionId": "sess_cf2d65ba-2961-4b07-aa8e-12a4937072c8",
+        "timestamp": 1793506489702
+      }
     ]
   }
 }

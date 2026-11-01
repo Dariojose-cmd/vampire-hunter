@@ -1,0 +1,562 @@
+/**
+ * Vampire Hunter — CSV parser
+ * Pure TypeScript only. Zero React imports.
+ * All functions return Result<T, AppError> and never throw.
+ */
+
+import type { AppError, ColumnLayout, DateFormat, NumberFormat, Result, Transaction } from './types';
+
+// ---------------------------------------------------------------------------
+// Internal helpers
+// ---------------------------------------------------------------------------
+
+/** Days in a given month (1-indexed), accounting for leap years. */
+function daysInMonth(year: number, month: number): number {
+  return new Date(year, month, 0).getDate();
+}
+
+/** Zero-pads a number to 2 digits. */
+function pad2(n: number): string {
+  return String(n).padStart(2, '0');
+}
+
+/** Returns a PARSE_FAILED AppError with the given message. */
+function parseFailed(message: string): { ok: false; error: AppError } {
+  return { ok: false, error: { code: 'PARSE_FAILED', message } };
+}
+
+/**
+ * Validates that the combination of year/month/day represents a real
+ * calendar date. Returns true when valid.
+ */
+function isValidDate(year: number, month: number, day: number): boolean {
+  if (month < 1 || month > 12) return false;
+  if (day < 1 || day > daysInMonth(year, month)) return false;
+  if (year < 1) return false;
+  return true;
+}
+
+// ---------------------------------------------------------------------------
+// parseDate
+// ---------------------------------------------------------------------------
+
+/**
+ * Parses a date string in one of the three supported formats and returns an
+ * ISO 8601 date string (YYYY-MM-DD) wrapped in a Result.
+ *
+ * Supported formats: 'DD/MM/YYYY' | 'MM/DD/YYYY' | 'YYYY-MM-DD'
+ *
+ * Never throws — all errors are returned as { ok: false, error }.
+ */
+export function parseDate(
+  s: string,
+  format: DateFormat,
+): Result<string, AppError> {
+  try {
+    const trimmed = (s ?? '').trim();
+
+    if (trimmed === '') {
+      return parseFailed(`Empty date string`);
+    }
+
+    if (format === 'YYYY-MM-DD') {
+      // Expected: YYYY-MM-DD  (separator can be '-')
+      const parts = trimmed.split('-');
+      if (parts.length !== 3) {
+        return parseFailed(
+          `Cannot parse "${trimmed}" as ${format}: expected 3 segments separated by '-'`,
+        );
+      }
+      const year = parseInt(parts[0], 10);
+      const month = parseInt(parts[1], 10);
+      const day = parseInt(parts[2], 10);
+
+      if (isNaN(year) || isNaN(month) || isNaN(day)) {
+        return parseFailed(`Cannot parse "${trimmed}" as ${format}: non-numeric segment`);
+      }
+      if (!isValidDate(year, month, day)) {
+        return parseFailed(
+          `"${trimmed}" is not a real calendar date (year=${year}, month=${month}, day=${day})`,
+        );
+      }
+      return { ok: true, value: `${year}-${pad2(month)}-${pad2(day)}` };
+    }
+
+    // YYYY-MM-DD values are unambiguous regardless of the column's inferred format.
+    // A mixed-format statement (some rows ISO, some slash-delimited) would otherwise
+    // lose every ISO row when the column is inferred as DD/MM/YYYY or MM/DD/YYYY.
+    if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) {
+      const parts = trimmed.split('-');
+      const year = parseInt(parts[0], 10);
+      const month = parseInt(parts[1], 10);
+      const day = parseInt(parts[2], 10);
+      if (!isValidDate(year, month, day)) {
+        return parseFailed(
+          `"${trimmed}" is not a real calendar date (year=${year}, month=${month}, day=${day})`,
+        );
+      }
+      return { ok: true, value: `${year}-${pad2(month)}-${pad2(day)}` };
+    }
+
+    // DD/MM/YYYY and MM/DD/YYYY both use '/' as separator
+    const parts = trimmed.split('/');
+    if (parts.length !== 3) {
+      return parseFailed(
+        `Cannot parse "${trimmed}" as ${format}: expected 3 segments separated by '/'`,
+      );
+    }
+
+    const a = parseInt(parts[0], 10); // first segment
+    const b = parseInt(parts[1], 10); // second segment
+    const year = parseInt(parts[2], 10);
+
+    if (isNaN(a) || isNaN(b) || isNaN(year)) {
+      return parseFailed(`Cannot parse "${trimmed}" as ${format}: non-numeric segment`);
+    }
+
+    const day = format === 'DD/MM/YYYY' ? a : b;
+    const month = format === 'DD/MM/YYYY' ? b : a;
+
+    if (!isValidDate(year, month, day)) {
+      return parseFailed(
+        `"${trimmed}" is not a real calendar date (year=${year}, month=${month}, day=${day})`,
+      );
+    }
+
+    return { ok: true, value: `${year}-${pad2(month)}-${pad2(day)}` };
+  } catch {
+    // Safety net — function must never throw
+    return parseFailed(`Unexpected error parsing "${s}"`);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// inferDateFormat
+// ---------------------------------------------------------------------------
+
+/**
+ * Inspects an entire date column to determine the date format used.
+ *
+ * Algorithm (per the spec):
+ *  - Skip empty / null / whitespace-only values.
+ *  - Split each value on '/' or '-'.
+ *  - If any row's first segment is > 12 → format is 'DD/MM/YYYY'.
+ *  - If any row's second segment is > 12 → format is 'MM/DD/YYYY'.
+ *  - If neither signal is found across the whole column → 'ambiguous'.
+ *
+ * Note: 'DD/MM/YYYY' signal takes priority over 'MM/DD/YYYY' because a first
+ * segment > 12 is unambiguous proof that it cannot be a month.
+ */
+export function inferDateFormat(column: string[]): DateFormat | 'ambiguous' {
+  for (const raw of column) {
+    if (raw == null) continue;
+    const value = raw.trim();
+    if (value === '') continue;
+
+    // The DD/MM vs MM/DD ambiguity only applies to slash-separated dates.
+    // Hyphen-separated values follow YYYY-MM-DD where the first segment is a
+    // 4-digit year (always > 12), so we skip them to avoid a false positive.
+    if (!value.includes('/')) continue;
+
+    const parts = value.split('/');
+    if (parts.length < 2) continue;
+
+    const first = parseInt(parts[0], 10);
+    const second = parseInt(parts[1], 10);
+
+    if (!isNaN(first) && first > 12) {
+      // Day in first position → DD/MM/YYYY
+      return 'DD/MM/YYYY';
+    }
+
+    if (!isNaN(second) && second > 12) {
+      // Day in second position → MM/DD/YYYY
+      return 'MM/DD/YYYY';
+    }
+  }
+
+  return 'ambiguous';
+}
+
+// ---------------------------------------------------------------------------
+// Currency symbol / code stripping
+// ---------------------------------------------------------------------------
+
+/**
+ * Regex that removes all known currency symbols and ISO 4217 codes.
+ * Multi-character codes (R$, S/, USD …) must appear before single-character
+ * symbols so that e.g. "R$" is removed as a unit rather than leaving "R".
+ */
+const CURRENCY_RE =
+  /(?:USD|EUR|MXN|COP|ARS|BRL|CLP|GBP|CAD|PEN|R\$|S\/|\$|€|£|¥|₩)/g;
+
+// ---------------------------------------------------------------------------
+// inferNumberFormat
+// ---------------------------------------------------------------------------
+
+/**
+ * Inspect every non-empty value in an amount column and determine how
+ * separators (`.` and `,`) are used.
+ *
+ * Algorithm (column-level):
+ * - A separator is a **thousands separator** if, across ALL its occurrences
+ *   in the column, it is ALWAYS followed by exactly 3 digits.
+ * - A separator is a **decimal separator** if it is EVER followed by 1–2 digits.
+ *
+ * Returns:
+ * - `'commaDecimal'`  — dot=thousands, comma=decimal
+ * - `'dotDecimal'`    — comma=thousands (or absent), dot=decimal
+ * - `'noDecimal'`     — either separator used only as thousands, or no separators
+ *
+ * Requirements: 1.8, 1.12
+ */
+export function inferNumberFormat(column: string[]): NumberFormat {
+  const dotStats = { seenAs3: 0, seenAs12: 0 };
+  const commaStats = { seenAs3: 0, seenAs12: 0 };
+  const SEP_RE = /[.,](\d*)/g;
+
+  for (const value of column) {
+    if (!value || value.trim() === '') continue;
+
+    // Strip currency symbols so they don't interfere with digit counts
+    const clean = value.trim().replace(CURRENCY_RE, '').trim();
+
+    SEP_RE.lastIndex = 0;
+    let match: RegExpExecArray | null;
+    while ((match = SEP_RE.exec(clean)) !== null) {
+      const sep = clean[match.index]; // '.' or ','
+      const digits = match[1]; // digits immediately following the separator
+
+      const stats = sep === '.' ? dotStats : commaStats;
+      if (digits.length === 3) {
+        stats.seenAs3++;
+      } else if (digits.length >= 1 && digits.length <= 2) {
+        stats.seenAs12++;
+      }
+      // length 0 (trailing separator) or > 3 — no evidence either way
+    }
+  }
+
+  const dotIsThousands = dotStats.seenAs3 > 0 && dotStats.seenAs12 === 0;
+  const dotIsDecimal = dotStats.seenAs12 > 0;
+  const commaIsThousands = commaStats.seenAs3 > 0 && commaStats.seenAs12 === 0;
+  const commaIsDecimal = commaStats.seenAs12 > 0;
+
+  if (dotIsThousands && commaIsDecimal) return 'commaDecimal';
+  if (commaIsThousands && dotIsDecimal) return 'dotDecimal';
+
+  if (dotIsDecimal) return 'dotDecimal';
+  if (commaIsDecimal) return 'commaDecimal';
+
+  // One separator used only as thousands, or no separators at all
+  return 'noDecimal';
+}
+
+// ---------------------------------------------------------------------------
+// parseCents
+// ---------------------------------------------------------------------------
+
+/**
+ * Convert a raw amount string to a positive integer count of cents.
+ *
+ * Steps:
+ * 1. Strip all whitespace and currency symbols.
+ * 2. Apply format:
+ *    - `dotDecimal`:   commas = thousands separators → remove; dot = decimal
+ *    - `commaDecimal`: dots = thousands separators → remove; comma → decimal dot
+ *    - `noDecimal`:    remove all dots and commas; integer value
+ * 3. Multiply by 100, round to nearest integer.
+ * 4. Return absolute value (sign handled externally by debit/credit logic).
+ *
+ * Requirements: 1.8, 1.12
+ */
+export function parseCents(s: string, format: NumberFormat): number {
+  // Step 1: strip whitespace and currency symbols
+  let clean = s.replace(/\s+/g, '').replace(CURRENCY_RE, '');
+
+  // Step 2: normalize separators per format
+  switch (format) {
+    case 'dotDecimal':
+      clean = clean.replace(/,/g, '');
+      break;
+    case 'commaDecimal':
+      clean = clean.replace(/\./g, '').replace(',', '.');
+      break;
+    case 'noDecimal':
+      clean = clean.replace(/[.,]/g, '');
+      break;
+  }
+
+  // Step 3: parse and convert to cents
+  const numeric = parseFloat(clean);
+  if (!isFinite(numeric)) return 0;
+
+  // Step 4: absolute value, rounded to integer
+  return Math.round(Math.abs(numeric) * 100);
+}
+
+// ---------------------------------------------------------------------------
+// detectColumns
+// ---------------------------------------------------------------------------
+
+/** Date-like value pattern: 1-4 digits, separator, 1-2 digits, separator, 2-4 digits */
+const DATE_VALUE_RE = /^\d{1,4}[\/\-]\d{1,2}[\/\-]\d{2,4}$/;
+
+/**
+ * Returns true if at least 70% of the non-empty values in the column
+ * parse as finite numbers after stripping currency symbols and whitespace.
+ */
+function isMostlyNumeric(values: string[]): boolean {
+  const nonEmpty = values.filter((v) => v != null && v.trim() !== '');
+  if (nonEmpty.length === 0) return false;
+  const numeric = nonEmpty.filter((v) => {
+    const clean = v.trim().replace(CURRENCY_RE, '').replace(/[,\s]/g, '').replace(/^-/, '');
+    return clean !== '' && isFinite(Number(clean));
+  });
+  return numeric.length / nonEmpty.length >= 0.7;
+}
+
+/**
+ * Auto-detects the column indices for date, description, and amount(s) from
+ * CSV headers and a sample of row data. Returns a `ColumnLayout` on success,
+ * or an `AppError` with code `'COLUMN_MAPPING_NEEDED'` when required columns
+ * cannot be resolved.
+ *
+ * Requirements: 1.3, 1.4, 1.5, 1.6, 1.7
+ */
+export function detectColumns(
+  headers: string[],
+  rows: string[][],
+): ColumnLayout | AppError {
+  // Normalise headers for keyword matching
+  const lc = headers.map((h) => (h ?? '').trim().toLowerCase());
+
+  let dateCol = -1;
+  let descCol = -1;
+  let amountCol = -1;
+  let debitCol = -1;
+  let creditCol = -1;
+
+  // -----------------------------------------------------------------------
+  // Pass 1: header-keyword heuristics (high confidence)
+  // -----------------------------------------------------------------------
+  for (let i = 0; i < lc.length; i++) {
+    const h = lc[i];
+
+    // Date keywords
+    if (dateCol === -1 && /date|fecha|data\b|^dat$|[^a-z]dat[^a-z]/.test(h)) {
+      dateCol = i;
+      continue;
+    }
+
+    // Description keywords
+    if (descCol === -1 && /desc|concept|narrat|detail|concepto|descripcion/.test(h)) {
+      descCol = i;
+      continue;
+    }
+
+    // Debit / split keywords (check before amount to avoid "debito" matching "amount")
+    if (debitCol === -1 && /debit|débito|débito|charge|cargo|egreso|retiro/.test(h)) {
+      debitCol = i;
+      continue;
+    }
+
+    // Credit / split keywords
+    if (creditCol === -1 && /credit|crédito|crédito|deposit|abono|ingreso/.test(h)) {
+      creditCol = i;
+      continue;
+    }
+
+    // Single amount keywords
+    if (amountCol === -1 && /amount|monto|importe|valor|saldo|total/.test(h)) {
+      amountCol = i;
+      continue;
+    }
+  }
+
+  // Also check for "dat" as a standalone or contained match more liberally
+  if (dateCol === -1) {
+    for (let i = 0; i < lc.length; i++) {
+      if (/dat/.test(lc[i])) {
+        dateCol = i;
+        break;
+      }
+    }
+  }
+
+  // -----------------------------------------------------------------------
+  // Pass 2: value-type heuristics (fallback, medium confidence)
+  // -----------------------------------------------------------------------
+  // Build per-column value arrays (ignore blank rows)
+  const nonBlankRows = rows.filter((row) =>
+    row.some((cell) => cell != null && cell.trim() !== ''),
+  );
+
+  if (nonBlankRows.length > 0) {
+    // Date column fallback
+    if (dateCol === -1) {
+      for (let i = 0; i < headers.length; i++) {
+        const colValues = nonBlankRows.map((r) => (r[i] ?? '').trim());
+        const nonEmpty = colValues.filter((v) => v !== '');
+        if (nonEmpty.length > 0 && nonEmpty.every((v) => DATE_VALUE_RE.test(v))) {
+          dateCol = i;
+          break;
+        }
+      }
+    }
+
+    // Amount column fallback (only if no split columns were found)
+    if (amountCol === -1 && debitCol === -1) {
+      for (let i = 0; i < headers.length; i++) {
+        // Skip already-assigned columns
+        if (i === dateCol || i === descCol) continue;
+        const colValues = nonBlankRows.map((r) => (r[i] ?? '').trim());
+        if (isMostlyNumeric(colValues)) {
+          amountCol = i;
+          break;
+        }
+      }
+    }
+  }
+
+  // -----------------------------------------------------------------------
+  // Resolve layout
+  // -----------------------------------------------------------------------
+
+  // Single-column layout: dateCol + descCol + amountCol
+  if (dateCol !== -1 && descCol !== -1 && amountCol !== -1) {
+    return { type: 'single', amountCol, dateCol, descCol };
+  }
+
+  // Split-column layout: dateCol + descCol + debitCol (creditCol optional)
+  if (dateCol !== -1 && descCol !== -1 && debitCol !== -1) {
+    return {
+      type: 'split',
+      debitCol,
+      creditCol: creditCol !== -1 ? creditCol : -1,
+      dateCol,
+      descCol,
+    };
+  }
+
+  // Cannot resolve
+  return {
+    code: 'COLUMN_MAPPING_NEEDED',
+    message:
+      'Could not automatically detect required columns (date, description, amount). ' +
+      'Please map the columns manually.',
+    headers,
+  };
+}
+
+// ---------------------------------------------------------------------------
+// parseRows
+// ---------------------------------------------------------------------------
+
+/**
+ * Simple FNV-1a-inspired hash that returns a hex string.
+ * Deterministic: same input always produces the same output.
+ */
+function simpleHash(s: string): string {
+  let h = 2166136261;
+  for (let i = 0; i < s.length; i++) {
+    h = Math.imul(h ^ s.charCodeAt(i), 16777619) >>> 0;
+  }
+  return h.toString(16);
+}
+
+/**
+ * Parses raw CSV rows into `Transaction` objects using the detected column
+ * layout, date format, and number format. Invalid or blank rows are skipped
+ * and counted in `skipped`.
+ *
+ * Requirements: 1.3, 1.4, 1.5, 1.6, 1.7, 1.16, 1.17, 1.18
+ */
+export function parseRows(
+  rows: string[][],
+  layout: ColumnLayout,
+  dateFormat: DateFormat,
+  numberFormat: NumberFormat,
+): { transactions: Transaction[]; skipped: number } {
+  const transactions: Transaction[] = [];
+  let skipped = 0;
+
+  for (let rowIndex = 0; rowIndex < rows.length; rowIndex++) {
+    try {
+      const row = rows[rowIndex];
+
+      // Skip blank rows (all cells empty or whitespace) silently — they are
+      // formatting artifacts (empty lines between CSV sections), not invalid data.
+      if (!row || row.every((cell) => cell == null || cell.trim() === '')) {
+        continue;
+      }
+
+      const rawDate = (row[layout.dateCol] ?? '').trim();
+      const rawDescription = (row[layout.descCol] ?? '').trim();
+
+      // Parse date — skip row on failure
+      const dateResult = parseDate(rawDate, dateFormat);
+      if (!dateResult.ok) {
+        skipped++;
+        continue;
+      }
+
+      let amountCents: number;
+      let type: 'debit' | 'credit';
+
+      if (layout.type === 'single') {
+        const rawAmount = (row[layout.amountCol] ?? '').trim();
+        amountCents = parseCents(rawAmount, numberFormat);
+
+        // Determine type: strip currency/whitespace, check for leading minus
+        const cleanedForSign = rawAmount.replace(CURRENCY_RE, '').replace(/\s+/g, '');
+        if (amountCents === 0) {
+          // Requirement 1.18: zero-amount → debit (free trial)
+          type = 'debit';
+        } else if (cleanedForSign.startsWith('-')) {
+          type = 'debit';
+        } else {
+          type = 'credit';
+        }
+      } else {
+        // split layout
+        const rawDebit = (row[layout.debitCol] ?? '').trim();
+        const rawCredit =
+          layout.creditCol >= 0 ? (row[layout.creditCol] ?? '').trim() : '';
+
+        // Determine which side is populated
+        const debitCents = rawDebit !== '' ? parseCents(rawDebit, numberFormat) : 0;
+        const creditCents = rawCredit !== '' ? parseCents(rawCredit, numberFormat) : 0;
+
+        if (debitCents > 0) {
+          amountCents = debitCents;
+          type = 'debit';
+        } else if (creditCents > 0) {
+          amountCents = creditCents;
+          type = 'credit';
+        } else {
+          // Both zero or both empty — treat as debit per Requirement 1.18
+          amountCents = debitCents; // 0
+          type = 'debit';
+        }
+      }
+
+      const id = `${String(rowIndex)}-${simpleHash(rawDescription)}`;
+
+      transactions.push({
+        id,
+        date: dateResult.value,
+        description: rawDescription,
+        normalizedName: '',
+        amountCents,
+        type,
+        currency: 'USD',
+      });
+    } catch {
+      // Safety net — never throw
+      skipped++;
+    }
+  }
+
+  return { transactions, skipped };
+}

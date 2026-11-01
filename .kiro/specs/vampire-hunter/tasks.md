@@ -52,18 +52,18 @@ Build the Vampire Hunter SPA in a strict bottom-up order: scaffolding → styles
     - Zero React imports — pure TypeScript only
     - _Requirements: 1.9, 1.12, 4.1_
 
-- [ ] 5. Detection engine — parser (`parser.ts`)
-  - [ ] 5.1 Implement `inferNumberFormat` and `parseCents`
+- [x] 5. Detection engine — parser (`parser.ts`)
+  - [x] 5.1 Implement `inferNumberFormat` and `parseCents`
     - In `src/engine/parser.ts`, implement `inferNumberFormat(column: string[]): 'dotDecimal' | 'commaDecimal' | 'noDecimal'` using the column-level algorithm from design: scan every non-empty value; if any separator is always followed by exactly 3 digits → thousands separator; if followed by 1–2 digits → decimal separator
     - Implement `parseCents(s: string, format: NumberFormat): number`: strip whitespace and currency symbols; apply format; multiply by 100 for decimal formats; return absolute value; result must always be an integer (use `Math.round`)
     - _Requirements: 1.8, 1.12_
 
-  - [ ] 5.2 Implement `parseDate` and `inferDateFormat`
+  - [x] 5.2 Implement `parseDate` and `inferDateFormat`
     - In `src/engine/parser.ts`, implement `parseDate(s: string, format: DateFormat): Result<string, AppError>` supporting `DD/MM/YYYY`, `MM/DD/YYYY`, and `YYYY-MM-DD`; return `{ ok: true, value: 'YYYY-MM-DD' }` on success or `{ ok: false, error: { code: 'PARSE_FAILED', message } }` on failure; function MUST NEVER throw
     - Implement `inferDateFormat(column: string[]): DateFormat | 'ambiguous'`: if first segment > 12 in any row → `DD/MM/YYYY`; if second segment > 12 → `MM/DD/YYYY`; else `'ambiguous'`
     - _Requirements: 1.9, 1.10, 1.11_
 
-  - [ ] 5.3 Implement column auto-detection and full row parsing
+  - [x] 5.3 Implement column auto-detection and full row parsing
     - In `src/engine/parser.ts`, implement `detectColumns(headers: string[], rows: string[][]): ColumnLayout | AppError` using the header-keyword and value-type heuristics from the design; return `{ code: 'COLUMN_MAPPING_NEEDED', headers }` when required columns cannot be resolved
     - Implement `parseRows(rows: string[][], layout: ColumnLayout, dateFormat: DateFormat, numberFormat: NumberFormat): { transactions: Transaction[]; skipped: number }`: iterate rows, call `parseDate` and `parseCents`, classify debit/credit (single-column: negative = debit; two-column: debit-column presence), set `type`, convert to `Transaction`; skip invalid rows and count them; assign a deterministic `id` from row index + description hash; never throw
     - _Requirements: 1.3, 1.4, 1.5, 1.6, 1.7, 1.16, 1.17_
