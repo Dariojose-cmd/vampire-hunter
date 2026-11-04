@@ -107,7 +107,7 @@ Build the Vampire Hunter SPA in a strict bottom-up order: scaffolding → styles
     - Each entry: `id`, `canonicalName`, `aliases` (normalized, uppercase), `cancelUrl`, `cancelSteps[]`
     - _Requirements: 3.1, 3.2, 3.3, 3.4_
 
-  - [ ] 10.2 Create `exchangeRates.json`
+  - [x] 10.2 Create `exchangeRates.json`
     - Write `src/data/exchangeRates.json` with the static rate table from the design: USD, MXN, COP, ARS, CLP, EUR, BRL, GBP, CAD, PEN
     - _Requirements: 14.5_
 
@@ -118,7 +118,7 @@ Build the Vampire Hunter SPA in a strict bottom-up order: scaffolding → styles
     - Test the pattern against `normalizedName`; return the first match; word-boundary matching ensures "MAX" matches "HBO MAX" but not "MAXI DESPENSA"
     - _Requirements: 3.2, 3.3, 3.4, 3.5_
 
-  - [ ] 11.2 Implement `annualBloodLossCents`, `threatLevelFromCents`, and `predictNextBite`
+  - [x] 11.2 Implement `annualBloodLossCents`, `threatLevelFromCents`, and `predictNextBite`
     - In `src/engine/profileBuilder.ts`, implement `annualBloodLossCents(medianCents: number, cadence: Cadence): number` with multipliers weekly×52, monthly×12, quarterly×4, yearly×1
     - Implement `threatLevelFromCents(annualCents: number, currency: string, rates: ExchangeRates): ThreatLevel`: convert to USD (`annualCents / 100 / rates[currency] ?? 1.0`); apply thresholds Low<50, Medium<200, High<500, Critical≥500
     - Implement `predictNextBite(lastBiteDate: string, cadence: Cadence): string`: add interval days (weekly=7, monthly=30, quarterly=91, yearly=365) to `lastBiteDate`; return ISO 8601 string

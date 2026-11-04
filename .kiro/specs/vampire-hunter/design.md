@@ -495,7 +495,7 @@ threatLevelFromCents(annualCents: number, rateToUsd: number): ThreatLevel
 **Next Bite Prediction:**
 ```
 predictNextBite(lastBiteDate: string, cadence: Cadence): string
-  Interval days: weekly=7, monthly=30, quarterly=91, yearly=365
+  weekly: +7 days. monthly / quarterly / yearly: +1 / +3 / +12 calendar months on the same day of the month (clamped to the last day of shorter months), because subscriptions bill on a fixed day.
   Return addDays(lastBiteDate, interval) as ISO 8601
 ```
 

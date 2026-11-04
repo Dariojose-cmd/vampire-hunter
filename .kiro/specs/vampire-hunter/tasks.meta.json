@@ -236,6 +236,30 @@
         "chatSessionId": "sess_340a61b4-4aed-4f4a-b86d-71422b7ec836",
         "timestamp": 1793509547113
       }
+    ],
+    "10.2 Create `exchangeRates.json`": [
+      {
+        "executionId": "5d3a0054-c8a1-45ff-92b7-c4c7d28ad263",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793754684557
+      },
+      {
+        "executionId": "5d3a0054-c8a1-45ff-92b7-c4c7d28ad263",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793754699832
+      }
+    ],
+    "11.2 Implement `annualBloodLossCents`, `threatLevelFromCents`, and `predictNextBite`": [
+      {
+        "executionId": "dba77c45-2da0-4943-a289-7b0e5823cca1",
+        "chatSessionId": "sess_16ce4f9e-6277-4be1-869f-f790d0030cd7",
+        "timestamp": 1793754769921
+      },
+      {
+        "executionId": "dba77c45-2da0-4943-a289-7b0e5823cca1",
+        "chatSessionId": "sess_16ce4f9e-6277-4be1-869f-f790d0030cd7",
+        "timestamp": 1793754854147
+      }
     ]
   }
 }
