@@ -57,6 +57,18 @@
 }
 .langBtn:hover { border-color: var(--color-accent-light); color: var(--color-text); }
 
+.iconBtn {
+  font-size: var(--font-size-lg);
+  line-height: 1;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-stone-line);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+  background: transparent;
+}
+.iconBtn:hover { border-color: var(--color-accent-light); color: var(--color-text); }
+.iconBtn[aria-pressed="true"] { color: var(--color-accent-text); border-color: var(--color-accent-light); }
+
 .select {
   background: var(--color-bg);
   border: 1px solid var(--color-stone-line);

@@ -3,7 +3,10 @@
 
   "nav": {
     "languageSwitch": "Español",
-    "languageSwitchAriaLabel": "Switch to Spanish"
+    "languageSwitchAriaLabel": "Switch to Spanish",
+    "soundOn": "Sound on",
+    "soundOff": "Sound off",
+    "soundToggleAriaLabel": "Toggle sound effects"
   },
 
   "upload": {
@@ -63,7 +66,12 @@
     "vampireCount": "{{count}} vampire found",
     "vampireCount_plural": "{{count}} vampires found",
     "noVampires": "No vampires detected. Your blood is safe… for now.",
-    "uploadAnother": "Upload another statement"
+    "uploadAnother": "Upload another statement",
+    "summoning": "Hunting…",
+    "summoningHint": "Reading the crypt for restless spirits",
+    "cleansedTitle": "The crypt is cleansed",
+    "cleansedSubtitle": "Every vampire has met its fate. Dawn breaks over the crypt.",
+    "cleansedSaved": "{{amount}} in yearly blood saved"
   },
 
   "vampireCard": {
@@ -109,7 +117,11 @@
     "drainingValue": "{{amount}} / year",
     "savedValue": "{{amount}} saved",
     "allStaked": "All vampires staked! Your blood is safe. 🧛‍♂️",
-    "totalDrained": "Total drained so far"
+    "totalDrained": "Total drained so far",
+    "perYear": "per year",
+    "perMonth": "{{amount}} / month",
+    "perDay": "{{amount}} / day",
+    "savedLabel": "Blood saved"
   },
 
   "stakeModal": {

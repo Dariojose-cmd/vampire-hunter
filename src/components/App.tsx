@@ -52,6 +52,7 @@ export function App() {
   const [currency, setCurrency] = useState<string>('USD');
   const [view, setView] = useState<View>('upload');
   const [errorKey, setErrorKey] = useState<TranslationKey | null>(null);
+  const [soundEnabled, setSoundEnabled] = useState(false);
 
   const [result, setResult] = useState<DetectionResult | null>(null);
 
@@ -131,6 +132,16 @@ export function App() {
         <div className={styles.controls}>
           <button
             type="button"
+            className={styles.iconBtn}
+            onClick={() => setSoundEnabled((v) => !v)}
+            aria-pressed={soundEnabled}
+            aria-label={t('nav.soundToggleAriaLabel')}
+            title={soundEnabled ? t('nav.soundOn') : t('nav.soundOff')}
+          >
+            {soundEnabled ? '\uD83D\uDD0A' : '\uD83D\uDD07'}
+          </button>
+          <button
+            type="button"
             className={styles.langBtn}
             onClick={() => setLanguage((l) => (l === 'en' ? 'es' : 'en'))}
             aria-label={t('nav.languageSwitchAriaLabel')}
@@ -177,6 +188,7 @@ export function App() {
             language={language}
             currency={currency}
             result={result}
+            soundEnabled={soundEnabled}
             onUploadAnother={reset}
           />
         )}

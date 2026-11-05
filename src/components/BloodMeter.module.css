@@ -1,10 +1,10 @@
-/* The Blood Meter: a laboratory vial that fills with blood representing the
-   total annual blood loss across un-staked vampires, with a readout of blood
-   saved from staked ones. */
+/* The Blood Meter: a lab vial that drains as vampires are staked, beside a
+   readout of the yearly total (with per-month / per-day equivalents) and the
+   blood saved so far. The readout fills the panel so there's no empty space. */
 
 .meter {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   gap: var(--space-6);
   padding: var(--space-5) var(--space-6);
   background: linear-gradient(180deg, rgba(26, 26, 46, 0.7), rgba(13, 13, 26, 0.6));
@@ -20,6 +20,7 @@
   width: 58px;
   height: 150px;
   flex-shrink: 0;
+  align-self: center;
 }
 .vialGlass {
   position: absolute;
@@ -30,7 +31,6 @@
   overflow: hidden;
   box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.5);
 }
-/* The neck/lip of the vial */
 .vialNeck {
   position: absolute;
   top: -8px;
@@ -43,7 +43,6 @@
   border-radius: 4px 4px 0 0;
   background: rgba(255, 255, 255, 0.05);
 }
-/* The blood fill (height animated by Framer Motion). */
 .fill {
   position: absolute;
   left: 0;
@@ -52,52 +51,78 @@
   background: linear-gradient(180deg, #e74c3c 0%, #a3271c 100%);
   box-shadow: 0 0 16px rgba(192, 57, 43, 0.6);
 }
-/* Shimmering surface of the blood. */
-.fill::before {
+.fill::before { /* shimmering surface meniscus */
   content: '';
   position: absolute;
-  top: -3px;
-  left: 0;
-  right: 0;
+  top: -3px; left: 0; right: 0;
   height: 6px;
   background: rgba(255, 120, 110, 0.7);
   border-radius: 50%;
 }
+.fillShine {
+  position: absolute;
+  top: 6px; left: 8px;
+  width: 6px; height: 60%;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: var(--radius-full);
+}
 
-/* ── Readout ─────────────────────────────────── */
+/* ── Readout (fills remaining width) ─────────── */
 .readout {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  justify-content: center;
+  gap: var(--space-3);
   flex: 1;
 }
-.row { display: flex; align-items: baseline; gap: var(--space-2); }
-.label {
+.primary { display: flex; align-items: baseline; gap: var(--space-2); flex-wrap: wrap; }
+.drainingValue {
+  font-family: var(--font-heading);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-accent-text);
+  text-shadow: 0 0 14px rgba(192, 57, 43, 0.45);
+  line-height: 1;
+}
+.perYear {
   font-size: var(--font-size-sm);
   color: var(--color-text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
 }
-.draining {
-  font-family: var(--font-heading);
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-accent-text);
-  text-shadow: 0 0 12px rgba(192, 57, 43, 0.4);
-}
-.saved {
+.equivalents {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--color-text);
   font-size: var(--font-size-base);
-  color: #8be3af;
-  font-weight: var(--font-weight-medium);
 }
+.equiv { color: var(--color-text); }
+.dot { color: var(--color-text-muted); }
+
+.savedRow {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin-top: var(--space-1);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-stone-line);
+}
+.savedLabel { font-size: var(--font-size-sm); color: var(--color-text-muted); }
+.savedValue {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: #8be3af;
+}
+
 .allSafe {
   font-family: var(--font-heading);
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-xl);
   color: #8be3af;
 }
 
 @media (max-width: 480px) {
   .meter { gap: var(--space-4); padding: var(--space-4); }
-  .vial { width: 48px; height: 120px; }
-  .draining { font-size: var(--font-size-xl); }
+  .vial { width: 46px; height: 120px; }
+  .equivalents { flex-wrap: wrap; gap: var(--space-2); }
 }

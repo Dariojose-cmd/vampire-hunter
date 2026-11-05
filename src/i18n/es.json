@@ -3,7 +3,10 @@
 
   "nav": {
     "languageSwitch": "English",
-    "languageSwitchAriaLabel": "Cambiar a inglés"
+    "languageSwitchAriaLabel": "Cambiar a inglés",
+    "soundOn": "Sonido activado",
+    "soundOff": "Sonido desactivado",
+    "soundToggleAriaLabel": "Activar o desactivar efectos de sonido"
   },
 
   "upload": {
@@ -63,7 +66,12 @@
     "vampireCount": "{{count}} vampiro encontrado",
     "vampireCount_plural": "{{count}} vampiros encontrados",
     "noVampires": "No se detectaron vampiros. Tu sangre está a salvo… por ahora.",
-    "uploadAnother": "Subir otro estado de cuenta"
+    "uploadAnother": "Subir otro estado de cuenta",
+    "summoning": "Cazando…",
+    "summoningHint": "Leyendo la cripta en busca de espíritus inquietos",
+    "cleansedTitle": "La cripta está purificada",
+    "cleansedSubtitle": "Cada vampiro ha encontrado su destino. El amanecer cae sobre la cripta.",
+    "cleansedSaved": "{{amount}} de sangre anual salvada"
   },
 
   "vampireCard": {
@@ -109,7 +117,11 @@
     "drainingValue": "{{amount}} / año",
     "savedValue": "{{amount}} ahorrados",
     "allStaked": "¡Todos los vampiros estacados! Tu sangre está a salvo. 🧛‍♂️",
-    "totalDrained": "Total drenado hasta ahora"
+    "totalDrained": "Total drenado hasta ahora",
+    "perYear": "por año",
+    "perMonth": "{{amount}} / mes",
+    "perDay": "{{amount}} / día",
+    "savedLabel": "Sangre salvada"
   },
 
   "stakeModal": {

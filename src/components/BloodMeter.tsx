@@ -1,10 +1,12 @@
 /**
- * BloodMeter — a vial of blood that fills with the total annual blood loss
- * across the vampires still draining the user (not staked), with a readout of
- * blood saved from the ones already staked.
+ * BloodMeter — a vial of blood that visualizes the yearly "blood loss".
  *
- * The fill height animates (Framer Motion) relative to the grand total, so
- * staking a vampire visibly drops the level. Respects reduced motion.
+ * The vial starts full and drains as vampires are staked: the fill height is
+ * `stillDraining / grandTotal`. Beside the vial, a compact readout shows the
+ * yearly total with per-month and per-day equivalents, plus the blood saved so
+ * far. No empty space — the readout fills the panel.
+ *
+ * Fill + saved counter animate on stake/un-stake. Respects reduced motion.
  */
 
 import { motion, useReducedMotion } from 'framer-motion';
@@ -31,9 +33,12 @@ export function BloodMeter({
   const reduce = useReducedMotion();
 
   const total = drainingCents + savedCents;
-  // Fill represents the share still draining. Empty vial (all staked) = 0%.
   const fillPct = total > 0 ? Math.round((drainingCents / total) * 100) : 0;
   const allStaked = total > 0 && drainingCents === 0;
+
+  const yearly = formatMoney(drainingCents, currency, language);
+  const monthly = formatMoney(Math.round(drainingCents / 12), currency, language);
+  const daily = formatMoney(Math.round(drainingCents / 365), currency, language);
 
   return (
     <section
@@ -46,10 +51,12 @@ export function BloodMeter({
         <div className={styles.vialGlass}>
           <motion.div
             className={styles.fill}
-            initial={reduce ? false : { height: '0%' }}
+            initial={false}
             animate={{ height: `${fillPct}%` }}
-            transition={{ duration: reduce ? 0 : 0.8, ease: 'easeOut' }}
-          />
+            transition={{ duration: reduce ? 0 : 0.9, ease: 'easeOut' }}
+          >
+            <span className={styles.fillShine} />
+          </motion.div>
         </div>
       </div>
 
@@ -57,18 +64,23 @@ export function BloodMeter({
         {allStaked ? (
           <p className={styles.allSafe}>{t('bloodMeter.allStaked')}</p>
         ) : (
-          <div className={styles.row}>
-            <span className={styles.draining}>
-              {t('bloodMeter.drainingValue', { amount: formatMoney(drainingCents, currency, language) })}
-            </span>
-            <span className={styles.label}>{t('bloodMeter.draining')}</span>
-          </div>
+          <>
+            <div className={styles.primary}>
+              <span className={styles.drainingValue}>{yearly}</span>
+              <span className={styles.perYear}>{t('bloodMeter.perYear')}</span>
+            </div>
+            <div className={styles.equivalents}>
+              <span className={styles.equiv}>{t('bloodMeter.perMonth', { amount: monthly })}</span>
+              <span className={styles.dot} aria-hidden="true">•</span>
+              <span className={styles.equiv}>{t('bloodMeter.perDay', { amount: daily })}</span>
+            </div>
+          </>
         )}
-        {savedCents > 0 && (
-          <p className={styles.saved}>
-            🛡️ {t('bloodMeter.savedValue', { amount: formatMoney(savedCents, currency, language) })}
-          </p>
-        )}
+
+        <div className={styles.savedRow} aria-live="polite">
+          <span className={styles.savedLabel}>🛡️ {t('bloodMeter.savedLabel')}</span>
+          <span className={styles.savedValue}>{formatMoney(savedCents, currency, language)}</span>
+        </div>
       </div>
     </section>
   );

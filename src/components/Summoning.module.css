@@ -1,0 +1,58 @@
+/* "Hunting…" ritual shown for ~1s after a statement is parsed. */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-overlay);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-5);
+  background: radial-gradient(ellipse at center, rgba(13,13,26,0.82), rgba(5,4,12,0.95));
+  backdrop-filter: blur(3px);
+  text-align: center;
+  padding: var(--space-6);
+}
+
+/* A ritual circle that spins and pulses. */
+.sigil {
+  width: 120px;
+  height: 120px;
+  position: relative;
+}
+.ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid rgba(192, 57, 43, 0.5);
+  box-shadow: 0 0 24px rgba(192, 57, 43, 0.4), inset 0 0 24px rgba(192, 57, 43, 0.25);
+  animation: spin 2.4s linear infinite;
+}
+.ring2 {
+  inset: 18px;
+  border-style: dashed;
+  border-color: rgba(255, 179, 71, 0.45);
+  animation: spinRev 1.8s linear infinite;
+}
+.drop {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2.4rem;
+  animation: throb 1s ease-in-out infinite;
+}
+@keyframes spin    { to { transform: rotate(360deg); } }
+@keyframes spinRev { to { transform: rotate(-360deg); } }
+@keyframes throb   { 0%,100% { transform: translate(-50%,-50%) scale(1); } 50% { transform: translate(-50%,-50%) scale(1.18); } }
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
+  color: var(--color-text);
+  text-shadow: 0 0 16px rgba(192, 57, 43, 0.5);
+}
+.hint { color: var(--color-text-muted); font-style: italic; font-family: var(--font-heading); }
+
+@media (prefers-reduced-motion: reduce) {
+  .ring, .ring2, .drop { animation: none; }
+}

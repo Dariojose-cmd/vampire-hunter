@@ -144,29 +144,64 @@ export function predictNextBite(lastBiteDate: string, cadence: Cadence): string 
 // ---------------------------------------------------------------------------
 
 /**
- * 8-colour cape palette. Indexed by `(hash >> 4) mod 8`.
- * Spooky-but-readable hues that contrast against the dark crypt background.
+ * 8-colour cape palette, indexed by `(hash >> 4) mod 8`.
+ *
+ * Every colour is mid-to-high luminance so the silhouette reads clearly even
+ * against the dark crypt card. The avatar also sits on a luminous "moonlight"
+ * disc (see `generateAvatar`), which guarantees contrast regardless of cape.
  */
 const CAPE_COLORS = [
-  '#7b1113', // deep blood red
-  '#4a235a', // dark violet
-  '#1b4f72', // midnight blue
-  '#145a32', // forest green
-  '#633974', // royal purple
-  '#78281f', // dried blood
-  '#1c2833', // charcoal
-  '#5b2c06', // dark amber
+  '#b23b3b', // blood red
+  '#8e5bbf', // violet
+  '#3f7fc4', // steel blue
+  '#3fae6e', // poison green
+  '#9b59b6', // royal purple
+  '#c2663a', // burnt amber
+  '#5a6b8c', // slate blue-grey
+  '#cf7a2e', // pumpkin
 ] as const;
 
 /**
- * 4 skin tones for the vampire face. Indexed by `(hash >> 8) mod 4`.
- * Pale undead complexions ranging from grey-green to ashen.
+ * Cape lining colour (inner cape) — a darker partner for each cape colour so
+ * the garment has depth. Indexed to match `CAPE_COLORS` 1:1.
+ */
+const CAPE_LININGS = [
+  '#7b1f1f', '#5c3a85', '#28567f', '#277a4b',
+  '#6c3a85', '#874321', '#3b4860', '#8f5016',
+] as const;
+
+/**
+ * 5 skin tones for the vampire face, indexed by `(hash >> 8) mod 5`.
+ * Pale-to-ashen undead complexions, all light enough to contrast the disc.
  */
 const SKIN_TONES = [
-  '#d9e4dd', // pale grey-green
-  '#e8e0d5', // ashen cream
-  '#cdd6d0', // cold grey
-  '#ddd0cf', // dusty rose-grey
+  '#e4ece6', // pale grey-green
+  '#efe7db', // ashen cream
+  '#d7dedd', // cold grey
+  '#e7d9d6', // dusty rose-grey
+  '#cfc7cf', // violet-ash
+] as const;
+
+/**
+ * 6 glowing eye colours, indexed by `(hash >> 11) mod 6`.
+ */
+const EYE_COLORS = [
+  '#e74c3c', // red
+  '#f1c40f', // amber
+  '#2ecc71', // green
+  '#5dade2', // ice blue
+  '#e67e22', // orange
+  '#bb8fce', // violet
+] as const;
+
+/**
+ * 4 hair colours, indexed by `(hash >> 14) mod 4`.
+ */
+const HAIR_COLORS = [
+  '#15151c', // near-black
+  '#2c1810', // dark brown
+  '#3a2a3a', // aubergine
+  '#5a5560', // iron grey
 ] as const;
 
 /**
@@ -189,79 +224,92 @@ function fnv1a32(input: string): number {
   return hash >>> 0;
 }
 
-/**
- * Build the SVG `<path>`/`<element>` markup for a pair of vampire eyes.
- * Four distinct styles so different hashes produce visibly different faces.
- */
+/** A pair of glowing eyes. Four distinct shapes. */
 function eyeShape(style: number, color: string): string {
+  const glow = `<circle cx="40" cy="52" r="7" fill="${color}" opacity="0.28"/>` +
+               `<circle cx="60" cy="52" r="7" fill="${color}" opacity="0.28"/>`;
   switch (style % 4) {
     case 0: // round glowing eyes
-      return (
-        `<circle cx="40" cy="52" r="5" fill="${color}"/>` +
-        `<circle cx="60" cy="52" r="5" fill="${color}"/>`
-      );
+      return glow +
+        `<circle cx="40" cy="52" r="4.5" fill="${color}"/>` +
+        `<circle cx="60" cy="52" r="4.5" fill="${color}"/>`;
     case 1: // narrow slits
-      return (
-        `<rect x="35" y="50" width="12" height="3" rx="1.5" fill="${color}"/>` +
-        `<rect x="53" y="50" width="12" height="3" rx="1.5" fill="${color}"/>`
-      );
+      return glow +
+        `<rect x="35" y="50" width="12" height="3.5" rx="1.75" fill="${color}"/>` +
+        `<rect x="53" y="50" width="12" height="3.5" rx="1.75" fill="${color}"/>`;
     case 2: // angry slanted eyes
-      return (
+      return glow +
         `<path d="M35 55 L47 49 L47 53 Z" fill="${color}"/>` +
-        `<path d="M65 55 L53 49 L53 53 Z" fill="${color}"/>`
-      );
+        `<path d="M65 55 L53 49 L53 53 Z" fill="${color}"/>`;
     default: // wide oval eyes
-      return (
-        `<ellipse cx="40" cy="52" rx="6" ry="4" fill="${color}"/>` +
-        `<ellipse cx="60" cy="52" rx="6" ry="4" fill="${color}"/>`
-      );
+      return glow +
+        `<ellipse cx="40" cy="52" rx="5.5" ry="4" fill="${color}"/>` +
+        `<ellipse cx="60" cy="52" rx="5.5" ry="4" fill="${color}"/>`;
   }
 }
 
-/**
- * Build the SVG markup for the vampire fangs.
- * Three distinct styles.
- */
-function fangShape(style: number, color: string): string {
+/** Fangs. Three distinct shapes. */
+function fangShape(style: number): string {
+  const c = '#ffffff';
   switch (style % 3) {
     case 0: // two short fangs
-      return (
-        `<path d="M44 66 L47 74 L50 66 Z" fill="${color}"/>` +
-        `<path d="M50 66 L53 74 L56 66 Z" fill="${color}"/>`
-      );
+      return `<path d="M44 66 L47 74 L50 66 Z" fill="${c}"/>` +
+             `<path d="M50 66 L53 74 L56 66 Z" fill="${c}"/>`;
     case 1: // two long dripping fangs
-      return (
-        `<path d="M43 66 L46 80 L49 66 Z" fill="${color}"/>` +
-        `<path d="M51 66 L54 80 L57 66 Z" fill="${color}"/>`
-      );
+      return `<path d="M43 66 L46 80 L49 66 Z" fill="${c}"/>` +
+             `<path d="M51 66 L54 80 L57 66 Z" fill="${c}"/>` +
+             `<circle cx="46" cy="81" r="1.4" fill="#e74c3c"/>`;
     default: // wide-set fangs with a grin line
-      return (
-        `<path d="M40 66 L43 76 L46 66 Z" fill="${color}"/>` +
-        `<path d="M54 66 L57 76 L60 66 Z" fill="${color}"/>` +
-        `<rect x="40" y="64" width="20" height="2" rx="1" fill="${color}"/>`
-      );
+      return `<rect x="40" y="64" width="20" height="2" rx="1" fill="${c}"/>` +
+             `<path d="M40 66 L43 76 L46 66 Z" fill="${c}"/>` +
+             `<path d="M54 66 L57 76 L60 66 Z" fill="${c}"/>`;
   }
+}
+
+/** Hair / headwear. Four distinct styles drawn over the hairline. */
+function hairShape(style: number, color: string): string {
+  switch (style % 4) {
+    case 0: // slicked widow's peak
+      return `<path d="M26 42 Q50 16 74 42 Q68 28 50 32 Q32 28 26 42 Z" fill="${color}"/>` +
+             `<path d="M50 28 L45 40 L55 40 Z" fill="${color}"/>`;
+    case 1: // swept-back with side volume
+      return `<path d="M24 44 Q30 20 50 22 Q70 20 76 44 Q70 30 50 30 Q30 30 24 44 Z" fill="${color}"/>`;
+    case 2: // bald with just side tufts
+      return `<path d="M26 46 Q24 34 30 30 Q30 38 34 42 Z" fill="${color}"/>` +
+             `<path d="M74 46 Q76 34 70 30 Q70 38 66 42 Z" fill="${color}"/>`;
+    default: // tall widow's peak + sideburns
+      return `<path d="M27 40 Q50 14 73 40 Q66 26 50 30 Q34 26 27 40 Z" fill="${color}"/>` +
+             `<path d="M50 24 L44 40 L56 40 Z" fill="${color}"/>` +
+             `<rect x="27" y="40" width="4" height="14" rx="2" fill="${color}"/>` +
+             `<rect x="69" y="40" width="4" height="14" rx="2" fill="${color}"/>`;
+  }
+}
+
+/** Pointed vs. rounded ears. */
+function earShape(style: number, skin: string): string {
+  if (style % 2 === 0) {
+    // pointed (classic vampire)
+    return `<path d="M27 46 L22 38 L31 44 Z" fill="${skin}"/>` +
+           `<path d="M73 46 L78 38 L69 44 Z" fill="${skin}"/>`;
+  }
+  // rounded
+  return `<circle cx="27" cy="48" r="4.5" fill="${skin}"/>` +
+         `<circle cx="73" cy="48" r="4.5" fill="${skin}"/>`;
 }
 
 /**
  * Generate a unique, deterministic SVG avatar for a Vampire from its
  * normalized name.
  *
- * The avatar is seeded with a 32-bit FNV-1a hash of `normalizedName`, from
- * which four visual traits are derived:
- *   - eye style  = hash mod 4
- *   - fang style = hash mod 3
- *   - cape color = CAPE_COLORS[(hash >> 4) mod 8]
- *   - skin tone  = SKIN_TONES[(hash >> 8) mod 4]
+ * Traits derived from a 32-bit FNV-1a hash:
+ *   - eye style  = hash mod 4          - fang style = hash mod 3
+ *   - cape color = (hash >> 4) mod 8   - skin tone  = (hash >> 8) mod 5
+ *   - eye color  = (hash >> 11) mod 6  - hair color = (hash >> 14) mod 4
+ *   - hair style = (hash >> 17) mod 4  - ear style  = (hash >> 20) mod 2
  *
- * The result is a fully self-contained `<svg>` string with no external
- * references, suitable for inlining directly into the DOM.
- *
- * The same input ALWAYS produces identical output (pure, deterministic) and
- * the function never throws — an empty string still yields a valid avatar.
- *
- * @param normalizedName - The Vampire's normalized merchant name
- * @returns              A complete, self-contained SVG string
+ * The figure sits on a luminous radial "moonlight" disc so it always contrasts
+ * the dark crypt card, regardless of cape colour. Same input ALWAYS yields
+ * identical output; the function never throws.
  *
  * _Validates: Requirement 6.5_
  */
@@ -270,30 +318,48 @@ export function generateAvatar(normalizedName: string): string {
 
   const eyeStyle = hash % 4;
   const fangStyle = hash % 3;
-  const capeColor = CAPE_COLORS[(hash >> 4) % CAPE_COLORS.length];
+  const capeIdx = (hash >> 4) % CAPE_COLORS.length;
+  const capeColor = CAPE_COLORS[capeIdx];
+  const capeLining = CAPE_LININGS[capeIdx];
   const skinTone = SKIN_TONES[(hash >> 8) % SKIN_TONES.length];
+  const eyeColor = EYE_COLORS[(hash >> 11) % EYE_COLORS.length];
+  const hairColor = HAIR_COLORS[(hash >> 14) % HAIR_COLORS.length];
+  const hairStyle = (hash >> 17) % 4;
+  const earStyle = (hash >> 20) % 2;
 
-  const eyes = eyeShape(eyeStyle, '#c0392b');
-  const fangs = fangShape(fangStyle, '#ffffff');
+  // Unique gradient id per avatar so multiple inlined SVGs don't collide.
+  const gid = `vhm${hash.toString(36)}`;
 
-  // Composed from static templates + derived values. viewBox is fixed at
-  // 100x100 so the avatar scales cleanly wherever it is rendered.
   return (
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" role="img" aria-label="vampire avatar">` +
-    // cape behind the head
-    `<path d="M20 100 Q50 70 80 100 L80 100 Q50 85 20 100 Z" fill="${capeColor}"/>` +
-    `<path d="M22 95 Q50 55 78 95 L78 100 L22 100 Z" fill="${capeColor}"/>` +
+    `<defs>` +
+      `<radialGradient id="${gid}" cx="50%" cy="42%" r="60%">` +
+        `<stop offset="0%" stop-color="#565074"/>` +
+        `<stop offset="55%" stop-color="#363150"/>` +
+        `<stop offset="100%" stop-color="#201d30"/>` +
+      `</radialGradient>` +
+    `</defs>` +
+    // luminous moonlight disc — guarantees contrast behind the figure
+    `<circle cx="50" cy="50" r="50" fill="url(#${gid})"/>` +
+    `<circle cx="50" cy="44" r="32" fill="#ffffff" opacity="0.10"/>` +
+    // cape (outer + lining) behind the head
+    `<path d="M16 100 Q50 64 84 100 Z" fill="${capeColor}"/>` +
+    `<path d="M26 100 Q50 72 74 100 Z" fill="${capeLining}"/>` +
     // high collar
-    `<path d="M30 70 L50 60 L70 70 L62 82 L50 74 L38 82 Z" fill="${capeColor}"/>` +
+    `<path d="M30 72 L50 62 L70 72 L62 84 L50 76 L38 84 Z" fill="${capeColor}"/>` +
+    // ears (behind head)
+    earShape(earStyle, skinTone) +
     // head
-    `<ellipse cx="50" cy="48" rx="24" ry="28" fill="${skinTone}"/>` +
-    // widow's-peak hairline
-    `<path d="M26 40 Q50 18 74 40 Q68 30 50 34 Q32 30 26 40 Z" fill="#1c1c1c"/>` +
-    `<path d="M50 30 L46 40 L54 40 Z" fill="#1c1c1c"/>` +
-    eyes +
+    `<ellipse cx="50" cy="48" rx="23" ry="27" fill="${skinTone}"/>` +
+    // hair
+    hairShape(hairStyle, hairColor) +
+    // brows for a touch of menace
+    `<rect x="35" y="45" width="11" height="2" rx="1" fill="${hairColor}" opacity="0.7"/>` +
+    `<rect x="54" y="45" width="11" height="2" rx="1" fill="${hairColor}" opacity="0.7"/>` +
+    eyeShape(eyeStyle, eyeColor) +
     // nose
     `<path d="M50 56 L47 62 L53 62 Z" fill="rgba(0,0,0,0.15)"/>` +
-    fangs +
+    fangShape(fangStyle) +
     `</svg>`
   );
 }

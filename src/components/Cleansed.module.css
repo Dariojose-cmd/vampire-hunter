@@ -1,0 +1,53 @@
+/* "The crypt is cleansed" — shown when every vampire has a decision. A warm
+   dawn glow rises from the horizon. */
+.banner {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  text-align: center;
+  padding: var(--space-10) var(--space-6);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 179, 71, 0.4);
+  background:
+    radial-gradient(ellipse 120% 90% at 50% 120%, rgba(255, 179, 71, 0.35), transparent 60%),
+    radial-gradient(ellipse 120% 80% at 50% 130%, rgba(231, 76, 60, 0.25), transparent 55%),
+    linear-gradient(180deg, #1a1430, #241a2e);
+  box-shadow: var(--shadow-lg), 0 -8px 40px rgba(255, 179, 71, 0.2) inset;
+}
+
+/* Rising sun on the horizon. */
+.sun {
+  position: absolute;
+  bottom: -70px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffe3a3 0%, #ffb347 55%, rgba(255,179,71,0.0) 72%);
+  filter: blur(2px);
+}
+
+.title {
+  position: relative;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: #ffe9c7;
+  text-shadow: 0 0 20px rgba(255, 179, 71, 0.5);
+}
+.subtitle { position: relative; font-family: var(--font-heading); font-style: italic; color: var(--color-text); max-width: 46ch; }
+.saved {
+  position: relative;
+  margin-top: var(--space-2);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: #8be3af;
+}
+.savedAmount { color: #b6f2cf; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sun { filter: none; }
+}

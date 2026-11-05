@@ -295,12 +295,12 @@ Build the Vampire Hunter SPA in a strict bottom-up order: scaffolding → styles
     - _Requirements: 7.3, 8.5_
 
 - [ ] 19. React UI — action modals and buttons
-  - [~] 19.1 Implement `StakeModal.tsx` with cancellation instructions and email draft
+  - [x] 19.1 Implement `StakeModal.tsx` with cancellation instructions and email draft
     - When opened: display Catalog cancellation URL and step-by-step instructions (if catalog match); display generated cancellation email draft (call i18n template with service name and selected language); one-click copy button for the email draft
     - Focus trap: set `autoFocus` on first focusable element; return focus to Stake button on close (use Framer Motion `AnimatePresence`)
     - _Requirements: 8.1, 8.2, 8.3_
 
-  - [~] 19.2 Implement `SpareButton.tsx` and `GarlicButton.tsx`
+  - [x] 19.2 Implement `SpareButton.tsx` and `GarlicButton.tsx`
     - `SpareButton`: native `<button>` with ARIA label; on click call `onSpare`; add "spared" CSS class (dimmed visual treatment); on re-click remove Spare status and restore default state
     - `GarlicButton`: native `<button>` with ARIA label; on click call `generateIcs` and trigger browser download via `URL.createObjectURL`; add "garlic-active" class with pulse animation; handle ICS generation failure gracefully (disable button, no crash)
     - _Requirements: 9.1, 9.3, 10.1, 10.2, 10.3_

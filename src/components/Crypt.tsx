@@ -1,19 +1,29 @@
 /**
- * Crypt — the main results screen. Renders the Blood Meter, a filter bar
- * (All / Staked / Spared / Garlic), a sort control (threat desc by default,
- * annual cost, name), the responsive vampire grid, and an optional "possible
- * vampires" section with a distinct, lower-confidence treatment.
+ * Crypt — the main results screen and the home of the app's memorable moments.
  *
- * Decisions are held in local state for now; full localStorage persistence
- * arrives in task 20. The Blood Meter's draining total excludes staked
- * vampires, and their annual loss is reported as "saved".
+ *  - Summoning: a ~1s "Hunting…" ritual plays on arrival, then the vampires
+ *    rise from their graves one by one (staggered, most dangerous first).
+ *  - Stake moment: staking opens the StakeModal; confirming crumbles the
+ *    tombstone to dust while a bat escapes, the vial drops, and "blood saved"
+ *    counts up (optional thud sound).
+ *  - Ending: once every vampire has a decision, "The crypt is cleansed" appears
+ *    with a dawn glow and the total yearly blood saved.
+ *
+ * All motion respects prefers-reduced-motion. Decisions are local state here;
+ * localStorage persistence arrives in task 20.
  */
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { AnimatePresence, useReducedMotion } from 'framer-motion';
 import type { DecisionType, DetectionResult, ThreatLevel, Vampire } from '@engine/types';
 import { useTranslation, type Language, type TranslationKey } from '@i18n/index';
 import { BloodMeter } from './BloodMeter';
 import { VampireCard } from './VampireCard';
+import { StakeModal } from './StakeModal';
+import { Summoning } from './Summoning';
+import { Cleansed } from './Cleansed';
+import { downloadGarlicIcs } from './garlicDownload';
+import { playStakeThud } from './sound';
 import styles from './Crypt.module.css';
 
 type SortKey = 'threat' | 'amount' | 'name';
@@ -27,27 +37,63 @@ export interface CryptProps {
   language: Language;
   currency: string;
   result: DetectionResult;
+  soundEnabled: boolean;
   onUploadAnother: () => void;
 }
 
-export function Crypt({ language, currency, result, onUploadAnother }: CryptProps) {
+export function Crypt({ language, currency, result, soundEnabled, onUploadAnother }: CryptProps) {
   const { t } = useTranslation(language);
+  const reduce = useReducedMotion();
 
   const [sortKey, setSortKey] = useState<SortKey>('threat');
   const [filter, setFilter] = useState<FilterKey>('all');
   const [showPossible, setShowPossible] = useState(false);
   const [decisions, setDecisions] = useState<Record<string, DecisionType>>({});
+  const [garlicFailed, setGarlicFailed] = useState<Record<string, boolean>>({});
 
-  function decide(v: Vampire, decision: Exclude<DecisionType, null>) {
-    setDecisions((prev) => ({
-      ...prev,
-      // Toggle: clicking the same decision again clears it.
-      [v.id]: prev[v.id] === decision ? null : decision,
-    }));
+  // Summoning ritual: show for ~1s on mount, then reveal the crypt.
+  const [summoning, setSummoning] = useState(true);
+  useEffect(() => {
+    const ms = reduce ? 400 : 1000;
+    const id = setTimeout(() => setSummoning(false), ms);
+    return () => clearTimeout(id);
+  }, [reduce]);
+
+  // Stake flow: which vampire's modal is open, and which is mid-crumble.
+  const [modalVampire, setModalVampire] = useState<Vampire | null>(null);
+  const [stakeTrigger, setStakeTrigger] = useState<HTMLElement | null>(null);
+  const [stakingId, setStakingId] = useState<string | null>(null);
+
+  function openStakeModal(v: Vampire, trigger: HTMLElement) {
+    setStakeTrigger(trigger);
+    setModalVampire(v);
   }
 
-  // Display names that appear more than once → show the amount subtitle so the
-  // two Apple subscriptions (iCloud vs Apple Music) are distinguishable.
+  function confirmStake(v: Vampire) {
+    // Play the crumble, then record the decision once it finishes.
+    if (soundEnabled) playStakeThud();
+    setStakingId(v.id);
+    const settle = () => {
+      setDecisions((prev) => ({ ...prev, [v.id]: 'staked' }));
+      setStakingId(null);
+    };
+    if (reduce) setTimeout(settle, 320);
+    else setTimeout(settle, 1000);
+  }
+
+  function toggleSpare(v: Vampire) {
+    setDecisions((prev) => ({ ...prev, [v.id]: prev[v.id] === 'spared' ? null : 'spared' }));
+  }
+
+  function setGarlic(v: Vampire) {
+    const ok = downloadGarlicIcs(v, language);
+    if (!ok) {
+      setGarlicFailed((prev) => ({ ...prev, [v.id]: true }));
+      return;
+    }
+    setDecisions((prev) => ({ ...prev, [v.id]: prev[v.id] === 'garlic' ? null : 'garlic' }));
+  }
+
   const duplicateNames = useMemo(() => {
     const counts = new Map<string, number>();
     for (const v of result.vampires) {
@@ -61,7 +107,6 @@ export function Crypt({ language, currency, result, onUploadAnother }: CryptProp
     copy.sort((a, b) => {
       if (sortKey === 'amount') return b.annualBloodLossCents - a.annualBloodLossCents;
       if (sortKey === 'name') return a.displayName.localeCompare(b.displayName);
-      // threat desc, tie-break by annual cost
       const t1 = THREAT_ORDER[b.threatLevel] - THREAT_ORDER[a.threatLevel];
       return t1 !== 0 ? t1 : b.annualBloodLossCents - a.annualBloodLossCents;
     });
@@ -73,7 +118,6 @@ export function Crypt({ language, currency, result, onUploadAnother }: CryptProp
     return sorted.filter((v) => decisions[v.id] === filter);
   }, [sorted, filter, decisions]);
 
-  // Blood meter totals: staked = saved, everything else = still draining.
   const { drainingCents, savedCents } = useMemo(() => {
     let draining = 0;
     let saved = 0;
@@ -83,6 +127,12 @@ export function Crypt({ language, currency, result, onUploadAnother }: CryptProp
     }
     return { drainingCents: draining, savedCents: saved };
   }, [result.vampires, decisions]);
+
+  // Ending: every vampire has some decision (staked / spared / garlic).
+  const allDecided = useMemo(
+    () => result.vampires.length > 0 && result.vampires.every((v) => !!decisions[v.id]),
+    [result.vampires, decisions],
+  );
 
   const count = result.vampires.length;
   const countKey: TranslationKey = count === 1 ? 'crypt.vampireCount' : 'crypt.vampireCount_plural';
@@ -96,11 +146,19 @@ export function Crypt({ language, currency, result, onUploadAnother }: CryptProp
 
   return (
     <section className={styles.crypt}>
+      <AnimatePresence>
+        {summoning && <Summoning language={language} />}
+      </AnimatePresence>
+
       <header className={styles.header}>
         <h1 className={`${styles.title} font-display`}>{t('crypt.title')}</h1>
         <p className={styles.subtitle}>{t('crypt.subtitle')}</p>
         <p><span className={styles.count}>{t(countKey, { count })}</span></p>
       </header>
+
+      {allDecided && (
+        <Cleansed language={language} currency={currency} savedCents={savedCents} />
+      )}
 
       {count > 0 && (
         <BloodMeter
@@ -146,20 +204,24 @@ export function Crypt({ language, currency, result, onUploadAnother }: CryptProp
       ) : filtered.length === 0 ? (
         <p className={styles.empty}>{t('crypt.emptyFilter')}</p>
       ) : (
+        // Hide the grid until the summoning finishes so the rise reads cleanly.
         <div className={styles.grid}>
           {filtered.map((v, i) => (
-            <div key={v.id} className={decisions[v.id] && decisions[v.id] !== 'garlic' ? styles.decided : undefined}>
-              <VampireCard
-                vampire={v}
-                language={language}
-                currency={currency}
-                index={i}
-                showAmountSubtitle={duplicateNames.has(v.displayName)}
-                onStake={(vm) => decide(vm, 'staked')}
-                onSpare={(vm) => decide(vm, 'spared')}
-                onGarlic={(vm) => decide(vm, 'garlic')}
-              />
-            </div>
+            <VampireCard
+              key={v.id}
+              vampire={v}
+              language={language}
+              currency={currency}
+              index={i}
+              revealed={!summoning}
+              decision={decisions[v.id] ?? null}
+              isStaking={stakingId === v.id}
+              garlicDisabled={!!garlicFailed[v.id]}
+              showAmountSubtitle={duplicateNames.has(v.displayName)}
+              onStakeClick={openStakeModal}
+              onSpare={toggleSpare}
+              onGarlic={setGarlic}
+            />
           ))}
         </div>
       )}
@@ -191,7 +253,14 @@ export function Crypt({ language, currency, result, onUploadAnother }: CryptProp
                 language={language}
                 currency={currency}
                 index={i}
+                revealed
+                decision={decisions[v.id] ?? null}
+                isStaking={stakingId === v.id}
+                garlicDisabled={!!garlicFailed[v.id]}
                 showAmountSubtitle={false}
+                onStakeClick={openStakeModal}
+                onSpare={toggleSpare}
+                onGarlic={setGarlic}
               />
             ))}
           </div>
@@ -203,6 +272,18 @@ export function Crypt({ language, currency, result, onUploadAnother }: CryptProp
           {t('crypt.uploadAnother')}
         </button>
       </div>
+
+      <AnimatePresence>
+        {modalVampire && (
+          <StakeModal
+            vampire={modalVampire}
+            language={language}
+            returnFocusTo={stakeTrigger}
+            onConfirm={() => confirmStake(modalVampire)}
+            onClose={() => setModalVampire(null)}
+          />
+        )}
+      </AnimatePresence>
     </section>
   );
 }
