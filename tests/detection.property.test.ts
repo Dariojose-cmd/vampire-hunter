@@ -220,6 +220,55 @@ const arbitraryStatement: fc.Arbitrary<Transaction[]> = fc
     return out;
   });
 
+/**
+ * Arbitrary producing a same-merchant statement: 2–3 INDEPENDENT recurring
+ * series that all share ONE merchant, with per-series base amounts clustered
+ * mutually within 10% of each other (max/min <= 1.1 — right at the grouper's
+ * ±10% cluster-tolerance boundary). This is the inherently ambiguous input that
+ * `arbitraryStatement` deliberately avoids: when several same-merchant series
+ * sit near the clustering boundary, which bites land in which cluster can flip
+ * with input order. Property 3b asserts detection is nonetheless
+ * order-independent in both vampire ids AND bite memberships.
+ */
+const arbitrarySameMerchantStatement: fc.Arbitrary<Transaction[]> = fc
+  .record({
+    series: fc.array(arbitrarySeries, { minLength: 2, maxLength: 3 }),
+    merchant: fc.constantFrom(...MERCHANTS),
+    // A single shared base amount; each series' own base is nudged within
+    // ±10% of it, so every series base is mutually within ~10% (max/min <=
+    // 1.1) — the near-boundary cluster-tolerance case.
+    sharedBaseCents: fc.integer({ min: 20_00, max: 500_00 }),
+    // Per-series offset in [0, 1]; mapped to a factor in [1.0, 1.1] below so
+    // the min base is `sharedBaseCents` and the max is <= sharedBaseCents*1.1.
+    baseOffsets: fc.array(fc.double({ min: 0, max: 1, noNaN: true }), {
+      minLength: 3,
+      maxLength: 3,
+    }),
+    noise: fc.array(arbitraryNoise, { minLength: 0, maxLength: 10 }),
+  })
+  .map(({ series, merchant, sharedBaseCents, baseOffsets, noise }) => {
+    const out: Transaction[] = [];
+    series.forEach((spec, i) => {
+      const factor = 1 + 0.1 * (baseOffsets[i] ?? 0); // in [1.0, 1.1]
+      const baseAmountCents = Math.round(sharedBaseCents * factor);
+      // Recompute jitter against the new base so every bite stays well inside
+      // the ±10% tolerance of its own series (mirrors arbitrarySeries.map).
+      const jitterStep = Math.max(1, Math.floor(baseAmountCents * 0.01));
+      const jitterUnits = spec.jitter.map((j) =>
+        Math.round(j / Math.max(1, Math.floor(spec.baseAmountCents * 0.01))),
+      );
+      const withShared: SeriesSpec = {
+        ...spec,
+        merchant,
+        baseAmountCents,
+        jitter: jitterUnits.map((u) => u * jitterStep),
+      };
+      out.push(...buildSeries(withShared, i));
+    });
+    out.push(...noise);
+    return out;
+  });
+
 /** Collect ids from both result lists, sorted for order-independent comparison. */
 function allVampireIds(result: {
   vampires: Vampire[];
@@ -236,6 +285,25 @@ function hasAnyVampire(result: {
   possibleVampires: Vampire[];
 }): boolean {
   return result.vampires.length + result.possibleVampires.length > 0;
+}
+
+/**
+ * Build a Map from vampire id to the sorted list of its bite keys. Each bite
+ * key is a stable (date, amountCents, type) composite so memberships can be
+ * compared independent of input order.
+ */
+function biteMembershipMap(result: {
+  vampires: Vampire[];
+  possibleVampires: Vampire[];
+}): Map<string, string[]> {
+  const map = new Map<string, string[]>();
+  for (const vampire of [...result.vampires, ...result.possibleVampires]) {
+    const keys = vampire.bites
+      .map((b) => `${b.date}|${b.amountCents}|${b.type}`)
+      .sort();
+    map.set(vampire.id, keys);
+  }
+  return map;
 }
 
 /** Number of runs each generator-driven property executes. */
@@ -302,6 +370,51 @@ describe('Property 3: Order Independence', () => {
     // vacuously. Fails loudly if fewer than 80% of runs produced a vampire.
     const coverageRatio = coverageHits / RUNS;
     expect(coverageRatio).toBeGreaterThanOrEqual(COVERAGE_THRESHOLD);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Property 3b: Same-Merchant Clustering Order Independence
+// ---------------------------------------------------------------------------
+
+// Property 3b: Same-Merchant Clustering Order Independence — Validates: Requirements 4.5, 4.8
+describe('Property 3b: Same-Merchant Clustering Order Independence', () => {
+  it('runDetection yields identical vampire ids AND bite memberships when same-merchant near-boundary series are reordered', () => {
+    fc.assert(
+      fc.property(
+        arbitrarySameMerchantStatement,
+        // A genuinely random permutation of the SAME multiset of transactions.
+        fc.integer({ min: 0, max: 0xffffffff }),
+        (transactions, seed) => {
+          const original = runDetection({ transactions, currency: 'USD' });
+
+          // Reorder by random sort keys derived from the seed so the second
+          // ordering is a real permutation (not a fixed reverse/rotation).
+          const reordered = transactions
+            .map((t, i) => ({ t, k: Math.sin((i + 1) * (seed + 1)) }))
+            .sort((a, b) => a.k - b.k)
+            .map((x) => x.t);
+
+          const reorderedResult = runDetection({
+            transactions: reordered,
+            currency: 'USD',
+          });
+
+          // (a) Identical sorted vampire ids across both orderings.
+          expect(allVampireIds(reorderedResult)).toEqual(
+            allVampireIds(original),
+          );
+
+          // (b) Identical bite memberships per cluster across both orderings.
+          const originalMap = biteMembershipMap(original);
+          const reorderedMap = biteMembershipMap(reorderedResult);
+          expect([...reorderedMap.entries()].sort()).toEqual(
+            [...originalMap.entries()].sort(),
+          );
+        },
+      ),
+      { numRuns: RUNS },
+    );
   });
 });
 
