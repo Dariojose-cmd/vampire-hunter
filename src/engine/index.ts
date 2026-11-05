@@ -38,6 +38,7 @@ import {
   inferNumberFormat,
   parseRows,
 } from './parser';
+import { inferCurrency } from './currencyUtils';
 
 import catalogJson from '../data/catalog.json';
 import exchangeRatesJson from '../data/exchangeRates.json';
@@ -188,6 +189,12 @@ export interface ParsedStatement {
   skipped: number;
   /** The detected column layout (single vs split). */
   layout: ColumnLayout;
+  /**
+   * Detected ISO 4217 currency code. Inferred from a dedicated currency column
+   * (headers matching currency/moneda/divisa), the amount column(s), and the
+   * header row combined. Defaults to 'USD' when no signal is found.
+   */
+  currency: string;
 }
 
 /** Returns a typed AppError wrapped in a failed Result. */
@@ -209,6 +216,9 @@ function fail(code: AppError['code'], message: string): { ok: false; error: AppE
  *          (a single combined array of the non-empty values from both columns).
  *          Debit and credit share the same locale, and one column alone may not
  *          reveal the decimal convention; combining gives full evidence.
+ *   3b. Infer currency from a dedicated currency column (header matching
+ *       currency/moneda/divisa), the amount column(s), and the header row,
+ *       combined. Explicit ISO codes win over a bare `$` (→ USD fallback).
  *   4. `parseRows(...)` — if it yields zero transactions, return `NO_VALID_ROWS`.
  *
  * Never throws.
@@ -264,6 +274,35 @@ export function parseStatement(
       numberFormat = inferNumberFormat(combined);
     }
 
+    // Step 3b: infer currency.
+    // A dedicated currency column (header matching currency/moneda/divisa) is
+    // the strongest signal — LatAm statements carry the ISO code there while
+    // the amount column has no symbol. We combine that column's values with the
+    // amount column(s) and the header row, then let inferCurrency decide
+    // (explicit ISO codes outrank bare `$`, which falls back to USD).
+    const assignedCols = new Set<number>(
+      layout.type === 'single'
+        ? [layout.dateCol, layout.descCol, layout.amountCol]
+        : [layout.dateCol, layout.descCol, layout.debitCol, layout.creditCol],
+    );
+    let currencyColIndex = -1;
+    for (let i = 0; i < headers.length; i++) {
+      const h = (headers[i] ?? '').trim();
+      if (/currency|moneda|divisa/i.test(h) && !assignedCols.has(i)) {
+        currencyColIndex = i;
+        break;
+      }
+    }
+    const currencyColumnValues = columnValues(currencyColIndex);
+    const amountColumnValues =
+      layout.type === 'single'
+        ? columnValues(layout.amountCol)
+        : [...columnValues(layout.debitCol), ...columnValues(layout.creditCol)];
+    const currency = inferCurrency(
+      [...currencyColumnValues, ...amountColumnValues],
+      headers,
+    );
+
     // Step 4: parse the rows.
     const { transactions, skipped } = parseRows(
       rows,
@@ -279,7 +318,7 @@ export function parseStatement(
       );
     }
 
-    return { ok: true, value: { transactions, skipped, layout } };
+    return { ok: true, value: { transactions, skipped, layout, currency } };
   } catch {
     // Safety net — never throw.
     return fail('PARSE_FAILED', 'Unexpected error while parsing the statement.');
