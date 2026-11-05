@@ -275,21 +275,21 @@ Build the Vampire Hunter SPA in a strict bottom-up order: scaffolding → styles
     - On submit: call `parseRows` with the user-chosen layout; set focus to first unresolved select on mount
     - _Requirements: 1.5, 1.7, 1.10, 1.11_
 
-- [ ] 18. React UI — crypt screen and vampire cards
-  - [~] 18.1 Implement `Crypt.tsx` with sorting, filtering, and Blood Meter
+- [x] 18. React UI — crypt screen and vampire cards
+  - [x] 18.1 Implement `Crypt.tsx` with sorting, filtering, and Blood Meter
     - Render `<BloodMeter>` at top; render `<FilterBar>` with four filter buttons (All / Staked / Spared / Garlic); render vampire grid using `.crypt-grid` CSS (responsive `auto-fill minmax(300px, 1fr)`, collapses to 1 column at ≤ 480px)
     - Default sort: Threat Level descending (Critical first)
     - Pass `showPossibleVampires` toggle down; render Possible Vampires with distinct visual treatment (e.g., lower opacity, dashed border) when toggle is active
     - _Requirements: 7.1, 7.2, 7.3, 7.4, 5.3, 5.4_
 
-  - [~] 18.2 Implement `VampireCard.tsx` with full profile display and actions
+  - [x] 18.2 Implement `VampireCard.tsx` with full profile display and actions
     - Render `<article role="article" aria-label="{name} – {threatLevel} – {annualLoss} per year">` with: `<VampireAvatar>` (renders the `avatarSvg`), display name, cadence description (from i18n), amount per bite, Blood Drained total, first bite date, next bite date, Annual Blood Loss, Threat Level badge, price-increase history (if `hasPriceIncrease`)
     - Action buttons: `<StakeButton>`, `<SpareButton>`, `<GarlicButton>` — each a native `<button>` with full ARIA label pattern from i18n
     - Card entrance animation: Framer Motion `whileInView` stagger
     - Stake animation: Framer Motion variants `alive` / `dusted`; use `useReducedMotion()` to swap full dust effect for ≤ 300ms opacity fade
     - _Requirements: 6.1, 6.4, 8.4, 8.5, 15.1, 15.4, 15.5, 15.6_
 
-  - [~] 18.3 Implement `BloodMeter.tsx`
+  - [x] 18.3 Implement `BloodMeter.tsx`
     - Animated bar (Framer Motion width transition) showing total Annual Blood Loss across non-staked vampires and total blood saved from staked vampires
     - Update on stake/un-stake events
     - _Requirements: 7.3, 8.5_

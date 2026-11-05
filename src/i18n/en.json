@@ -73,6 +73,7 @@
     "cadenceQuarterly": "bites every quarter",
     "cadenceYearly": "bites every year",
     "amountPerBite": "{{amount}} per bite",
+    "amountPerBiteLabel": "Per bite",
     "bloodDrained": "Blood drained",
     "bloodDrainedValue": "{{amount}} total",
     "firstBite": "First bite",

@@ -48,10 +48,11 @@
 
   /* ── Typography ──────────────────────────── */
   /* Self-hosted via @fontsource — no network requests to Google Fonts.
-     'Cinzel Decorative' = ornate gothic display for the biggest titles,
-     'IM Fell English'   = old-book serif for section headings,
-     'Inter'             = clean, highly readable sans for body/UI. */
-  --font-display: 'Cinzel Decorative', 'IM Fell English', Georgia, serif;
+     'IM Fell English' = antique gothic old-book serif for display titles and
+     headings (its capitals render cleanly, unlike Cinzel Decorative whose
+     mandatory TH/LA ligatures fuse glyphs and can't be disabled via CSS),
+     'Inter' = clean, highly readable sans for body/UI. */
+  --font-display: 'IM Fell English', Georgia, 'Times New Roman', serif;
   --font-heading: 'IM Fell English', Georgia, 'Times New Roman', serif;
   --font-sans:    'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-mono:    'Fira Code', 'Cascadia Code', 'Courier New', monospace;

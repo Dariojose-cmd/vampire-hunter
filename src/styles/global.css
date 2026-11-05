@@ -72,12 +72,23 @@ h1, h2, h3, h4, h5, h6 {
   line-height: var(--line-height-tight);
   color: var(--color-text);
   letter-spacing: 0.01em;
+  /* Cinzel Decorative / IM Fell ship decorative ligatures and contextual
+     alternates that fuse letter pairs (TH, LA, H...) and make headings look
+     broken. Turn them all off so every glyph stands on its own. */
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "dlig" 0, "calt" 0, "hlig" 0, "clig" 0;
 }
 
 /* Ornate gothic display face reserved for the largest hero titles. */
 .font-display {
   font-family: var(--font-display);
-  letter-spacing: 0.02em;
+  /* Cinzel Decorative's capitals have long connecting serifs that visually
+     fuse adjacent letters (TH, LA) even with ligature features disabled, since
+     it is a glyph-shape trait, not an OpenType ligature. Generous tracking
+     physically separates the glyphs so every letter reads on its own. */
+  letter-spacing: 0.06em;
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "dlig" 0, "calt" 0, "hlig" 0, "clig" 0;
 }
 
 h1 { font-size: var(--font-size-4xl); }

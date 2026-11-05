@@ -1,0 +1,176 @@
+/* Each vampire is a tombstone rising from the crypt floor. The card has an
+   arched "headstone" top, carved stone texture, and a threat-coloured glow. */
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  padding-top: var(--space-8);
+  color: var(--color-text);
+  text-align: center;
+
+  /* Arched headstone silhouette */
+  border-radius: 48% 48% var(--radius-md) var(--radius-md) / 18% 18% var(--radius-md) var(--radius-md);
+
+  /* Carved stone */
+  background:
+    linear-gradient(180deg, #211c2e 0%, var(--color-surface) 40%, #141120 100%);
+  border: 1px solid var(--color-stone-line);
+  box-shadow:
+    var(--shadow-md),
+    inset 0 2px 0 rgba(255, 255, 255, 0.05),
+    inset 0 -20px 40px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+}
+
+/* Faint cross engraving at the top of the headstone. */
+.card::before {
+  content: '';
+  position: absolute;
+  top: var(--space-3);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 20px;
+  background: rgba(168, 155, 192, 0.25);
+  box-shadow: 0 6px 0 -1px rgba(168, 155, 192, 0.25);
+}
+.card::after {
+  content: '';
+  position: absolute;
+  top: calc(var(--space-3) + 5px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 2px;
+  background: rgba(168, 155, 192, 0.25);
+}
+
+/* Threat-level glow intensity rings the card. */
+.threatLow      { box-shadow: var(--shadow-md), 0 0 10px rgba(39, 174, 96, 0.18),  inset 0 -20px 40px rgba(0,0,0,0.4); }
+.threatMedium   { box-shadow: var(--shadow-md), 0 0 16px rgba(243, 156, 18, 0.28), inset 0 -20px 40px rgba(0,0,0,0.4); }
+.threatHigh     { box-shadow: var(--shadow-md), 0 0 24px rgba(230, 126, 34, 0.40), inset 0 -20px 40px rgba(0,0,0,0.4); }
+.threatCritical { box-shadow: var(--shadow-md), 0 0 36px rgba(192, 57, 43, 0.60),  inset 0 -20px 40px rgba(0,0,0,0.4); }
+
+/* ── Avatar ──────────────────────────────────── */
+.avatar {
+  width: 88px;
+  height: 88px;
+  margin: 0 auto;
+  border-radius: 50%;
+  overflow: hidden;
+  background: radial-gradient(circle, #0f0d18, #060510);
+  border: 2px solid var(--color-stone-line);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+}
+.avatar svg { width: 100%; height: 100%; }
+
+/* ── Identity ────────────────────────────────── */
+.name {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+  line-height: 1.2;
+}
+.subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-accent-text);
+  font-weight: var(--font-weight-medium);
+}
+.cadence {
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+/* ── Threat badge ────────────────────────────── */
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  justify-content: center;
+}
+.threatBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  border: 1px solid currentColor;
+}
+.badgeLow      { color: var(--color-low); }
+.badgeMedium   { color: var(--color-medium); }
+.badgeHigh     { color: var(--color-high); }
+.badgeCritical { color: var(--color-accent-light); text-shadow: 0 0 8px rgba(231, 76, 60, 0.6); }
+
+.flagBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--font-size-xs);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-full);
+  background: rgba(255, 179, 71, 0.12);
+  border: 1px solid rgba(255, 179, 71, 0.5);
+  color: #ffcf8f;
+}
+.flagTrial {
+  background: rgba(39, 174, 96, 0.12);
+  border-color: rgba(39, 174, 96, 0.5);
+  color: #8be3af;
+}
+
+/* ── Stats grid ──────────────────────────────── */
+.stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2) var(--space-3);
+  text-align: left;
+  margin-top: var(--space-1);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-stone-line);
+}
+.stat { display: flex; flex-direction: column; }
+.statLabel {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.statValue {
+  font-size: var(--font-size-base);
+  color: var(--color-text);
+  font-weight: var(--font-weight-medium);
+}
+.annual .statValue { color: var(--color-accent-text); font-weight: var(--font-weight-bold); }
+
+/* ── Actions ─────────────────────────────────── */
+.actions {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+.actionBtn {
+  flex: 1;
+  font-family: var(--font-heading);
+  font-size: var(--font-size-sm);
+  padding: var(--space-2) var(--space-2);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-stone-line);
+  color: var(--color-text);
+  transition: transform var(--transition-fast), background-color var(--transition-fast), border-color var(--transition-fast);
+}
+.actionBtn:hover { transform: translateY(-1px); }
+.stakeBtn   { color: #fff; background: linear-gradient(180deg, var(--color-accent-light), var(--color-accent)); border-color: var(--color-accent-light); }
+.spareBtn   { color: var(--color-text-muted); }
+.spareBtn:hover { border-color: var(--color-low); color: #8be3af; }
+.garlicBtn  { color: #ffcf8f; }
+.garlicBtn:hover { border-color: rgba(255, 179, 71, 0.7); }

@@ -546,6 +546,16 @@
         "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
         "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
         "timestamp": 1793847002658
+      },
+      {
+        "executionId": "d9df985c-4ec6-4162-9557-ea17434f481b",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793850695017
+      },
+      {
+        "executionId": "d9df985c-4ec6-4162-9557-ea17434f481b",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793852584786
       }
     ],
     "18.2 Implement `VampireCard.tsx` with full profile display and actions": [
@@ -553,6 +563,16 @@
         "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
         "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
         "timestamp": 1793847002819
+      },
+      {
+        "executionId": "d9df985c-4ec6-4162-9557-ea17434f481b",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793852563920
+      },
+      {
+        "executionId": "d9df985c-4ec6-4162-9557-ea17434f481b",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793852569142
       }
     ],
     "18.3 Implement `BloodMeter.tsx`": [
@@ -560,6 +580,16 @@
         "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
         "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
         "timestamp": 1793847002982
+      },
+      {
+        "executionId": "d9df985c-4ec6-4162-9557-ea17434f481b",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793852574138
+      },
+      {
+        "executionId": "d9df985c-4ec6-4162-9557-ea17434f481b",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793852579139
       }
     ],
     "19.1 Implement `StakeModal.tsx` with cancellation instructions and email draft": [
@@ -672,6 +702,13 @@
         "executionId": "0180a1d0-148f-46a8-b566-f9b85f713e44",
         "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
         "timestamp": 1793850071086
+      }
+    ],
+    "18. React UI — crypt screen and vampire cards": [
+      {
+        "executionId": "d9df985c-4ec6-4162-9557-ea17434f481b",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793852585058
       }
     ]
   }

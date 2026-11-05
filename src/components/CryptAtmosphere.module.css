@@ -1,6 +1,7 @@
-/* Candle-lit crypt atmosphere: fog drift, candle flicker, slow bats.
-   Purely decorative — aria-hidden, pointer-events: none, behind all content.
-   Every animation is disabled under prefers-reduced-motion. */
+/* Candle-lit crypt atmosphere: a full moon behind thin clouds, drifting ground
+   fog, slow bats, and flickering candle light. Purely decorative — aria-hidden,
+   pointer-events: none, behind all content. Every animation is disabled under
+   prefers-reduced-motion. */
 
 .atmosphere {
   position: fixed;
@@ -10,103 +11,191 @@
   pointer-events: none;
 }
 
-/* ── Fog ─────────────────────────────────────── */
+/* ── The Moon ────────────────────────────────── */
+.moon {
+  position: absolute;
+  top: 6%;
+  right: 12%;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 38% 36%, #fdf6e3 0%, #e9e4d0 45%, #c9c4b0 70%, #b7b2a0 100%);
+  box-shadow:
+    0 0 60px 20px rgba(240, 236, 210, 0.35),
+    0 0 140px 60px rgba(200, 200, 230, 0.18);
+}
+/* Faint craters so it reads as a moon, not a disc. */
+.moon::before,
+.moon::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(150, 146, 128, 0.35);
+  box-shadow: 0 0 2px rgba(120, 118, 100, 0.3);
+}
+.moon::before { width: 26px; height: 26px; top: 28%; left: 30%; }
+.moon::after  { width: 16px; height: 16px; top: 55%; left: 58%;
+  box-shadow: -34px -18px 0 -2px rgba(150, 146, 128, 0.3), 14px 20px 0 -4px rgba(150, 146, 128, 0.25); }
+
+/* Thin clouds drifting across the moon. */
+.clouds {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60%;
+  height: 40%;
+  background:
+    radial-gradient(ellipse 50% 22% at 70% 18%, rgba(30, 28, 44, 0.55), transparent 60%),
+    radial-gradient(ellipse 60% 16% at 55% 26%, rgba(22, 20, 34, 0.6), transparent 65%),
+    radial-gradient(ellipse 40% 14% at 85% 12%, rgba(30, 28, 44, 0.5), transparent 60%);
+  filter: blur(6px);
+  will-change: transform;
+  animation: clouds 60s linear infinite;
+}
+@keyframes clouds {
+  from { transform: translateX(8%); }
+  50%  { transform: translateX(-8%); }
+  to   { transform: translateX(8%); }
+}
+
+/* ── Stars (static twinkle) ──────────────────── */
+.stars {
+  position: absolute;
+  inset: 0 0 50% 0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 12% 18%, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1.5px 1.5px at 28% 32%, rgba(255,255,255,0.55), transparent),
+    radial-gradient(1px 1px at 46% 12%, rgba(255,255,255,0.7), transparent),
+    radial-gradient(1px 1px at 62% 26%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(1.5px 1.5px at 8% 40%, rgba(255,255,255,0.6), transparent),
+    radial-gradient(1px 1px at 38% 44%, rgba(255,255,255,0.45), transparent);
+  animation: twinkle 6s ease-in-out infinite;
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0.8; }
+  50%      { opacity: 0.4; }
+}
+
+/* ── Ground fog (visible, drifting) ──────────── */
 .fog {
   position: absolute;
-  left: -50%;
-  width: 200%;
-  height: 55%;
-  background:
-    radial-gradient(ellipse at center, var(--color-fog), transparent 60%),
-    radial-gradient(ellipse at 30% 40%, rgba(168, 155, 192, 0.06), transparent 55%);
-  filter: blur(14px);
-  opacity: 0.8;
+  left: -40%;
+  width: 180%;
   will-change: transform;
 }
 .fogNear {
-  bottom: -10%;
-  animation: drift 46s linear infinite;
+  bottom: -6%;
+  height: 42%;
+  background:
+    radial-gradient(ellipse 45% 60% at 20% 80%, rgba(188, 178, 212, 0.20), transparent 62%),
+    radial-gradient(ellipse 55% 55% at 55% 85%, rgba(170, 160, 200, 0.16), transparent 66%),
+    radial-gradient(ellipse 45% 55% at 85% 80%, rgba(188, 178, 212, 0.18), transparent 62%);
+  filter: blur(12px);
+  opacity: 0.9;
+  animation: drift 40s ease-in-out infinite;
 }
 .fogFar {
-  bottom: 10%;
-  height: 40%;
-  opacity: 0.5;
-  animation: drift 72s linear infinite reverse;
+  bottom: 14%;
+  height: 30%;
+  background:
+    radial-gradient(ellipse 50% 60% at 35% 70%, rgba(150, 142, 180, 0.12), transparent 64%),
+    radial-gradient(ellipse 50% 60% at 75% 75%, rgba(150, 142, 180, 0.10), transparent 64%);
+  filter: blur(16px);
+  opacity: 0.75;
+  animation: drift 64s ease-in-out infinite reverse;
 }
-
 @keyframes drift {
-  from { transform: translateX(-6%); }
-  50%  { transform: translateX(6%); }
-  to   { transform: translateX(-6%); }
+  from { transform: translateX(-8%); }
+  50%  { transform: translateX(8%); }
+  to   { transform: translateX(-8%); }
 }
 
 /* ── Candles (warm flickering pools of light) ── */
 .candle {
   position: absolute;
-  bottom: -40px;
-  width: 340px;
-  height: 340px;
+  bottom: -60px;
+  width: 420px;
+  height: 420px;
   border-radius: 50%;
-  background: radial-gradient(circle, var(--color-candle-glow), transparent 68%);
+  background: radial-gradient(circle, rgba(255, 179, 71, 0.30), rgba(255, 140, 50, 0.12) 45%, transparent 70%);
   will-change: opacity, transform;
+  mix-blend-mode: screen;
 }
-.candleLeft  { left: -60px;  animation: flicker 3.2s ease-in-out infinite; }
-.candleRight { right: -60px; animation: flicker 2.6s ease-in-out infinite 0.4s; }
+.candleLeft  { left: -80px;  animation: flicker 2.6s ease-in-out infinite; }
+.candleRight { right: -80px; animation: flicker 3.1s ease-in-out infinite 0.5s; }
 
 @keyframes flicker {
   0%, 100% { opacity: 0.85; transform: scale(1); }
-  25%      { opacity: 1;    transform: scale(1.04); }
-  40%      { opacity: 0.72; transform: scale(0.99); }
-  70%      { opacity: 0.95; transform: scale(1.02); }
+  18%      { opacity: 1;    transform: scale(1.05); }
+  33%      { opacity: 0.64; transform: scale(0.98); }
+  52%      { opacity: 0.96; transform: scale(1.03); }
+  71%      { opacity: 0.74; transform: scale(0.99); }
+  86%      { opacity: 1;    transform: scale(1.04); }
 }
 
-/* ── Bats (slow silhouettes crossing the night) ── */
+/* ── Bats (noticeable silhouettes crossing) ──── */
 .bat {
   position: absolute;
-  color: rgba(10, 8, 18, 0.85);
-  opacity: 0.55;
+  color: #07060e;
+  opacity: 0.9;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.5));
   will-change: transform;
 }
 .bat svg { width: 100%; height: 100%; }
-.bat1 { top: 14%; left: -6%; width: 46px; height: 46px; animation: fly1 38s linear infinite; }
-.bat2 { top: 26%; left: -6%; width: 30px; height: 30px; animation: fly2 52s linear infinite 6s; }
-.bat3 { top: 8%;  left: -6%; width: 24px; height: 24px; animation: fly1 64s linear infinite 12s; }
+.bat1 { top: 18%; left: -8%; width: 74px; height: 74px; animation: fly1 26s linear infinite; }
+.bat2 { top: 30%; left: -8%; width: 52px; height: 52px; animation: fly2 34s linear infinite 4s; }
+.bat3 { top: 12%; left: -8%; width: 40px; height: 40px; animation: fly1 44s linear infinite 9s; }
+.bat4 { top: 42%; left: -8%; width: 30px; height: 30px; animation: fly2 52s linear infinite 15s; }
 
-/* Wing flap via a child class so the horizontal glide and flap compose. */
-.batWing { animation: flap 0.5s ease-in-out infinite; transform-origin: center; }
+/* Wing flap on an inner group so glide + flap compose. */
+.batWing { animation: flap 0.42s ease-in-out infinite; transform-origin: center; }
 
 @keyframes fly1 {
-  from { transform: translate(-10vw, 0); }
-  50%  { transform: translate(55vw, -4vh); }
-  to   { transform: translate(120vw, 2vh); }
+  from { transform: translate(-12vw, 0) rotate(-3deg); }
+  25%  { transform: translate(28vw, -6vh) rotate(2deg); }
+  50%  { transform: translate(55vw, -2vh) rotate(-2deg); }
+  75%  { transform: translate(82vw, -8vh) rotate(3deg); }
+  to   { transform: translate(118vw, 0) rotate(-3deg); }
 }
 @keyframes fly2 {
-  from { transform: translate(-10vw, 2vh); }
-  50%  { transform: translate(50vw, 6vh); }
-  to   { transform: translate(120vw, -2vh); }
+  from { transform: translate(-12vw, 3vh) rotate(2deg); }
+  50%  { transform: translate(52vw, 9vh) rotate(-3deg); }
+  to   { transform: translate(118vw, -3vh) rotate(2deg); }
 }
 @keyframes flap {
   0%, 100% { transform: scaleY(1); }
-  50%      { transform: scaleY(0.55); }
+  50%      { transform: scaleY(0.5); }
 }
 
 /* ── Vignette for depth ──────────────────────── */
 .vignette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.55) 100%);
+  background: radial-gradient(ellipse at center, transparent 48%, rgba(0, 0, 0, 0.6) 100%);
 }
 
-/* ── Reduced motion: freeze everything, keep the mood ── */
+/* On narrow screens pull the moon up into the corner so it clears headings. */
+@media (max-width: 600px) {
+  .moon { width: 92px; height: 92px; top: 3%; right: 4%; }
+  .moon::before { width: 16px; height: 16px; }
+  .moon::after { width: 10px; height: 10px; }
+}
+
+/* ── Reduced motion: freeze motion, keep the mood ── */
 @media (prefers-reduced-motion: reduce) {
+  .clouds, .stars,
   .fogNear, .fogFar,
   .candleLeft, .candleRight,
-  .bat1, .bat2, .bat3,
+  .bat1, .bat2, .bat3, .bat4,
   .batWing {
     animation: none !important;
   }
-  /* Keep candles at a steady warm glow, tuck bats off-screen so they don't
-     sit frozen mid-air looking like a mistake. */
+  /* Steady warm candles; park bats in a tasteful static position rather than
+     hiding them, so the haunted mood survives without motion. */
   .candle { opacity: 0.9; }
-  .bat { display: none; }
+  .bat1 { left: auto; right: 16%; top: 20%; transform: none; }
+  .bat2 { left: auto; right: 30%; top: 34%; transform: none; }
+  .bat3 { left: auto; right: 8%;  top: 14%; transform: none; }
+  .bat4 { display: none; }
 }

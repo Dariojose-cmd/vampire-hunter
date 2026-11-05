@@ -1,0 +1,128 @@
+/* The Crypt — the main results screen: blood meter, controls, vampire grid. */
+
+.crypt {
+  flex: 1;
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-5) var(--space-12);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.title {
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: var(--color-text);
+  text-shadow: 0 0 18px rgba(192, 57, 43, 0.35);
+}
+.subtitle {
+  font-family: var(--font-heading);
+  font-style: italic;
+  color: var(--color-text-muted);
+}
+.count { color: var(--color-accent-text); font-weight: var(--font-weight-semibold); }
+
+/* ── Controls (filter + sort + toggle) ───────── */
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+.filters { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.filterBtn {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-stone-line);
+}
+.filterBtn:hover { border-color: var(--color-accent-light); color: var(--color-text); }
+.filterActive {
+  color: var(--color-text);
+  background: rgba(192, 57, 43, 0.18);
+  border-color: var(--color-accent-light);
+}
+
+.sortGroup { display: flex; align-items: center; gap: var(--space-2); }
+.sortGroup label { font-size: var(--font-size-xs); color: var(--color-text-muted); }
+.sortSelect {
+  background: var(--color-bg);
+  border: 1px solid var(--color-stone-line);
+  color: var(--color-text);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+/* ── Vampire grid ────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-5);
+}
+@media (max-width: 480px) {
+  .grid { grid-template-columns: 1fr; }
+}
+
+/* Possible vampires: distinct, uncertain look. */
+.possibleSection {
+  margin-top: var(--space-4);
+  padding-top: var(--space-6);
+  border-top: 1px dashed var(--color-stone-line);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.possibleHeader { text-align: center; }
+.possibleTitle { font-family: var(--font-heading); color: var(--color-text-muted); }
+.possibleHint { font-size: var(--font-size-sm); color: var(--color-text-muted); }
+.possibleGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-5);
+}
+.possibleGrid > * { opacity: 0.68; }
+
+.empty {
+  text-align: center;
+  color: var(--color-text-muted);
+  padding: var(--space-10);
+  font-family: var(--font-heading);
+  font-style: italic;
+}
+
+/* Decision state on cards (dimmed when staked/spared). */
+.decided { opacity: 0.5; filter: grayscale(0.4); }
+
+.footer { text-align: center; margin-top: var(--space-4); }
+.uploadAnother {
+  font-family: var(--font-heading);
+  color: var(--color-accent-text);
+  border: 1px solid var(--color-stone-line);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-6);
+}
+.uploadAnother:hover { border-color: var(--color-accent-light); color: var(--color-text); }
+
+@media (max-width: 600px) {
+  .controls { flex-direction: column; align-items: stretch; }
+}

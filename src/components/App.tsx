@@ -12,7 +12,7 @@
  * network (Requirement 13.1).
  */
 
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import {
   parseStatement,
   parseWithLayout,
@@ -28,6 +28,7 @@ import { parseCsvText } from './csvUtils';
 import { CryptAtmosphere } from './CryptAtmosphere';
 import { Uploader } from './Uploader';
 import { ColumnMapper } from './ColumnMapper';
+import { Crypt } from './Crypt';
 import styles from './App.module.css';
 
 type View = 'upload' | 'mapper' | 'results';
@@ -51,7 +52,6 @@ export function App() {
   const [currency, setCurrency] = useState<string>('USD');
   const [view, setView] = useState<View>('upload');
   const [errorKey, setErrorKey] = useState<TranslationKey | null>(null);
-  const [showPossible, setShowPossible] = useState(false);
 
   const [result, setResult] = useState<DetectionResult | null>(null);
 
@@ -118,10 +118,6 @@ export function App() {
     setView('results');
   }
 
-  const vampireCount = useMemo(
-    () => (result ? result.vampires.length : 0),
-    [result],
-  );
 
   return (
     <div className={styles.app}>
@@ -177,23 +173,12 @@ export function App() {
         )}
 
         {view === 'results' && result && (
-          <section className={styles.resultsStub}>
-            <h2>{t('crypt.title')}</h2>
-            <p className={styles.count}>
-              {t(vampireCount === 1 ? 'crypt.vampireCount' : 'crypt.vampireCount_plural', { count: vampireCount })}
-            </p>
-            <p>{t('crypt.subtitle')}</p>
-            <label className={styles.control}>
-              <input
-                type="checkbox"
-                checked={showPossible}
-                onChange={(e) => setShowPossible(e.target.checked)}
-              />
-              {t('crypt.possibleVampiresToggle')}
-              {showPossible ? ` (${result.possibleVampires.length})` : ''}
-            </label>
-            <button type="button" onClick={reset}>{t('crypt.uploadAnother')}</button>
-          </section>
+          <Crypt
+            language={language}
+            currency={currency}
+            result={result}
+            onUploadAnother={reset}
+          />
         )}
       </main>
     </div>

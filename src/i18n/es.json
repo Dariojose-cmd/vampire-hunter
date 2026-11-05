@@ -73,6 +73,7 @@
     "cadenceQuarterly": "muerde cada trimestre",
     "cadenceYearly": "muerde cada año",
     "amountPerBite": "{{amount}} por mordida",
+    "amountPerBiteLabel": "Por mordida",
     "bloodDrained": "Sangre drenada",
     "bloodDrainedValue": "{{amount}} en total",
     "firstBite": "Primera mordida",
