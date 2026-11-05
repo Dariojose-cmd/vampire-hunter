@@ -101,8 +101,8 @@ Build the Vampire Hunter SPA in a strict bottom-up order: scaffolding → styles
     - Return integer
     - _Requirements: 5.1, 5.2_
 
-- [ ] 10. Data files — catalog and exchange rates
-  - [ ] 10.1 Create `catalog.json` with ≥ 60 subscription services
+- [x] 10. Data files — catalog and exchange rates
+  - [x] 10.1 Create `catalog.json` with ≥ 60 subscription services
     - Write `src/data/catalog.json` as a JSON array of `CatalogEntry` objects; include at minimum: Netflix, Spotify, Disney+, YouTube Premium, Amazon Prime, iCloud, Google One, ChatGPT Plus, Adobe Creative Cloud, HBO Max, Hulu, Paramount+, Apple TV+, Apple Music, Microsoft 365, Xbox Game Pass, PlayStation Plus, Nintendo Switch Online, Duolingo, Headspace, Calm, NordVPN, ExpressVPN, Dropbox, LastPass, 1Password, Canva, Figma, Notion, Slack, Zoom, Grammarly, LinkedIn Premium, Tinder Gold, Bumble Boost, Crunchyroll, Mubi, Deezer, Tidal, SiriusXM, The New York Times, The Washington Post, WSJ, Peloton, ClassPass, Planet Fitness, Anytime Fitness, T-Mobile, AT&T, Verizon, Claro, Telcel, Movistar, Mercado Pago, Rappi Prime, Uber One, DoorDash DashPass, and at least 5 more to reach ≥ 60
     - Each entry: `id`, `canonicalName`, `aliases` (normalized, uppercase), `cancelUrl`, `cancelSteps[]`
     - _Requirements: 3.1, 3.2, 3.3, 3.4_
