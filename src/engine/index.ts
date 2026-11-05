@@ -324,3 +324,73 @@ export function parseStatement(
     return fail('PARSE_FAILED', 'Unexpected error while parsing the statement.');
   }
 }
+
+
+// ---------------------------------------------------------------------------
+// parseWithLayout
+// ---------------------------------------------------------------------------
+
+/**
+ * Parse CSV rows using a caller-supplied column layout and date format. This
+ * backs the manual ColumnMapper path: the user has already told us which
+ * columns are which (and, when ambiguous, the date format), so we skip
+ * auto-detection and go straight to currency inference + row parsing.
+ *
+ * Number format is inferred from the amount column (single layout) or the
+ * combined debit + credit columns (split layout). Currency is inferred from a
+ * dedicated currency column (header currency/moneda/divisa) combined with the
+ * amount column(s) and headers.
+ *
+ * Never throws.
+ */
+export function parseWithLayout(
+  headers: string[],
+  rows: string[][],
+  layout: ColumnLayout,
+  dateFormat: DateFormat,
+): Result<ParsedStatement, AppError> {
+  try {
+    const columnValues = (col: number): string[] => {
+      if (col < 0) return [];
+      const out: string[] = [];
+      for (const row of rows) {
+        const cell = (row[col] ?? '').trim();
+        if (cell !== '') out.push(cell);
+      }
+      return out;
+    };
+
+    const amountColumnValues =
+      layout.type === 'single'
+        ? columnValues(layout.amountCol)
+        : [...columnValues(layout.debitCol), ...columnValues(layout.creditCol)];
+
+    const numberFormat: NumberFormat = inferNumberFormat(amountColumnValues);
+
+    const assignedCols = new Set<number>(
+      layout.type === 'single'
+        ? [layout.dateCol, layout.descCol, layout.amountCol]
+        : [layout.dateCol, layout.descCol, layout.debitCol, layout.creditCol],
+    );
+    let currencyColIndex = -1;
+    for (let i = 0; i < headers.length; i++) {
+      const h = (headers[i] ?? '').trim();
+      if (/currency|moneda|divisa/i.test(h) && !assignedCols.has(i)) {
+        currencyColIndex = i;
+        break;
+      }
+    }
+    const currency = inferCurrency(
+      [...columnValues(currencyColIndex), ...amountColumnValues],
+      headers,
+    );
+
+    const { transactions, skipped } = parseRows(rows, layout, dateFormat, numberFormat);
+    if (transactions.length === 0) {
+      return fail('NO_VALID_ROWS', 'The file was parsed but contained no usable transactions.');
+    }
+    return { ok: true, value: { transactions, skipped, layout, currency } };
+  } catch {
+    return fail('PARSE_FAILED', 'Unexpected error while parsing the statement.');
+  }
+}

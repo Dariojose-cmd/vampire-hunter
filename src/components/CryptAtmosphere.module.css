@@ -1,0 +1,112 @@
+/* Candle-lit crypt atmosphere: fog drift, candle flicker, slow bats.
+   Purely decorative — aria-hidden, pointer-events: none, behind all content.
+   Every animation is disabled under prefers-reduced-motion. */
+
+.atmosphere {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* ── Fog ─────────────────────────────────────── */
+.fog {
+  position: absolute;
+  left: -50%;
+  width: 200%;
+  height: 55%;
+  background:
+    radial-gradient(ellipse at center, var(--color-fog), transparent 60%),
+    radial-gradient(ellipse at 30% 40%, rgba(168, 155, 192, 0.06), transparent 55%);
+  filter: blur(14px);
+  opacity: 0.8;
+  will-change: transform;
+}
+.fogNear {
+  bottom: -10%;
+  animation: drift 46s linear infinite;
+}
+.fogFar {
+  bottom: 10%;
+  height: 40%;
+  opacity: 0.5;
+  animation: drift 72s linear infinite reverse;
+}
+
+@keyframes drift {
+  from { transform: translateX(-6%); }
+  50%  { transform: translateX(6%); }
+  to   { transform: translateX(-6%); }
+}
+
+/* ── Candles (warm flickering pools of light) ── */
+.candle {
+  position: absolute;
+  bottom: -40px;
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--color-candle-glow), transparent 68%);
+  will-change: opacity, transform;
+}
+.candleLeft  { left: -60px;  animation: flicker 3.2s ease-in-out infinite; }
+.candleRight { right: -60px; animation: flicker 2.6s ease-in-out infinite 0.4s; }
+
+@keyframes flicker {
+  0%, 100% { opacity: 0.85; transform: scale(1); }
+  25%      { opacity: 1;    transform: scale(1.04); }
+  40%      { opacity: 0.72; transform: scale(0.99); }
+  70%      { opacity: 0.95; transform: scale(1.02); }
+}
+
+/* ── Bats (slow silhouettes crossing the night) ── */
+.bat {
+  position: absolute;
+  color: rgba(10, 8, 18, 0.85);
+  opacity: 0.55;
+  will-change: transform;
+}
+.bat svg { width: 100%; height: 100%; }
+.bat1 { top: 14%; left: -6%; width: 46px; height: 46px; animation: fly1 38s linear infinite; }
+.bat2 { top: 26%; left: -6%; width: 30px; height: 30px; animation: fly2 52s linear infinite 6s; }
+.bat3 { top: 8%;  left: -6%; width: 24px; height: 24px; animation: fly1 64s linear infinite 12s; }
+
+/* Wing flap via a child class so the horizontal glide and flap compose. */
+.batWing { animation: flap 0.5s ease-in-out infinite; transform-origin: center; }
+
+@keyframes fly1 {
+  from { transform: translate(-10vw, 0); }
+  50%  { transform: translate(55vw, -4vh); }
+  to   { transform: translate(120vw, 2vh); }
+}
+@keyframes fly2 {
+  from { transform: translate(-10vw, 2vh); }
+  50%  { transform: translate(50vw, 6vh); }
+  to   { transform: translate(120vw, -2vh); }
+}
+@keyframes flap {
+  0%, 100% { transform: scaleY(1); }
+  50%      { transform: scaleY(0.55); }
+}
+
+/* ── Vignette for depth ──────────────────────── */
+.vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.55) 100%);
+}
+
+/* ── Reduced motion: freeze everything, keep the mood ── */
+@media (prefers-reduced-motion: reduce) {
+  .fogNear, .fogFar,
+  .candleLeft, .candleRight,
+  .bat1, .bat2, .bat3,
+  .batWing {
+    animation: none !important;
+  }
+  /* Keep candles at a steady warm glow, tuck bats off-screen so they don't
+     sit frozen mid-air looking like a mistake. */
+  .candle { opacity: 0.9; }
+  .bat { display: none; }
+}

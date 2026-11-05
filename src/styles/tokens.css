@@ -16,7 +16,8 @@
 
   /* Brand / accent */
   --color-accent:       #c0392b;   /* blood red */
-  --color-accent-light: #e74c3c;   /* lighter blood red — hover/active */
+  --color-accent-light: #e74c3c;   /* lighter blood red — hover/active, large text (≥5:1 on bg) */
+  --color-accent-text:  #ff6b5e;   /* lightest blood red — small text, WCAG AA (6.9:1 on bg, 6.1:1 on surface) */
 
   /* Threat level badges */
   --color-low:          #27ae60;   /* green  — Low threat */
@@ -46,8 +47,14 @@
   --radius-full: 9999px;
 
   /* ── Typography ──────────────────────────── */
-  --font-sans:  'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono:  'Fira Code', 'Cascadia Code', 'Courier New', monospace;
+  /* Self-hosted via @fontsource — no network requests to Google Fonts.
+     'Cinzel Decorative' = ornate gothic display for the biggest titles,
+     'IM Fell English'   = old-book serif for section headings,
+     'Inter'             = clean, highly readable sans for body/UI. */
+  --font-display: 'Cinzel Decorative', 'IM Fell English', Georgia, serif;
+  --font-heading: 'IM Fell English', Georgia, 'Times New Roman', serif;
+  --font-sans:    'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono:    'Fira Code', 'Cascadia Code', 'Courier New', monospace;
 
   --font-size-xs:   0.75rem;    /* 12px */
   --font-size-sm:   0.875rem;   /* 14px */
@@ -83,4 +90,13 @@
   --z-overlay: 100;
   --z-modal:   200;
   --z-toast:   300;
+
+  /* ── Atmosphere (candle-lit crypt) ───────── */
+  --color-candle:        #ffb347;   /* warm candle flame */
+  --color-candle-glow:   rgba(255, 179, 71, 0.22);
+  --color-fog:           rgba(168, 155, 192, 0.05);
+  --color-overlay-deep:  rgba(5, 4, 12, 0.72);
+  --color-altar:         #15131f;   /* darker stone of the altar/tome surface */
+  --color-altar-edge:    #2a2338;   /* lit stone edge */
+  --color-stone-line:    rgba(192, 57, 43, 0.35); /* blood-red hairline borders */
 }

@@ -254,22 +254,22 @@ Build the Vampire Hunter SPA in a strict bottom-up order: scaffolding → styles
 - [~] 15. Checkpoint — engine and tests complete
   - Ensure all Vitest tests pass with `npx vitest --run`. Ask the user if any questions arise before proceeding to the UI layer.
 
-- [ ] 16. React UI — foundation and routing
-  - [~] 16.1 Create `App.tsx` with top-level state and view routing
+- [x] 16. React UI — foundation and routing
+  - [x] 16.1 Create `App.tsx` with top-level state and view routing
     - In `src/components/App.tsx`, define top-level state: `transactions`, `detectionResult`, `decisions` (from localStorage), `language` (`en`|`es`), `currency`, `showPossibleVampires`
     - Render `<LanguageSwitch>` and `<CurrencySelector>` always; conditionally render `<Uploader>` (no results), `<ColumnMapper>` (COLUMN_MAPPING_NEEDED error), or `<Crypt>` (results ready)
     - Import `runDetection` from `@engine/index`; call it client-side only after Papa Parse completes; never send parsed data over the network
     - _Requirements: 13.1, 13.2, 7.5_
 
-- [ ] 17. React UI — upload and column mapping
-  - [~] 17.1 Implement `Uploader.tsx` with drop zone and sample picker
+- [x] 17. React UI — upload and column mapping
+  - [x] 17.1 Implement `Uploader.tsx` with drop zone and sample picker
     - Drop zone: `onDragOver` / `onDrop` handlers; keyboard-accessible (native `<input type="file">`); scale + glow animation on drag-over using Framer Motion
     - "Try a sample" button: `<SamplePicker>` sub-component rendering four buttons for the four sample files (`us-bank-usd.csv`, `latam-bank-mxn.csv`, `latam-bank-cop.csv`, `messy-statement.csv`); loads the selected sample file object without network request
     - Privacy notice text from i18n keys
     - On file selection: call Papa Parse in the browser; on success pass result to column detector; on `COLUMN_MAPPING_NEEDED` set error state to show `ColumnMapper`; on invalid CSV show human-readable i18n error
     - _Requirements: 1.1, 1.2, 1.3, 1.13, 1.14, 1.15, 13.3_
 
-  - [~] 17.2 Implement `ColumnMapper.tsx` for manual column assignment
+  - [x] 17.2 Implement `ColumnMapper.tsx` for manual column assignment
     - Display one `<select>` per required column (date, description, amount / debit / credit); pre-populate with detected column headers
     - If date format is `'ambiguous'`, show an additional date-format `<select>` with `DD/MM/YYYY` and `MM/DD/YYYY` options
     - On submit: call `parseRows` with the user-chosen layout; set focus to first unresolved select on mount

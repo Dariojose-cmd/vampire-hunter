@@ -495,6 +495,16 @@
         "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
         "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
         "timestamp": 1793847002163
+      },
+      {
+        "executionId": "0180a1d0-148f-46a8-b566-f9b85f713e44",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793848750272
+      },
+      {
+        "executionId": "0180a1d0-148f-46a8-b566-f9b85f713e44",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793850053954
       }
     ],
     "17.1 Implement `Uploader.tsx` with drop zone and sample picker": [
@@ -502,6 +512,16 @@
         "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
         "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
         "timestamp": 1793847002306
+      },
+      {
+        "executionId": "0180a1d0-148f-46a8-b566-f9b85f713e44",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793850058806
+      },
+      {
+        "executionId": "0180a1d0-148f-46a8-b566-f9b85f713e44",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793850062505
       }
     ],
     "17.2 Implement `ColumnMapper.tsx` for manual column assignment": [
@@ -509,6 +529,16 @@
         "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
         "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
         "timestamp": 1793847002465
+      },
+      {
+        "executionId": "0180a1d0-148f-46a8-b566-f9b85f713e44",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793850066741
+      },
+      {
+        "executionId": "0180a1d0-148f-46a8-b566-f9b85f713e44",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793850070849
       }
     ],
     "18.1 Implement `Crypt.tsx` with sorting, filtering, and Blood Meter": [
@@ -628,6 +658,20 @@
         "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
         "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
         "timestamp": 1793847361240
+      }
+    ],
+    "16. React UI — foundation and routing": [
+      {
+        "executionId": "0180a1d0-148f-46a8-b566-f9b85f713e44",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793850054177
+      }
+    ],
+    "17. React UI — upload and column mapping": [
+      {
+        "executionId": "0180a1d0-148f-46a8-b566-f9b85f713e44",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793850071086
       }
     ]
   }

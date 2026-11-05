@@ -20,7 +20,8 @@
     "samplePicker": {
       "title": "Elige un estado de cuenta de muestra",
       "us": "Banco de EE.UU. (USD, punto decimal)",
-      "latam": "Banco latinoamericano (MXN, coma decimal)",
+      "mxn": "Banco mexicano (MXN, coma decimal)",
+      "cop": "Banco colombiano (COP, punto de miles)",
       "messy": "Estado desordenado (prueba de robustez)",
       "close": "Cerrar selector de ejemplos"
     }

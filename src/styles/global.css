@@ -46,21 +46,38 @@ body {
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-normal);
   line-height: var(--line-height-normal);
-  background-color: var(--color-bg);
   color: var(--color-text);
   min-height: 100dvh;
   /* Minimum supported width: 360px */
   min-width: 360px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* Candle-lit crypt: two warm pools of candle light bleeding up from the
+     lower corners, a cold moon-glow from the top, over deep-night base. */
+  background-color: var(--color-bg);
+  background-image:
+    radial-gradient(ellipse 60% 40% at 15% 100%, var(--color-candle-glow), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 85% 100%, var(--color-candle-glow), transparent 70%),
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(120, 110, 160, 0.12), transparent 70%),
+    linear-gradient(180deg, #0b0a16 0%, var(--color-bg) 45%, #0a0912 100%);
+  background-attachment: fixed;
 }
 
 /* ── Typography defaults ────────────────────── */
 
 h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-tight);
   color: var(--color-text);
+  letter-spacing: 0.01em;
+}
+
+/* Ornate gothic display face reserved for the largest hero titles. */
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: 0.02em;
 }
 
 h1 { font-size: var(--font-size-4xl); }
@@ -76,7 +93,7 @@ p {
 }
 
 a {
-  color: var(--color-accent-light);
+  color: var(--color-accent-text);
   text-underline-offset: 3px;
 }
 

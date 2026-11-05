@@ -20,7 +20,8 @@
     "samplePicker": {
       "title": "Choose a sample statement",
       "us": "US Bank (USD, dot decimal)",
-      "latam": "Latin American Bank (MXN, comma decimal)",
+      "mxn": "Mexican Bank (MXN, comma decimal)",
+      "cop": "Colombian Bank (COP, dot thousands)",
       "messy": "Messy Statement (stress test)",
       "close": "Close sample picker"
     }
