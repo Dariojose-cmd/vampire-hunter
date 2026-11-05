@@ -214,7 +214,7 @@ interface CatalogEntry {
   canonicalName: string;
   aliases: string[];       // normalized aliases for matching
   cancelUrl: string;
-  cancelSteps: string[];   // step-by-step instructions
+  cancelSteps: { en: string[]; es: string[] };   // step-by-step instructions, split by language
   logoUrl?: string;        // optional bundled asset path
 }
 

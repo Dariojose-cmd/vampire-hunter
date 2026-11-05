@@ -1,0 +1,1934 @@
+[
+  {
+    "id": "netflix",
+    "canonicalName": "Netflix",
+    "aliases": [
+      "NETFLIX",
+      "NETFLIX.COM"
+    ],
+    "cancelUrl": "https://help.netflix.com/en/node/407",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open the Account or Membership settings",
+        "Select Cancel Membership",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre la configuracion de Cuenta o Membresia",
+        "Selecciona Cancelar membresia",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "spotify",
+    "canonicalName": "Spotify",
+    "aliases": [
+      "SPOTIFY",
+      "SPOTIFY.COM",
+      "SPOTIFY USA"
+    ],
+    "cancelUrl": "https://support.spotify.com/us/article/cancel-premium/",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Go to Manage your plan",
+        "Select Cancel Premium",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Ve a Administrar tu plan",
+        "Selecciona Cancelar Premium",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "disney-plus",
+    "canonicalName": "Disney Plus",
+    "aliases": [
+      "DISNEY PLUS",
+      "DISNEYPLUS",
+      "DISNEY PLUS.COM"
+    ],
+    "cancelUrl": "https://help.disneyplus.com/en-US/article/disneyplus-cancel-subscription",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Profile and Account settings",
+        "Select Subscription then Cancel",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre tu Perfil y la configuracion de Cuenta",
+        "Selecciona Suscripcion y luego Cancelar",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "youtube-premium",
+    "canonicalName": "YouTube Premium",
+    "aliases": [
+      "YOUTUBE PREMIUM",
+      "YOUTUBEPREMIUM",
+      "GOOGLE *YOUTUBE",
+      "YOUTUBE",
+      "GOOGLE YOUTUBEPREMIUM"
+    ],
+    "cancelUrl": "https://support.google.com/youtube/answer/6308278",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Go to Paid memberships",
+        "Select the membership and choose Cancel",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Ve a Membresias de pago",
+        "Selecciona la membresia y elige Cancelar",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "amazon-prime",
+    "canonicalName": "Amazon Prime",
+    "aliases": [
+      "AMAZON PRIME",
+      "AMZN PRIME",
+      "PRIME VIDEO"
+    ],
+    "cancelUrl": "https://www.amazon.com/gp/primecentral",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open Prime membership settings",
+        "Select End Membership",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre la configuracion de la membresia Prime",
+        "Selecciona Finalizar membresia",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "apple-subscription",
+    "canonicalName": "Apple subscription (App Store / iCloud / Apple Music)",
+    "aliases": [
+      "APPLE.COM/BILL",
+      "APPLE COM BILL"
+    ],
+    "cancelUrl": "https://support.apple.com/en-us/118428",
+    "cancelSteps": {
+      "en": [
+        "Open Settings on your iPhone or iPad and tap your name",
+        "Tap Subscriptions",
+        "Select the Apple subscription you want to cancel",
+        "Tap Cancel Subscription and confirm"
+      ],
+      "es": [
+        "Abre Ajustes en tu iPhone o iPad y toca tu nombre",
+        "Toca Suscripciones",
+        "Selecciona la suscripcion de Apple que quieres cancelar",
+        "Toca Cancelar suscripcion y confirma"
+      ]
+    }
+  },
+  {
+    "id": "icloud",
+    "canonicalName": "iCloud",
+    "aliases": [
+      "ICLOUD",
+      "APPLE ICLOUD"
+    ],
+    "cancelUrl": "https://support.apple.com/en-us/HT202039",
+    "cancelSteps": {
+      "en": [
+        "Open Settings and tap your name",
+        "Tap Subscriptions",
+        "Select the subscription and tap Cancel",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Abre Ajustes y toca tu nombre",
+        "Toca Suscripciones",
+        "Selecciona la suscripcion y toca Cancelar",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "google-one",
+    "canonicalName": "Google One",
+    "aliases": [
+      "GOOGLE ONE",
+      "GOOGLE *GOOGLE ONE",
+      "GOOGLE GOOGLE ONE"
+    ],
+    "cancelUrl": "https://one.google.com/settings",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open Google One settings",
+        "Select Cancel membership",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre la configuracion de Google One",
+        "Selecciona Cancelar membresia",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "chatgpt-plus",
+    "canonicalName": "ChatGPT Plus",
+    "aliases": [
+      "CHATGPT",
+      "CHATGPT PLUS",
+      "OPENAI",
+      "OPENAI *CHATGPT",
+      "OPENAI CHATGPT"
+    ],
+    "cancelUrl": "https://chatgpt.com/help/",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open My plan or Settings",
+        "Select Manage then Cancel plan",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre Mi plan o Configuracion",
+        "Selecciona Administrar y luego Cancelar plan",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "adobe-creative-cloud",
+    "canonicalName": "Adobe Creative Cloud",
+    "aliases": [
+      "ADOBE",
+      "ADOBE CREATIVE CLOUD",
+      "ADOBE CREATIVECLOUD",
+      "ADOBE INC",
+      "ADOBE SYSTEMS"
+    ],
+    "cancelUrl": "",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open Plans or Account settings",
+        "Select Manage plan then Cancel plan",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre Planes o Configuracion de cuenta",
+        "Selecciona Administrar plan y luego Cancelar plan",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "max",
+    "canonicalName": "Max",
+    "aliases": [
+      "HBO MAX",
+      "HBOMAX",
+      "HBO",
+      "MAX.COM"
+    ],
+    "cancelUrl": "https://help.max.com/",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Subscription or Billing settings",
+        "Select Cancel Subscription",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre tu configuracion de Suscripcion o Facturacion",
+        "Selecciona Cancelar suscripcion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "hulu",
+    "canonicalName": "Hulu",
+    "aliases": [
+      "HULU",
+      "HULU.COM",
+      "HULUPLUS"
+    ],
+    "cancelUrl": "https://help.hulu.com/article/hulu-how-do-i-cancel-my-subscription",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open the Account page",
+        "Select Cancel under Your Subscription",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre la pagina de Cuenta",
+        "Selecciona Cancelar en Tu suscripcion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "paramount-plus",
+    "canonicalName": "Paramount Plus",
+    "aliases": [
+      "PARAMOUNT PLUS",
+      "PARAMOUNTPLUS",
+      "PPLUS",
+      "PARAMOUNT"
+    ],
+    "cancelUrl": "https://www.paramountplus.com/account/",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Account settings",
+        "Select Cancel Subscription",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre la configuracion de tu Cuenta",
+        "Selecciona Cancelar suscripcion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "apple-tv-plus",
+    "canonicalName": "Apple TV Plus",
+    "aliases": [
+      "APPLE TV",
+      "APPLE TV PLUS",
+      "APPLETV"
+    ],
+    "cancelUrl": "https://tv.apple.com",
+    "cancelSteps": {
+      "en": [
+        "Open Settings and tap your name",
+        "Tap Subscriptions",
+        "Select Apple TV Plus and tap Cancel",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Abre Ajustes y toca tu nombre",
+        "Toca Suscripciones",
+        "Selecciona Apple TV Plus y toca Cancelar",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "apple-music",
+    "canonicalName": "Apple Music",
+    "aliases": [
+      "APPLE MUSIC",
+      "APPLEMUSIC"
+    ],
+    "cancelUrl": "https://music.apple.com/account/settings",
+    "cancelSteps": {
+      "en": [
+        "Open Settings and tap your name",
+        "Tap Subscriptions",
+        "Select Apple Music and tap Cancel",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Abre Ajustes y toca tu nombre",
+        "Toca Suscripciones",
+        "Selecciona Apple Music y toca Cancelar",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "microsoft-365",
+    "canonicalName": "Microsoft 365",
+    "aliases": [
+      "MICROSOFT 365",
+      "MICROSOFT365",
+      "MSFT 365",
+      "OFFICE 365",
+      "MICROSOFT*365",
+      "MICROSOFT"
+    ],
+    "cancelUrl": "https://account.microsoft.com/services",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open Services and subscriptions",
+        "Select Manage then Cancel subscription",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre Servicios y suscripciones",
+        "Selecciona Administrar y luego Cancelar suscripcion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "xbox-game-pass",
+    "canonicalName": "Xbox Game Pass",
+    "aliases": [
+      "XBOX GAME PASS",
+      "XBOX GAMEPASS",
+      "XBOX",
+      "MICROSOFT*XBOX",
+      "GAME PASS"
+    ],
+    "cancelUrl": "https://account.microsoft.com/services",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open Services and subscriptions",
+        "Select Game Pass then Cancel",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre Servicios y suscripciones",
+        "Selecciona Game Pass y luego Cancelar",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "playstation-plus",
+    "canonicalName": "PlayStation Plus",
+    "aliases": [
+      "PLAYSTATION PLUS",
+      "PLAYSTATION",
+      "PLAYSTATIONPLUS",
+      "PSN",
+      "SONY PLAYSTATION",
+      "PS PLUS"
+    ],
+    "cancelUrl": "https://support.playstation.com/",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open Subscription settings",
+        "Select PlayStation Plus then Cancel",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre la configuracion de Suscripcion",
+        "Selecciona PlayStation Plus y luego Cancelar",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "nintendo-switch-online",
+    "canonicalName": "Nintendo Switch Online",
+    "aliases": [
+      "NINTENDO SWITCH ONLINE",
+      "NINTENDO",
+      "NINTENDO.COM",
+      "NINTENDO SWITCH"
+    ],
+    "cancelUrl": "https://en-americas-support.nintendo.com/app/answers/detail/a_id/27399",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Nintendo eShop or Account",
+        "Select the membership and turn off automatic renewal",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre tu Nintendo eShop o Cuenta",
+        "Selecciona la membresia y desactiva la renovacion automatica",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "duolingo",
+    "canonicalName": "Duolingo",
+    "aliases": [
+      "DUOLINGO",
+      "DUOLINGO PLUS",
+      "SUPER DUOLINGO",
+      "DUOLINGO.COM"
+    ],
+    "cancelUrl": "https://support.duolingo.com/hc/en-us/articles/204829090-How-do-I-cancel-my-subscription",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your subscription settings",
+        "Select Cancel subscription",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre la configuracion de tu suscripcion",
+        "Selecciona Cancelar suscripcion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "headspace",
+    "canonicalName": "Headspace",
+    "aliases": [
+      "HEADSPACE",
+      "HEADSPACE.COM"
+    ],
+    "cancelUrl": "",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Subscription settings",
+        "Select Cancel subscription",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre la configuracion de Suscripcion",
+        "Selecciona Cancelar suscripcion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "calm",
+    "canonicalName": "Calm",
+    "aliases": [
+      "CALM",
+      "CALM.COM",
+      "CALM SUBSCRIPTION"
+    ],
+    "cancelUrl": "",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Subscription settings",
+        "Select Cancel subscription",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre la configuracion de Suscripcion",
+        "Selecciona Cancelar suscripcion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "nordvpn",
+    "canonicalName": "NordVPN",
+    "aliases": [
+      "NORDVPN",
+      "NORD VPN",
+      "NORDVPN.COM"
+    ],
+    "cancelUrl": "https://support.nordvpn.com/",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open the Billing or Subscription area",
+        "Turn off auto-renewal or Cancel",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre la seccion de Facturacion o Suscripcion",
+        "Desactiva la renovacion automatica o Cancela",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "expressvpn",
+    "canonicalName": "ExpressVPN",
+    "aliases": [
+      "EXPRESSVPN",
+      "EXPRESS VPN",
+      "EXPRESSVPN.COM"
+    ],
+    "cancelUrl": "https://www.expressvpn.com/support/",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Subscription settings",
+        "Turn off auto-renewal or Cancel",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre la configuracion de Suscripcion",
+        "Desactiva la renovacion automatica o Cancela",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "dropbox",
+    "canonicalName": "Dropbox",
+    "aliases": [
+      "DROPBOX",
+      "DROPBOX.COM"
+    ],
+    "cancelUrl": "https://help.dropbox.com/",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Plan or Billing settings",
+        "Select Cancel plan",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre la configuracion de Plan o Facturacion",
+        "Selecciona Cancelar plan",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "lastpass",
+    "canonicalName": "LastPass",
+    "aliases": [
+      "LASTPASS",
+      "LAST PASS",
+      "LASTPASS.COM"
+    ],
+    "cancelUrl": "",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Account or Billing settings",
+        "Select Cancel subscription",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre la configuracion de Cuenta o Facturacion",
+        "Selecciona Cancelar suscripcion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "1password",
+    "canonicalName": "1Password",
+    "aliases": [
+      "1PASSWORD",
+      "1PASSWORD.COM",
+      "ONEPASSWORD",
+      "1PASSWORD SUBSCRIPTION"
+    ],
+    "cancelUrl": "https://support.1password.com/",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Billing settings",
+        "Select Cancel subscription",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre la configuracion de Facturacion",
+        "Selecciona Cancelar suscripcion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "canva",
+    "canonicalName": "Canva",
+    "aliases": [
+      "CANVA",
+      "CANVA PRO",
+      "CANVA.COM"
+    ],
+    "cancelUrl": "",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open Account then Billing and plans",
+        "Select Cancel subscription",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre Cuenta y luego Facturacion y planes",
+        "Selecciona Cancelar suscripcion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "figma",
+    "canonicalName": "Figma",
+    "aliases": [
+      "FIGMA",
+      "FIGMA.COM",
+      "FIGMA SUBSCRIPTION"
+    ],
+    "cancelUrl": "https://help.figma.com/hc/en-us/articles/360040328273-Cancel-your-subscription",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Workspace or Account settings",
+        "Select Billing then Cancel plan",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre la configuracion de Espacio o Cuenta",
+        "Selecciona Facturacion y luego Cancelar plan",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "notion",
+    "canonicalName": "Notion",
+    "aliases": [
+      "NOTION",
+      "NOTION.SO",
+      "NOTION LABS"
+    ],
+    "cancelUrl": "",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open Settings then Billing",
+        "Select Cancel plan",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre Configuracion y luego Facturacion",
+        "Selecciona Cancelar plan",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "slack",
+    "canonicalName": "Slack",
+    "aliases": [
+      "SLACK",
+      "SLACK.COM",
+      "SLACK TECHNOLOGIES"
+    ],
+    "cancelUrl": "https://slack.com/help/articles/218915077-Cancel-your-paid-subscription",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your workspace",
+        "Open Settings and administration then Billing",
+        "Select Cancel subscription",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu espacio de trabajo",
+        "Abre Configuracion y administracion y luego Facturacion",
+        "Selecciona Cancelar suscripcion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "zoom",
+    "canonicalName": "Zoom",
+    "aliases": [
+      "ZOOM",
+      "ZOOM.US",
+      "ZOOM VIDEO",
+      "ZOOMCOMM"
+    ],
+    "cancelUrl": "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0066150",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open Account Management then Billing",
+        "Select Cancel Subscription",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre Gestion de la cuenta y luego Facturacion",
+        "Selecciona Cancelar suscripcion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "grammarly",
+    "canonicalName": "Grammarly",
+    "aliases": [
+      "GRAMMARLY",
+      "GRAMMARLY.COM",
+      "GRAMMARLY PREMIUM"
+    ],
+    "cancelUrl": "https://support.grammarly.com/hc/en-us/articles/115000091472-Cancel-a-subscription",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Account then Subscription",
+        "Select Cancel subscription",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre tu Cuenta y luego Suscripcion",
+        "Selecciona Cancelar suscripcion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "linkedin-premium",
+    "canonicalName": "LinkedIn Premium",
+    "aliases": [
+      "LINKEDIN PREMIUM",
+      "LINKEDIN",
+      "LINKEDIN.COM",
+      "LNKD"
+    ],
+    "cancelUrl": "https://www.linkedin.com/help/linkedin/answer/a564304",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open the Premium subscription settings",
+        "Select Cancel subscription",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre la configuracion de la suscripcion Premium",
+        "Selecciona Cancelar suscripcion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "tinder-gold",
+    "canonicalName": "Tinder Gold",
+    "aliases": [
+      "TINDER",
+      "TINDER GOLD",
+      "TINDER PLUS",
+      "MATCH*TINDER"
+    ],
+    "cancelUrl": "https://www.tinder.com/",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open Settings then Manage your subscription",
+        "Select Cancel subscription",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre Configuracion y luego Administrar tu suscripcion",
+        "Selecciona Cancelar suscripcion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "bumble-boost",
+    "canonicalName": "Bumble Boost",
+    "aliases": [
+      "BUMBLE",
+      "BUMBLE BOOST",
+      "BUMBLE PREMIUM"
+    ],
+    "cancelUrl": "",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open Settings then your subscription",
+        "Select Cancel subscription",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre Configuracion y luego tu suscripcion",
+        "Selecciona Cancelar suscripcion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "crunchyroll",
+    "canonicalName": "Crunchyroll",
+    "aliases": [
+      "CRUNCHYROLL",
+      "CRUNCHYROLL.COM",
+      "CR CRUNCHYROLL"
+    ],
+    "cancelUrl": "",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Account then Membership",
+        "Select Cancel Membership",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre tu Cuenta y luego Membresia",
+        "Selecciona Cancelar membresia",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "mubi",
+    "canonicalName": "Mubi",
+    "aliases": [
+      "MUBI",
+      "MUBI.COM"
+    ],
+    "cancelUrl": "https://help.mubi.com/",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Account settings",
+        "Select Cancel subscription",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre la configuracion de tu Cuenta",
+        "Selecciona Cancelar suscripcion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "deezer",
+    "canonicalName": "Deezer",
+    "aliases": [
+      "DEEZER",
+      "DEEZER.COM",
+      "DEEZER PREMIUM"
+    ],
+    "cancelUrl": "https://support.deezer.com/hc/en-us",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Account then Subscription",
+        "Select Cancel subscription",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre tu Cuenta y luego Suscripcion",
+        "Selecciona Cancelar suscripcion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "tidal",
+    "canonicalName": "Tidal",
+    "aliases": [
+      "TIDAL",
+      "TIDAL.COM",
+      "TIDAL MUSIC"
+    ],
+    "cancelUrl": "",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Account then Manage subscription",
+        "Select Cancel subscription",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre tu Cuenta y luego Administrar suscripcion",
+        "Selecciona Cancelar suscripcion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "siriusxm",
+    "canonicalName": "SiriusXM",
+    "aliases": [
+      "SIRIUSXM",
+      "SIRIUS XM",
+      "SIRIUS",
+      "SIRIUSXM.COM"
+    ],
+    "cancelUrl": "https://care.siriusxm.com/",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Account and subscription",
+        "Select Cancel subscription",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre tu Cuenta y suscripcion",
+        "Selecciona Cancelar suscripcion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "nytimes",
+    "canonicalName": "The New York Times",
+    "aliases": [
+      "NEW YORK TIMES",
+      "NYTIMES",
+      "NYTIMES.COM",
+      "NYT"
+    ],
+    "cancelUrl": "https://help.nytimes.com/hc/en-us/articles/115014893428-Cancel-your-subscription",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Account then Subscription overview",
+        "Select Cancel subscription",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre tu Cuenta y luego Resumen de suscripcion",
+        "Selecciona Cancelar suscripcion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "washington-post",
+    "canonicalName": "The Washington Post",
+    "aliases": [
+      "WASHINGTON POST",
+      "WASHINGTONPOST",
+      "WASHINGTONPOST.COM",
+      "WAPO",
+      "WASH POST"
+    ],
+    "cancelUrl": "",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Account then Subscription",
+        "Select Cancel subscription",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre tu Cuenta y luego Suscripcion",
+        "Selecciona Cancelar suscripcion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "wsj",
+    "canonicalName": "The Wall Street Journal",
+    "aliases": [
+      "WALL STREET JOURNAL",
+      "WSJ",
+      "WSJ.COM",
+      "DOW JONES WSJ"
+    ],
+    "cancelUrl": "https://customercenter.wsj.com/",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open the Customer Center",
+        "Select Cancel subscription",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre el Centro de clientes",
+        "Selecciona Cancelar suscripcion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "peloton",
+    "canonicalName": "Peloton",
+    "aliases": [
+      "PELOTON",
+      "PELOTON.COM",
+      "PELOTON MEMBERSHIP"
+    ],
+    "cancelUrl": "https://support.onepeloton.com/hc/en-us",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Membership settings",
+        "Select Cancel Membership",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre la configuracion de tu Membresia",
+        "Selecciona Cancelar membresia",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "classpass",
+    "canonicalName": "ClassPass",
+    "aliases": [
+      "CLASSPASS",
+      "CLASS PASS",
+      "CLASSPASS.COM"
+    ],
+    "cancelUrl": "",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Account then Membership",
+        "Select Cancel membership",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre tu Cuenta y luego Membresia",
+        "Selecciona Cancelar membresia",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "planet-fitness",
+    "canonicalName": "Planet Fitness",
+    "aliases": [
+      "PLANET FITNESS",
+      "PLANET FIT",
+      "PLANETFITNESS",
+      "PF*PLANET FITNESS"
+    ],
+    "cancelUrl": "",
+    "cancelSteps": {
+      "en": [
+        "Visit your home club or log in to your account",
+        "Open your Membership details",
+        "Request or submit a cancellation",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Visita tu club o inicia sesion en tu cuenta",
+        "Abre los detalles de tu Membresia",
+        "Solicita o envia la cancelacion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "anytime-fitness",
+    "canonicalName": "Anytime Fitness",
+    "aliases": [
+      "ANYTIME FITNESS",
+      "ANYTIME FIT",
+      "ANYTIMEFITNESS"
+    ],
+    "cancelUrl": "https://www.anytimefitness.com/contact/",
+    "cancelSteps": {
+      "en": [
+        "Contact your home club",
+        "Open your Membership agreement",
+        "Request or submit a cancellation",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Contacta a tu club",
+        "Abre tu contrato de Membresia",
+        "Solicita o envia la cancelacion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "t-mobile",
+    "canonicalName": "T-Mobile",
+    "aliases": [
+      "T-MOBILE",
+      "TMOBILE",
+      "T MOBILE",
+      "T-MOBILE.COM"
+    ],
+    "cancelUrl": "https://www.t-mobile.com/support/account",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Line or Plan settings",
+        "Request cancellation or contact support",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre la configuracion de tu Linea o Plan",
+        "Solicita la cancelacion o contacta a soporte",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "att",
+    "canonicalName": "AT&T",
+    "aliases": [
+      "AT&T",
+      "ATT",
+      "ATT.COM",
+      "AT T"
+    ],
+    "cancelUrl": "https://www.att.com/support/",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Services or Plan settings",
+        "Request cancellation or contact support",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre la configuracion de tus Servicios o Plan",
+        "Solicita la cancelacion o contacta a soporte",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "verizon",
+    "canonicalName": "Verizon",
+    "aliases": [
+      "VERIZON",
+      "VERIZON.COM",
+      "VZW",
+      "VZWRLSS",
+      "VERIZON WIRELESS"
+    ],
+    "cancelUrl": "https://www.verizon.com/support/",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Services or Plan settings",
+        "Request cancellation or contact support",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre la configuracion de tus Servicios o Plan",
+        "Solicita la cancelacion o contacta a soporte",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "claro",
+    "canonicalName": "Claro",
+    "aliases": [
+      "CLARO",
+      "CLARO COLOMBIA",
+      "CLARO.COM",
+      "CLARO PAGO"
+    ],
+    "cancelUrl": "https://www.claro.com.co/personas/ayuda/",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Plan or Services settings",
+        "Request cancellation or contact support",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre la configuracion de tu Plan o Servicios",
+        "Solicita la cancelacion o contacta a soporte",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "telcel",
+    "canonicalName": "Telcel",
+    "aliases": [
+      "TELCEL",
+      "TELCEL.COM",
+      "TELCEL MEXICO",
+      "TELCEL PAGO"
+    ],
+    "cancelUrl": "",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Plan or Services settings",
+        "Request cancellation or contact support",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre la configuracion de tu Plan o Servicios",
+        "Solicita la cancelacion o contacta a soporte",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "movistar",
+    "canonicalName": "Movistar",
+    "aliases": [
+      "MOVISTAR",
+      "MOVISTAR.COM",
+      "MOVISTAR PAGO",
+      "TELEFONICA MOVISTAR"
+    ],
+    "cancelUrl": "https://www.movistar.com.co/",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Plan or Services settings",
+        "Request cancellation or contact support",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre la configuracion de tu Plan o Servicios",
+        "Solicita la cancelacion o contacta a soporte",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "mercado-pago",
+    "canonicalName": "Mercado Pago",
+    "aliases": [
+      "MERCADO PAGO",
+      "MERCADOPAGO",
+      "MERPAGO"
+    ],
+    "cancelUrl": "https://www.mercadopago.com.ar/ayuda",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Subscriptions or Automatic payments",
+        "Select Cancel subscription",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre tus Suscripciones o Pagos automaticos",
+        "Selecciona Cancelar suscripcion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "rappi-prime",
+    "canonicalName": "Rappi Prime",
+    "aliases": [
+      "RAPPI PRIME",
+      "RAPPIPRIME"
+    ],
+    "cancelUrl": "",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open the Rappi Prime section",
+        "Select Cancel subscription",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre la seccion de Rappi Prime",
+        "Selecciona Cancelar suscripcion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "uber-one",
+    "canonicalName": "Uber One",
+    "aliases": [
+      "UBER ONE",
+      "UBERONE",
+      "UBER* ONE",
+      "UBER *ONE",
+      "UBER ONE MEMBERSHIP"
+    ],
+    "cancelUrl": "",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open the Uber One menu",
+        "Select Manage membership then Cancel",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre el menu de Uber One",
+        "Selecciona Administrar membresia y luego Cancelar",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "doordash-dashpass",
+    "canonicalName": "DoorDash DashPass",
+    "aliases": [
+      "DOORDASH DASHPASS",
+      "DASHPASS",
+      "DOORDASH",
+      "DD *DOORDASH"
+    ],
+    "cancelUrl": "https://help.doordash.com/consumers/s/",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open the DashPass section in your account",
+        "Select Cancel Membership",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre la seccion DashPass en tu cuenta",
+        "Selecciona Cancelar membresia",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "tigo",
+    "canonicalName": "Tigo",
+    "aliases": [
+      "TIGO",
+      "TIGO.COM",
+      "TIGO COLOMBIA",
+      "TIGO PAGO"
+    ],
+    "cancelUrl": "",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Plan or Services settings",
+        "Request cancellation or contact support",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre la configuracion de tu Plan o Servicios",
+        "Solicita la cancelacion o contacta a soporte",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "entel",
+    "canonicalName": "Entel",
+    "aliases": [
+      "ENTEL",
+      "ENTEL.CL",
+      "ENTEL CHILE",
+      "ENTEL PAGO"
+    ],
+    "cancelUrl": "https://www.entel.cl/",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Plan or Services settings",
+        "Request cancellation or contact support",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre la configuracion de tu Plan o Servicios",
+        "Solicita la cancelacion o contacta a soporte",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "smart-fit",
+    "canonicalName": "Smart Fit",
+    "aliases": [
+      "SMART FIT",
+      "SMARTFIT"
+    ],
+    "cancelUrl": "https://www.smartfit.com.mx/",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Plan or Membership settings",
+        "Request or submit a cancellation",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre la configuracion de tu Plan o Membresia",
+        "Solicita o envia la cancelacion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "blim",
+    "canonicalName": "Blim",
+    "aliases": [
+      "BLIM",
+      "BLIM TV",
+      "BLIMTV",
+      "BLIM.TV"
+    ],
+    "cancelUrl": "",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Account then Subscription",
+        "Select Cancel subscription",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre tu Cuenta y luego Suscripcion",
+        "Selecciona Cancelar suscripcion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "mercado-libre-meli-plus",
+    "canonicalName": "Mercado Libre Meli Plus",
+    "aliases": [
+      "MELI PLUS",
+      "MERCADO LIBRE",
+      "MERCADOLIBRE",
+      "MELI"
+    ],
+    "cancelUrl": "https://www.mercadolibre.com.ar/ayuda",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open the Meli Plus subscription section",
+        "Select Cancel subscription",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre la seccion de suscripcion Meli Plus",
+        "Selecciona Cancelar suscripcion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "directv-go",
+    "canonicalName": "DirecTV GO",
+    "aliases": [
+      "DIRECTV GO",
+      "DIRECTVGO",
+      "DIRECTV",
+      "DTVGO"
+    ],
+    "cancelUrl": "https://www.directvgo.com/",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Account then Subscription",
+        "Select Cancel subscription",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre tu Cuenta y luego Suscripcion",
+        "Selecciona Cancelar suscripcion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "globoplay",
+    "canonicalName": "Globoplay",
+    "aliases": [
+      "GLOBOPLAY",
+      "GLOBO PLAY",
+      "GLOBOPLAY.COM"
+    ],
+    "cancelUrl": "https://www.globoplay.com.br/",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Account then Subscription",
+        "Select Cancel subscription",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre tu Cuenta y luego Suscripcion",
+        "Selecciona Cancelar suscripcion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "vix-premium",
+    "canonicalName": "ViX Premium",
+    "aliases": [
+      "VIX PREMIUM",
+      "VIX",
+      "VIXPREMIUM"
+    ],
+    "cancelUrl": "https://www.vix.com/",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Account then Subscription",
+        "Select Cancel subscription",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre tu Cuenta y luego Suscripcion",
+        "Selecciona Cancelar suscripcion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "audible",
+    "canonicalName": "Audible",
+    "aliases": [
+      "AUDIBLE",
+      "AUDIBLE.COM",
+      "AUDIBLEUS",
+      "AMZN AUDIBLE"
+    ],
+    "cancelUrl": "https://www.audible.com/account",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Account Details",
+        "Select Cancel membership",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre los Detalles de tu Cuenta",
+        "Selecciona Cancelar membresia",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "twitch",
+    "canonicalName": "Twitch",
+    "aliases": [
+      "TWITCH",
+      "TWITCH.TV",
+      "TWITCHTV",
+      "TWITCH TURBO"
+    ],
+    "cancelUrl": "https://help.twitch.tv/s/",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Subscriptions settings",
+        "Select Cancel subscription",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre la configuracion de Suscripciones",
+        "Selecciona Cancelar suscripcion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "patreon",
+    "canonicalName": "Patreon",
+    "aliases": [
+      "PATREON",
+      "PATREON.COM",
+      "PATREON MEMBERSHIP"
+    ],
+    "cancelUrl": "",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Memberships list",
+        "Select Edit then Cancel membership",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre tu lista de Membresias",
+        "Selecciona Editar y luego Cancelar membresia",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "medium",
+    "canonicalName": "Medium",
+    "aliases": [
+      "MEDIUM",
+      "MEDIUM.COM",
+      "MEDIUM MONTHLY"
+    ],
+    "cancelUrl": "",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open Settings then Membership",
+        "Select Cancel membership",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre Configuracion y luego Membresia",
+        "Selecciona Cancelar membresia",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "strava",
+    "canonicalName": "Strava",
+    "aliases": [
+      "STRAVA",
+      "STRAVA.COM",
+      "STRAVA SUBSCRIPTION"
+    ],
+    "cancelUrl": "https://support.strava.com/hc/en-us",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open Settings then My Subscription",
+        "Select Cancel subscription",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre Configuracion y luego Mi suscripcion",
+        "Selecciona Cancelar suscripcion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "dashlane",
+    "canonicalName": "Dashlane",
+    "aliases": [
+      "DASHLANE",
+      "DASHLANE.COM",
+      "DASHLANE PREMIUM"
+    ],
+    "cancelUrl": "https://www.dashlane.com/",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Account then Subscription",
+        "Select Cancel subscription",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre tu Cuenta y luego Suscripcion",
+        "Selecciona Cancelar suscripcion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "surfshark",
+    "canonicalName": "Surfshark",
+    "aliases": [
+      "SURFSHARK",
+      "SURFSHARK.COM",
+      "SURFSHARK VPN"
+    ],
+    "cancelUrl": "https://support.surfshark.com/hc/en-us",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Subscription settings",
+        "Turn off auto-renewal or Cancel",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre la configuracion de Suscripcion",
+        "Desactiva la renovacion automatica o Cancela",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "masterclass",
+    "canonicalName": "Masterclass",
+    "aliases": [
+      "MASTERCLASS",
+      "MASTERCLASS.COM",
+      "MSTRCLASS"
+    ],
+    "cancelUrl": "",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Account then Subscription",
+        "Select Cancel subscription",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre tu Cuenta y luego Suscripcion",
+        "Selecciona Cancelar suscripcion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "skillshare",
+    "canonicalName": "Skillshare",
+    "aliases": [
+      "SKILLSHARE",
+      "SKILLSHARE.COM",
+      "SKILLSHARE MEMBERSHIP"
+    ],
+    "cancelUrl": "",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open Settings then Membership",
+        "Select Cancel membership",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre Configuracion y luego Membresia",
+        "Selecciona Cancelar membresia",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "coursera-plus",
+    "canonicalName": "Coursera Plus",
+    "aliases": [
+      "COURSERA PLUS",
+      "COURSERA",
+      "COURSERA.ORG"
+    ],
+    "cancelUrl": "https://www.coursera.support/s/",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open Settings then Subscriptions",
+        "Select Cancel subscription",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre Configuracion y luego Suscripciones",
+        "Selecciona Cancelar suscripcion",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "hellofresh",
+    "canonicalName": "HelloFresh",
+    "aliases": [
+      "HELLOFRESH",
+      "HELLO FRESH",
+      "MEALBOX HELLOFRESH"
+    ],
+    "cancelUrl": "",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Account Settings then Plan settings",
+        "Select Cancel plan",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre la configuracion de tu Cuenta y luego la configuracion del Plan",
+        "Selecciona Cancelar plan",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "green-chef",
+    "canonicalName": "Green Chef",
+    "aliases": [
+      "GREEN CHEF",
+      "GREENCHEF"
+    ],
+    "cancelUrl": "",
+    "cancelSteps": {
+      "en": [
+        "Sign in to your account",
+        "Open your Account Settings then Plan settings",
+        "Select Cancel plan",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Inicia sesion en tu cuenta",
+        "Abre la configuracion de tu Cuenta y luego la configuracion del Plan",
+        "Selecciona Cancelar plan",
+        "Confirma la cancelacion"
+      ]
+    }
+  },
+  {
+    "id": "costco-membership",
+    "canonicalName": "Costco Membership",
+    "aliases": [
+      "COSTCO",
+      "COSTCO MEMBERSHIP",
+      "COSTCO ANNUAL MEMBERSHIP",
+      "COSTCO WHSE"
+    ],
+    "cancelUrl": "https://customerservice.costco.com/app/home",
+    "cancelSteps": {
+      "en": [
+        "Visit your local warehouse membership counter or sign in online",
+        "Open your Membership details",
+        "Request cancellation and a refund of the membership fee",
+        "Confirm the cancellation"
+      ],
+      "es": [
+        "Visita el mostrador de membresias de tu almacen o inicia sesion en linea",
+        "Abre los detalles de tu Membresia",
+        "Solicita la cancelacion y el reembolso de la cuota de membresia",
+        "Confirma la cancelacion"
+      ]
+    }
+  }
+]
