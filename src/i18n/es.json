@@ -96,7 +96,14 @@
     "spareButton": "Perdonar",
     "spareAriaLabel": "Perdona a {{name}} – mantener esta suscripción",
     "garlicButton": "Ajo",
-    "garlicAriaLabel": "Poner recordatorio de ajo para {{name}} – próximo cargo el {{nextDate}}"
+    "garlicAriaLabel": "Poner recordatorio de ajo para {{name}} – próximo cargo el {{nextDate}}",
+    "stakedState": "Estacado",
+        "stakedStateDetail": "Marcado para cancelar",
+    "undoButton": "Deshacer",
+    "undoAriaLabel": "Deshacer – quitar estaca de {{name}}",
+    "decisionStaked": "Estacado",
+    "decisionSpared": "Perdonado",
+    "decisionGarlic": "Ajo puesto"
   },
 
   "threatLevel": {

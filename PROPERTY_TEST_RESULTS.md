@@ -27,6 +27,8 @@ pass.
 | 10 — Cadence Tolerance Coverage (weekly/monthly/quarterly/yearly) | `tests/cadenceDetector.property.test.ts` | PASS (1000 runs each bucket) |
 | 6 — Confidence Score Range | `tests/scorer.property.test.ts` | PASS (1000 runs) |
 | 7 — Threat Level Monotonicity | `tests/profileBuilder.property.test.ts` | PASS (1000 runs) |
+| 8 — Avatar Determinism | `tests/detection.property.test.ts` | PASS (1000 runs) |
+| 8b — Avatar Validity (no undefined/NaN, valid fills) | `tests/detection.property.test.ts` | PASS (2000 runs) — fixed signed-shift bug |
 | 9 — Amount Cents Integrity | `tests/parser.property.test.ts` | PASS (1000 runs) |
 | 11 — Thousands-Separator Detection | `tests/parser.property.test.ts` | PASS (1000 runs) |
 | 12a — Interleaved series → two vampires | `tests/grouper.property.test.ts` | PASS (1000 runs) |
@@ -283,3 +285,66 @@ and identical per-cluster bite memberships across every random permutation —
 Properties 3/4/5/8 still pass (Property 3's and 5's ≥ 80% coverage guards still
 hold), and the full suite is green: **16 test files / 243 tests passed**, with
 `npx tsc -b` clean.
+
+---
+
+## Property 8b — Avatar Validity (no undefined/NaN; every fill valid)
+
+**Validates: Requirements 6.5** — `tests/detection.property.test.ts`,
+`{ numRuns: 2000 }`.
+
+### What the property asserts
+
+For any merchant name, `generateAvatar(name)`:
+
+- never contains the literal substring `"undefined"` or `"NaN"`, and
+- every `fill="…"` attribute resolves to a real value — a hex colour
+  (`#rgb`/`#rrggbb`/`#rrggbbaa`), an `rgb()/rgba()`, a `url(#…)` gradient
+  reference, `none`, or `currentColor`.
+
+Property 8 only checked **determinism** (`generateAvatar(x) === generateAvatar(x)`),
+which an all-`undefined` avatar trivially satisfies (`undefined === undefined`),
+so the rendering bug slipped through. 8b checks **validity**, which 8 cannot.
+
+### Before (pre-fix generator) — FAILS
+
+Run against the unfixed generator, 8b fails almost immediately: roughly half of
+all names render as black silhouettes because the cape/skin/eye/hair/ear palette
+indexes are `undefined`.
+
+**Exact fast-check output (verbatim):**
+
+```
+Error: Property failed after 1 tests
+{ seed: ..., path: "0:...", endOnFailure: true }
+Counterexample: [" "]
+
+Caused by: AssertionError: expected true to be false // Object.is equality
+- Expected
++ Received
+- false
++ true
+   (svg.includes('undefined') was true)
+```
+
+**Root cause (real rendering bug, not a test defect):**
+`generateAvatar` derived palette indexes with **signed** right shifts, e.g.
+`(hash >> 4) % CAPE_COLORS.length`. `fnv1a32` returns an unsigned 32-bit value,
+so whenever the high bit is set (about half of all inputs) `hash >> 4` is
+**negative**. In JavaScript `(-3) % 8 === -3`, and `CAPE_COLORS[-3]` is
+`undefined`, so the template literal emitted `fill="undefined"` for the cape,
+lining, collar, skin, ears, eyes and hair — rendering a black silhouette on the
+moonlight disc. `eyeStyle`/`fangStyle` used `hash % 4` / `hash % 3` on the
+unsigned value directly, so those stayed in range; only the shifted indexes broke.
+
+### After (fix)
+
+**Code change (`src/engine/profileBuilder.ts`):** every index shift now uses the
+**unsigned** right shift `>>>` instead of `>>`:
+`(hash >>> 4)`, `(hash >>> 8)`, `(hash >>> 11)`, `(hash >>> 14)`, `(hash >>> 17)`,
+`(hash >>> 20)`. `>>>` forces the operand to an unsigned 32-bit integer, so every
+derived index is `>= 0` and lands inside its palette. No palettes, shapes, or the
+public signature changed, so Property 8 (determinism) still holds.
+
+Result: Property 8b passes (2000 runs) and Property 8 still passes.
+

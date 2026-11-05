@@ -328,6 +328,36 @@ describe('Property 8: Avatar Determinism', () => {
 });
 
 // ---------------------------------------------------------------------------
+// Property 8b: Avatar Validity
+// ---------------------------------------------------------------------------
+
+// Property 8b: Avatar Validity — Validates: Requirements 6.5
+// Guards against a signed-shift index bug: (hash >> n) can be negative for
+// hashes with the top bit set, so palette[negIndex] === undefined and the SVG
+// renders fill="undefined" (a black silhouette). Every fill must resolve to a
+// real colour or a url(#...) reference, and the markup must never contain the
+// literal strings "undefined" or "NaN".
+describe('Property 8b: Avatar Validity', () => {
+  const FILL_RE = /fill="([^"]*)"/g;
+  const VALID_FILL =
+    /^(#[0-9a-fA-F]{3,8}|rgba?\([^)]*\)|url\(#[^)]+\)|none|currentColor)$/;
+
+  it('generateAvatar never emits undefined/NaN and every fill is valid', () => {
+    fc.assert(
+      fc.property(fc.string({ minLength: 1 }), (name) => {
+        const svg = generateAvatar(name);
+        expect(svg.includes('undefined')).toBe(false);
+        expect(svg.includes('NaN')).toBe(false);
+        for (const m of svg.matchAll(FILL_RE)) {
+          expect(VALID_FILL.test(m[1])).toBe(true);
+        }
+      }),
+      { numRuns: 2000 },
+    );
+  });
+});
+
+// ---------------------------------------------------------------------------
 // Property 3: Order Independence
 // ---------------------------------------------------------------------------
 

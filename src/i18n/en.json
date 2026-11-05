@@ -96,7 +96,14 @@
     "spareButton": "Spare",
     "spareAriaLabel": "Spare {{name}} – keep this subscription",
     "garlicButton": "Garlic",
-    "garlicAriaLabel": "Set garlic reminder for {{name}} – next charge on {{nextDate}}"
+    "garlicAriaLabel": "Set garlic reminder for {{name}} – next charge on {{nextDate}}",
+    "stakedState": "Staked",
+    "stakedStateDetail": "Marked for cancellation",
+    "undoButton": "Undo",
+    "undoAriaLabel": "Undo – un-stake {{name}}",
+    "decisionStaked": "Staked",
+    "decisionSpared": "Spared",
+    "decisionGarlic": "Garlic set"
   },
 
   "threatLevel": {

@@ -7,11 +7,12 @@
   align-items: stretch;
   gap: var(--space-6);
   padding: var(--space-5) var(--space-6);
-  background: linear-gradient(180deg, rgba(26, 26, 46, 0.7), rgba(13, 13, 26, 0.6));
+  /* Opaque base so the fixed background moon never shows through when the page
+     scrolls behind this panel. */
+  background: linear-gradient(180deg, #1c1c30, #141124);
   border: 1px solid var(--color-stone-line);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
-  backdrop-filter: blur(4px);
 }
 
 /* ── The vial ────────────────────────────────── */

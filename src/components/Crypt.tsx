@@ -85,6 +85,10 @@ export function Crypt({ language, currency, result, soundEnabled, onUploadAnothe
     setDecisions((prev) => ({ ...prev, [v.id]: prev[v.id] === 'spared' ? null : 'spared' }));
   }
 
+  function unstake(v: Vampire) {
+    setDecisions((prev) => ({ ...prev, [v.id]: null }));
+  }
+
   function setGarlic(v: Vampire) {
     const ok = downloadGarlicIcs(v, language);
     if (!ok) {
@@ -221,6 +225,7 @@ export function Crypt({ language, currency, result, soundEnabled, onUploadAnothe
               onStakeClick={openStakeModal}
               onSpare={toggleSpare}
               onGarlic={setGarlic}
+              onUnstake={unstake}
             />
           ))}
         </div>
@@ -261,6 +266,7 @@ export function Crypt({ language, currency, result, soundEnabled, onUploadAnothe
                 onStakeClick={openStakeModal}
                 onSpare={toggleSpare}
                 onGarlic={setGarlic}
+                onUnstake={unstake}
               />
             ))}
           </div>

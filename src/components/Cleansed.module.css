@@ -21,14 +21,16 @@
 /* Rising sun on the horizon. */
 .sun {
   position: absolute;
-  bottom: -70px;
+  bottom: -150px;
   left: 50%;
   transform: translateX(-50%);
-  width: 180px;
-  height: 180px;
+  width: 260px;
+  height: 200px;
   border-radius: 50%;
-  background: radial-gradient(circle, #ffe3a3 0%, #ffb347 55%, rgba(255,179,71,0.0) 72%);
-  filter: blur(2px);
+  /* A low horizon glow: the bright core stays below the banner's lower edge so
+     it never sits behind the text; only the soft outer halo reaches up. */
+  background: radial-gradient(ellipse at center, #ffe3a3 0%, #ffb347 40%, rgba(255,179,71,0.0) 70%);
+  filter: blur(6px);
 }
 
 .title {
@@ -45,6 +47,10 @@
   font-size: var(--font-size-xl);
   font-weight: var(--font-weight-bold);
   color: #8be3af;
+  background: rgba(13, 13, 26, 0.55);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
 }
 .savedAmount { color: #b6f2cf; }
 

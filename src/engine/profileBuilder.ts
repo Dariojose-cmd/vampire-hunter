@@ -316,16 +316,20 @@ function earShape(style: number, skin: string): string {
 export function generateAvatar(normalizedName: string): string {
   const hash = fnv1a32(normalizedName);
 
+  // Use UNSIGNED right shifts (>>>). fnv1a32 can return values with the top
+  // bit set (>= 2^31); a signed >> would yield a negative number, and
+  // `palette[negativeIndex]` is `undefined`, which renders fill="undefined"
+  // (a black silhouette). `>>>` keeps the operand unsigned so indexes are >= 0.
   const eyeStyle = hash % 4;
   const fangStyle = hash % 3;
-  const capeIdx = (hash >> 4) % CAPE_COLORS.length;
+  const capeIdx = (hash >>> 4) % CAPE_COLORS.length;
   const capeColor = CAPE_COLORS[capeIdx];
   const capeLining = CAPE_LININGS[capeIdx];
-  const skinTone = SKIN_TONES[(hash >> 8) % SKIN_TONES.length];
-  const eyeColor = EYE_COLORS[(hash >> 11) % EYE_COLORS.length];
-  const hairColor = HAIR_COLORS[(hash >> 14) % HAIR_COLORS.length];
-  const hairStyle = (hash >> 17) % 4;
-  const earStyle = (hash >> 20) % 2;
+  const skinTone = SKIN_TONES[(hash >>> 8) % SKIN_TONES.length];
+  const eyeColor = EYE_COLORS[(hash >>> 11) % EYE_COLORS.length];
+  const hairColor = HAIR_COLORS[(hash >>> 14) % HAIR_COLORS.length];
+  const hairStyle = (hash >>> 17) % 4;
+  const earStyle = (hash >>> 20) % 2;
 
   // Unique gradient id per avatar so multiple inlined SVGs don't collide.
   const gid = `vhm${hash.toString(36)}`;

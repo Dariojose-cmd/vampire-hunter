@@ -58,6 +58,8 @@ export interface VampireCardProps {
   onStakeClick?: (v: Vampire, trigger: HTMLElement) => void;
   onSpare?: (v: Vampire) => void;
   onGarlic?: (v: Vampire) => void;
+  /** Clears a staked decision (Undo on a staked card). */
+  onUnstake?: (v: Vampire) => void;
 }
 
 /** A small escaping-bat SVG used in the stake moment. */
@@ -84,6 +86,7 @@ export function VampireCard({
   onStakeClick,
   onSpare,
   onGarlic,
+  onUnstake,
 }: VampireCardProps) {
   const { t } = useTranslation(language);
   const reduce = useReducedMotion();
@@ -156,17 +159,6 @@ export function VampireCard({
         </>
       )}
 
-      {decision && (
-        <span className={`${styles.decisionChip} ${
-          decision === 'staked' ? styles.chipStaked :
-          decision === 'spared' ? styles.chipSpared : styles.chipGarlic
-        }`}>
-          {decision === 'staked' ? t('crypt.filterStaked')
-            : decision === 'spared' ? t('crypt.filterSpared')
-            : t('crypt.filterGarlic')}
-        </span>
-      )}
-
       <div
         className={styles.avatar}
         aria-hidden="true"
@@ -215,39 +207,71 @@ export function VampireCard({
         </div>
       </div>
 
-      <div className={styles.actions}>
-        <button
-          ref={stakeBtnRef}
-          type="button"
-          className={`${styles.actionBtn} ${styles.stakeBtn}`}
-          onClick={() => stakeBtnRef.current && onStakeClick?.(vampire, stakeBtnRef.current)}
-          aria-label={t('vampireCard.stakeAriaLabel', { name: vampire.displayName })}
-        >
-          {t('vampireCard.stakeButton')}
-        </button>
-        <button
-          type="button"
-          className={`${styles.actionBtn} ${styles.spareBtn}`}
-          onClick={() => onSpare?.(vampire)}
-          aria-pressed={decision === 'spared'}
-          aria-label={t('vampireCard.spareAriaLabel', { name: vampire.displayName })}
-        >
-          {t('vampireCard.spareButton')}
-        </button>
-        <button
-          type="button"
-          className={`${styles.actionBtn} ${styles.garlicBtn}`}
-          onClick={() => onGarlic?.(vampire)}
-          disabled={garlicDisabled}
-          aria-pressed={decision === 'garlic'}
-          aria-label={t('vampireCard.garlicAriaLabel', {
-            name: vampire.displayName,
-            nextDate: formatDate(vampire.nextBiteDate, language),
-          })}
-        >
-          {t('vampireCard.garlicButton')}
-        </button>
-      </div>
+      {/* In-flow decision banner (never clipped by the arched top). Shown for
+          spared / garlic; staked gets its own state block below. */}
+      {(decision === 'spared' || decision === 'garlic') && (
+        <div className={`${styles.decisionBanner} ${decision === 'spared' ? styles.bannerSpared : styles.bannerGarlic}`}>
+          {decision === 'spared'
+            ? `🙏 ${t('vampireCard.decisionSpared')}`
+            : `🧄 ${t('vampireCard.decisionGarlic')}`}
+        </div>
+      )}
+
+      {decision === 'staked' ? (
+        // Staked state: clearly "done", with an Undo affordance.
+        <div className={styles.stakedBlock}>
+          <div className={styles.stakedState}>
+            <span className={styles.stakedMark} aria-hidden="true">🪦</span>
+            <span>
+              <strong>{t('vampireCard.stakedState')}</strong>
+              <span className={styles.stakedDetail}>{t('vampireCard.stakedStateDetail')}</span>
+            </span>
+          </div>
+          <button
+            ref={stakeBtnRef}
+            type="button"
+            className={`${styles.actionBtn} ${styles.undoBtn}`}
+            onClick={() => onUnstake?.(vampire)}
+            aria-label={t('vampireCard.undoAriaLabel', { name: vampire.displayName })}
+          >
+            ↺ {t('vampireCard.undoButton')}
+          </button>
+        </div>
+      ) : (
+        <div className={styles.actions}>
+          <button
+            ref={stakeBtnRef}
+            type="button"
+            className={`${styles.actionBtn} ${styles.stakeBtn}`}
+            onClick={() => stakeBtnRef.current && onStakeClick?.(vampire, stakeBtnRef.current)}
+            aria-label={t('vampireCard.stakeAriaLabel', { name: vampire.displayName })}
+          >
+            {t('vampireCard.stakeButton')}
+          </button>
+          <button
+            type="button"
+            className={`${styles.actionBtn} ${styles.spareBtn}`}
+            onClick={() => onSpare?.(vampire)}
+            aria-pressed={decision === 'spared'}
+            aria-label={t('vampireCard.spareAriaLabel', { name: vampire.displayName })}
+          >
+            {t('vampireCard.spareButton')}
+          </button>
+          <button
+            type="button"
+            className={`${styles.actionBtn} ${styles.garlicBtn}`}
+            onClick={() => onGarlic?.(vampire)}
+            disabled={garlicDisabled}
+            aria-pressed={decision === 'garlic'}
+            aria-label={t('vampireCard.garlicAriaLabel', {
+              name: vampire.displayName,
+              nextDate: formatDate(vampire.nextBiteDate, language),
+            })}
+          >
+            {t('vampireCard.garlicButton')}
+          </button>
+        </div>
+      )}
     </motion.article>
   );
 }
