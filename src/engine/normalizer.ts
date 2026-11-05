@@ -54,39 +54,56 @@ const REF_CODE_END_RE = /\s*[A-Z0-9]*\d[A-Z0-9]{5,}$/;
  * before the digit-strip pass fragments them into short alphabetic remnants.
  * Both steps always run; the logical numbering from the spec is preserved.
  *
- * The function is idempotent: `normalize(normalize(s)) === normalize(s)` for all inputs.
+ * The cleaning steps are iterated to a fixpoint: a single pass is not enough to
+ * be idempotent, because removing a boundary-anchored ref code (or a leading
+ * noise keyword) can shift a previously-interior token so that it now sits at a
+ * boundary and matches the ref-code regex on the next pass. We therefore repeat
+ * the pass until the string stops changing, so that `normalize` is a fixpoint
+ * and `normalize(normalize(s)) === normalize(s)` for all inputs.
  *
  * @param s - Raw description string from bank statement
  * @returns Cleaned, uppercased merchant name
  */
 export function normalize(s: string): string {
-  // Step 1: Uppercase
+  // Step 1: Uppercase (done once; the loop below only strips characters).
   let result = s.toUpperCase();
 
-  // Step 2: Remove noise keywords (word-boundary, already uppercased)
-  result = result.replace(NOISE_KEYWORDS_RE, '');
+  // Iterate the cleaning steps until the string reaches a fixpoint. Each pass
+  // only removes or collapses characters, so the string is monotonically
+  // shrinking-or-stable and convergence is quick; the cap is a defensive guard
+  // against any pathological non-convergence.
+  const MAX_ITERATIONS = 100;
+  for (let iter = 0; iter < MAX_ITERATIONS; iter++) {
+    const prev = result;
 
-  // Collapse whitespace before ref-code removal so the anchors ^ and $ see
-  // clean boundaries after noise keywords were stripped.
-  result = result.replace(/\s+/g, ' ').trim();
+    // Step 2: Remove noise keywords (word-boundary, already uppercased)
+    result = result.replace(NOISE_KEYWORDS_RE, '');
 
-  // Step 4 (applied before step 3): Remove reference-code patterns at start/end.
-  // Doing this before digit removal preserves the full alphanumeric token so the
-  // regex can match (e.g. "TXN20241101" → removed; otherwise digits are stripped
-  // first leaving "TXN" which is < 6 chars and would not match).
-  result = result.replace(REF_CODE_START_RE, '');
-  result = result.replace(REF_CODE_END_RE, '');
+    // Collapse whitespace before ref-code removal so the anchors ^ and $ see
+    // clean boundaries after noise keywords were stripped.
+    result = result.replace(/\s+/g, ' ').trim();
 
-  // Step 3: Remove card-number patterns (4+ consecutive digits).
-  // Runs after ref-code removal; catches any remaining standalone digit sequences
-  // such as card suffixes ("VISA 4321") that were not part of a ref-code token.
-  result = result.replace(CARD_NUMBER_RE, '');
+    // Step 4 (applied before step 3): Remove reference-code patterns at start/end.
+    // Doing this before digit removal preserves the full alphanumeric token so the
+    // regex can match (e.g. "TXN20241101" → removed; otherwise digits are stripped
+    // first leaving "TXN" which is < 6 chars and would not match).
+    result = result.replace(REF_CODE_START_RE, '');
+    result = result.replace(REF_CODE_END_RE, '');
 
-  // Step 5: Collapse consecutive whitespace to single space
-  result = result.replace(/\s+/g, ' ');
+    // Step 3: Remove card-number patterns (4+ consecutive digits).
+    // Runs after ref-code removal; catches any remaining standalone digit sequences
+    // such as card suffixes ("VISA 4321") that were not part of a ref-code token.
+    result = result.replace(CARD_NUMBER_RE, '');
 
-  // Step 6: Trim
-  result = result.trim();
+    // Step 5: Collapse consecutive whitespace to single space
+    result = result.replace(/\s+/g, ' ');
+
+    // Step 6: Trim
+    result = result.trim();
+
+    // Fixpoint reached: another pass would be a no-op.
+    if (result === prev) break;
+  }
 
   return result;
 }

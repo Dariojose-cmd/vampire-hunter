@@ -96,6 +96,40 @@ function lastBiteAmount(bites: Transaction[]): number {
   return sorted[sorted.length - 1].amountCents;
 }
 
+/**
+ * Detects a sustained price increase within a chronologically-sorted series of
+ * amounts (integer cents). Returns true when there exists a split index
+ * `p` in `[1, k-1]` such that:
+ *   - every later amount is ≥ every earlier amount:
+ *       min(a[p..k-1]) >= max(a[0..p-1])
+ *   - the later segment's median is at least 2% above the earlier segment's
+ *     median: median(a[p..]) * 100 >= median(a[..p]) * 102
+ *
+ * The 2% comparison is done on integer cents (×100 / ×102) to avoid float
+ * rounding. Uses the file's `computeMedian` helper for consistency.
+ */
+function hasSustainedIncrease(amounts: number[]): boolean {
+  const k = amounts.length;
+  if (k < 2) return false;
+
+  for (let p = 1; p < k; p++) {
+    const earlier = amounts.slice(0, p);
+    const later = amounts.slice(p);
+
+    const maxEarlier = Math.max(...earlier);
+    const minLater = Math.min(...later);
+    if (minLater < maxEarlier) continue;
+
+    const earlierMedian = computeMedian(earlier);
+    const laterMedian = computeMedian(later);
+    // Sustained ≥ 2% rise (integer-cents comparison).
+    if (laterMedian * 100 >= earlierMedian * 102) {
+      return true;
+    }
+  }
+  return false;
+}
+
 // ---------------------------------------------------------------------------
 // Iterative k-medians clustering (order-independent) — Step 2a
 // ---------------------------------------------------------------------------
@@ -418,7 +452,7 @@ export function buildCandidates(
     withMedian.sort((a, b) => a.median - b.median);
 
     for (let i = 0; i < withMedian.length; i++) {
-      const { bites, median: med, hasPriceIncrease } = withMedian[i];
+      const { bites, median: med, hasPriceIncrease: mergedPriceIncrease } = withMedian[i];
       const sortedBites = [...bites].sort((a, b) => a.date.localeCompare(b.date));
       const amountHistory = sortedBites.map((b) => b.amountCents);
 
@@ -437,6 +471,16 @@ export function buildCandidates(
         paidMedian === 0
           ? paidHistory.every((a) => a === 0)
           : paidHistory.every((a) => Math.abs(a - paidMedian) / paidMedian <= 0.1);
+
+      // Price-increase detection within a single cluster. A sub-10% step is
+      // absorbed into one cluster by k-medians, so it never triggers the 2b-ii
+      // merge pass. Product decision: flag any *sustained* increase of ≥ 2%.
+      // Search the trial-excluded chronological series (paidHistory) for a split
+      // index p where every later bite is ≥ every earlier bite and the later
+      // segment's median is at least 2% above the earlier segment's median.
+      // OR this in with any price-increase already flagged by the 2b-ii merge.
+      const hasPriceIncrease =
+        mergedPriceIncrease || hasSustainedIncrease(paidHistory);
 
       output.push({
         id: `${normalizedName}_${i}`,
