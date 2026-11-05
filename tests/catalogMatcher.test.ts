@@ -25,21 +25,21 @@ const fixture: CatalogEntry[] = [
     canonicalName: 'Max',
     aliases: ['MAX', 'HBO MAX', 'HBOMAX'],
     cancelUrl: '',
-    cancelSteps: ['a / b'],
+    cancelSteps: { en: ['a'], es: ['b'] },
   },
   {
     id: 'apple-music',
     canonicalName: 'Apple Music',
     aliases: ['APPLE MUSIC', 'APPLE.COM/BILL'],
     cancelUrl: '',
-    cancelSteps: ['a / b'],
+    cancelSteps: { en: ['a'], es: ['b'] },
   },
   {
     id: 'netflix',
     canonicalName: 'Netflix',
     aliases: ['NETFLIX', 'NETFLIX.COM'],
     cancelUrl: '',
-    cancelSteps: ['a / b'],
+    cancelSteps: { en: ['a'], es: ['b'] },
   },
 ];
 
@@ -114,7 +114,7 @@ describe('matchCatalog — word-boundary semantics', () => {
         canonicalName: 'Apple',
         aliases: ['APPLE'],
         cancelUrl: '',
-        cancelSteps: ['a / b'],
+        cancelSteps: { en: ['a'], es: ['b'] },
       },
     ];
     expect(matchCatalog('APPLE.COM BILL', appleOnly)?.id).toBe('apple');
@@ -146,7 +146,7 @@ describe('matchCatalog — special characters are literal, not wildcards', () =>
         canonicalName: 'NetflixDotted',
         aliases: ['NETFLIXX.COM'],
         cancelUrl: '',
-        cancelSteps: ['a / b'],
+        cancelSteps: { en: ['a'], es: ['b'] },
       },
     ];
     expect(matchCatalog('NETFLIXX.COM', dottedOnly)?.id).toBe('netflix-dotted');
@@ -183,19 +183,39 @@ describe('matchCatalog — real src/data/catalog.json', () => {
     expect(entry?.aliases).toContain('APPLE.COM/BILL');
   });
 
-  it('resolves "APPLE.COM/BILL" to iCloud (single owner of the shared descriptor)', () => {
-    // The generic Apple billing descriptor is intentionally carried by exactly
-    // one entry so first-match-wins is deterministic. iCloud is the owner.
-    expect(matchCatalog('APPLE.COM/BILL', realCatalog)?.id).toBe('icloud');
+  it('resolves "APPLE.COM/BILL" to the dedicated Apple subscription entry', () => {
+    // The generic Apple billing descriptor is shared by App Store, iCloud and
+    // Apple Music charges, so it is carried by exactly one dedicated entry
+    // rather than by iCloud. First-match-wins is deterministic.
+    const entry = matchCatalog('APPLE.COM/BILL', realCatalog);
+    expect(entry?.id).toBe('apple-subscription');
+    expect(entry?.canonicalName).toBe('Apple subscription (App Store / iCloud / Apple Music)');
     const owners = realCatalog.filter((e) => e.aliases.includes('APPLE.COM/BILL'));
-    expect(owners.map((e) => e.id)).toEqual(['icloud']);
+    expect(owners.map((e) => e.id)).toEqual(['apple-subscription']);
   });
 
-  it('matches the bank-printed "DISNEY+" to Disney Plus', () => {
-    // Regression guard: a trailing "+" alias cannot satisfy the closing \b, so
-    // the entry must carry a bare companion ("DISNEY") that matches as a word.
-    expect(matchCatalog('DISNEY+', realCatalog)?.id).toBe('disney-plus');
-    expect(matchCatalog('DISNEY+ MONTHLY', realCatalog)?.id).toBe('disney-plus');
+  it('resolves the normalizer space form "APPLE COM BILL" to the Apple subscription entry', () => {
+    expect(matchCatalog('APPLE COM BILL', realCatalog)?.id).toBe('apple-subscription');
+  });
+
+  it('keeps ICLOUD and APPLE MUSIC on their own distinct entries', () => {
+    expect(matchCatalog('ICLOUD', realCatalog)?.id).toBe('icloud');
+    expect(matchCatalog('APPLE MUSIC', realCatalog)?.id).toBe('apple-music');
+    // Neither keeps the shared generic descriptor anymore.
+    expect(realCatalog.find((e) => e.id === 'icloud')?.aliases).not.toContain('APPLE.COM/BILL');
+    expect(realCatalog.find((e) => e.id === 'icloud')?.aliases).not.toContain('APPLE COM BILL');
+    expect(realCatalog.find((e) => e.id === 'apple-music')?.aliases).not.toContain('APPLE COM BILL');
+  });
+
+  it('matches the bank-printed Disney+ forms to Disney Plus via subscription-specific aliases', () => {
+    // The bare "DISNEY" alias was removed because it also matched ordinary
+    // non-subscription lines like "DISNEY STORE". Disney+ now resolves only
+    // through its subscription-specific aliases.
+    expect(matchCatalog('DISNEY PLUS', realCatalog)?.id).toBe('disney-plus');
+    expect(matchCatalog('DISNEYPLUS', realCatalog)?.id).toBe('disney-plus');
+    expect(matchCatalog('DISNEY PLUS.COM', realCatalog)?.id).toBe('disney-plus');
+    // And the bare "DISNEY STORE" line must NOT resolve to the subscription.
+    expect(matchCatalog('DISNEY STORE', realCatalog)).toBeUndefined();
   });
 
   it('matches the bank-printed "MELI+" to Mercado Libre Meli Plus', () => {
@@ -246,6 +266,41 @@ describe('matchCatalog — real src/data/catalog.json', () => {
 
   it('does NOT match "MAXI DESPENSA" in the real catalog', () => {
     expect(matchCatalog('MAXI DESPENSA', realCatalog)).toBeUndefined();
+  });
+
+  it('does NOT match ordinary non-subscription purchases from the over-broad brands', () => {
+    // These lines are normal one-off purchases or help/support descriptors; the
+    // over-broad bare brand aliases (UBER, RAPPI, DISNEY, AMZN MKTP, MAX) were
+    // removed so none of them must resolve to a subscription entry.
+    const negatives = [
+      'UBER TRIP HELP.UBER.COM',
+      'UBER EATS PEDIDO',
+      'RAPPI DOMICILIO',
+      'DISNEY STORE',
+      'AMZN MKTP US',
+      'MAXI DESPENSA',
+    ];
+    for (const line of negatives) {
+      expect(matchCatalog(line, realCatalog)).toBeUndefined();
+    }
+  });
+
+  it('matches "HELLOFRESH", "GREEN CHEF" and "COSTCO" sample lines', () => {
+    expect(matchCatalog('MEALBOX HELLOFRESH SUBSCRIPTION', realCatalog)?.id).toBe('hellofresh');
+    expect(matchCatalog('GREEN CHEF WEEKLY MEAL BOX', realCatalog)?.id).toBe('green-chef');
+    expect(matchCatalog('COSTCO ANNUAL MEMBERSHIP', realCatalog)?.id).toBe('costco-membership');
+  });
+
+  it('every entry has non-empty English and Spanish cancelSteps', () => {
+    for (const entry of realCatalog) {
+      expect(Array.isArray(entry.cancelSteps.en)).toBe(true);
+      expect(Array.isArray(entry.cancelSteps.es)).toBe(true);
+      expect(entry.cancelSteps.en.length).toBeGreaterThan(0);
+      expect(entry.cancelSteps.es.length).toBeGreaterThan(0);
+      for (const step of [...entry.cancelSteps.en, ...entry.cancelSteps.es]) {
+        expect(step.trim().length).toBeGreaterThan(0);
+      }
+    }
   });
 
   it('returns undefined for an unknown merchant', () => {

@@ -109,8 +109,11 @@ export interface CatalogEntry {
   /** Uppercase normalized aliases used for matching. */
   aliases: string[];
   cancelUrl: string;
-  /** Ordered step-by-step cancellation instructions. */
-  cancelSteps: string[];
+  /**
+   * Ordered step-by-step cancellation instructions, split by language so the
+   * UI can render a single language at a time.
+   */
+  cancelSteps: { en: string[]; es: string[] };
   /** Optional bundled asset path or remote URL. */
   logoUrl?: string;
 }
