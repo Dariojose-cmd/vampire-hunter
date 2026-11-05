@@ -137,10 +137,24 @@ function hasSustainedIncrease(amounts: number[]): boolean {
 function clusterByAmount(bites: Transaction[]): Transaction[][] {
   if (bites.length === 0) return [];
 
+  // Order-independence: cluster membership must not depend on the order the
+  // bites arrive in. Seeding and k-medians reassignment both iterate the input
+  // in order and tie-break only by absolute percent diff, so near-boundary
+  // (within ~10%) same-merchant amounts can land in different clusters for
+  // different input orders. Sorting a COPY into a canonical order
+  // (amountCents asc, then date asc, then id asc) before clustering makes the
+  // result deterministic without mutating the caller's array.
+  const sorted = [...bites].sort((a, b) => {
+    if (a.amountCents !== b.amountCents) return a.amountCents - b.amountCents;
+    const byDate = a.date.localeCompare(b.date);
+    if (byDate !== 0) return byDate;
+    return a.id.localeCompare(b.id);
+  });
+
   let clusterAmounts: number[][] = [];
   let clusterBites: Transaction[][] = [];
 
-  for (const bite of bites) {
+  for (const bite of sorted) {
     const amount = bite.amountCents;
     const eligible: { idx: number; diff: number }[] = [];
     for (let i = 0; i < clusterAmounts.length; i++) {
@@ -167,7 +181,7 @@ function clusterByAmount(bites: Transaction[]): Transaction[][] {
     const newClusterAmounts: number[][] = medians.map(() => []);
     const newClusterBites: Transaction[][] = medians.map(() => []);
 
-    for (const bite of bites) {
+    for (const bite of sorted) {
       const amount = bite.amountCents;
       const eligible: { idx: number; diff: number }[] = [];
       for (let i = 0; i < medians.length; i++) {

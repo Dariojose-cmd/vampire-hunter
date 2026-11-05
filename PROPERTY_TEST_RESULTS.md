@@ -177,3 +177,109 @@ tiny-amount case where the ≥2% floor exceeds the ≤50% ceiling.
 
 Result: Property 12b passes (1000 runs) — exactly 1 candidate with
 `hasPriceIncrease === true`; Property 12a still passes unchanged.
+
+---
+
+## Property 3b — Same-Merchant Clustering Order Independence
+
+**Validates: Requirements 4.5, 4.8** — `tests/detection.property.test.ts`,
+`{ numRuns: 1000 }`.
+
+### What the property asserts
+
+Property 3 proves order independence only for statements whose recurring series
+each use a *distinct* merchant. Property 3b targets the harder, inherently
+ambiguous case the main generator deliberately sidesteps: **2–3 independent
+recurring series that all share ONE merchant, with per-series base amounts
+clustered mutually within 10% of each other** (`max/min <= 1.1`, right at the
+grouper's ±10% cluster-tolerance boundary). Each series is a valid weekly/monthly
+series of 3–8 bites; the usual 0–10 one-off noise transactions are mixed in.
+
+The property runs `runDetection` on the generated array, then again on a genuine
+random permutation of the *same* multiset (seed-based random sort keys,
+`k = Math.sin((i+1)*(seed+1))` — the same permutation approach Property 3 uses,
+not a fixed reverse). It then asserts **both**:
+
+- **(a)** `allVampireIds(reordered)` deep-equals `allVampireIds(original)` —
+  identical sorted vampire ids; and
+- **(b)** identical bite memberships per cluster — a `Map<vampireId, sortedBiteKeys>`
+  (bite key = `${date}|${amountCents}|${type}`) built from each run is
+  deep-equal for every id.
+
+There is **no coverage guard** on this property: masking is not the goal —
+exposing the order-dependence is.
+
+### Before (pre-fix engine) — FAILS
+
+Run against the current (unfixed) engine, Property 3b fails: the same multiset of
+same-merchant transactions produces a *different number of clusters* (and hence
+different vampire ids / bite memberships) depending on input order. The root
+cause is `clusterByAmount` in `src/engine/grouper.ts`: its seeding loop and
+iterative k-medians reassignment iterate `bites` in **input order** and tie-break
+eligible clusters only by absolute percent difference, so near-boundary
+(within ~10%) same-merchant amounts land in different clusters depending on
+order.
+
+**Exact fast-check output (verbatim):**
+
+```
+Error: Property failed after 37 tests
+{ seed: 661867412, path: "36:1:1:1:1:1:1:5:1:1:1:1:1:1:1:1:1:1:1:1:1:1:1:2:1:1:1:1:1:1:1:1:0:0:0:0:0:0:0:0:0:0:0:0:2:0:1:21:6:2:1:3:1:1:2:1:4:2:1:4:1:1:1:3:2:1:1:1:1:1:1:2:1:1", endOnFailure: true }
+Counterexample: [[{"id":"s0-b0","date":"2020-01-01","description":"NETFLIX.COM","normalizedName":"NETFLIX.COM","amountCents":2006,"type":"debit","currency":"USD"},{"id":"s0-b1","date":"2020-01-08","description":"NETFLIX.COM","normalizedName":"NETFLIX.COM","amountCents":2026,"type":"debit","currency":"USD"},{"id":"s0-b2","date":"2020-01-15","description":"NETFLIX.COM","normalizedName":"NETFLIX.COM","amountCents":2006,"type":"debit","currency":"USD"},{"id":"s1-b0","date":"2020-01-01","description":"NETFLIX.COM","normalizedName":"NETFLIX.COM","amountCents":2207,"type":"debit","currency":"USD"},{"id":"s1-b1","date":"2020-01-06","description":"NETFLIX.COM","normalizedName":"NETFLIX.COM","amountCents":2207,"type":"debit","currency":"USD"},{"id":"s1-b2","date":"2020-01-15","description":"NETFLIX.COM","normalizedName":"NETFLIX.COM","amountCents":2207,"type":"debit","currency":"USD"}],0]
+Shrunk 73 time(s)
+
+Hint: Enable verbose mode in order to have the list of all failing values encountered during the run
+
+Caused by: AssertionError: expected [ 'NETFLIX.COM_0' ] to deeply equal [ 'NETFLIX.COM_0', 'NETFLIX.COM_1' ]
+
+- Expected
++ Received
+
+  [
+    "NETFLIX.COM_0",
+-   "NETFLIX.COM_1",
+  ]
+```
+
+**Counterexample decoded:** one `NETFLIX.COM` statement holds two weekly series —
+series 0 at ~2006–2026 cents and series 1 at 2207 cents (within 10% of each
+other). In the original order the engine forms a single cluster
+(`NETFLIX.COM_0`); after the permutation it forms two (`NETFLIX.COM_0`,
+`NETFLIX.COM_1`). The vampire ids (and therefore bite memberships) depend on
+input order — exactly the order-dependence bug.
+
+### After (fix)
+
+**Code change (`src/engine/grouper.ts`):** at the very start of
+`clusterByAmount`, before the initial seeding loop, the input bites are copied
+and sorted into a **canonical order** and that sorted copy is used for *both* the
+seeding loop and every iterative k-medians reassignment pass:
+
+```ts
+const sorted = [...bites].sort((a, b) => {
+  if (a.amountCents !== b.amountCents) return a.amountCents - b.amountCents;
+  const byDate = a.date.localeCompare(b.date);
+  if (byDate !== 0) return byDate;
+  return a.id.localeCompare(b.id);
+});
+```
+
+Canonical sort key: `amountCents` **ascending**, then `date` **ascending**
+(`localeCompare` on the ISO `YYYY-MM-DD` string), then `id` **ascending**
+(`localeCompare`). The sort is applied to a **copy** (`[...bites]`), so the
+caller's array is never mutated. Because both loops now iterate `sorted` instead
+of the raw `bites`, seeding and tie-breaking always encounter near-boundary
+(within ~10%) same-merchant amounts in the same deterministic sequence, so
+cluster membership no longer depends on input order.
+
+No public signatures changed (`clusterByAmount`, `groupByMerchant`,
+`buildCandidates` are untouched in shape). The post-clustering "sort clusters
+ascending by median" step in `groupByMerchant`/`buildCandidates` remains the
+cluster-index convention, and Step 2b merge logic plus the
+`computeMedian`/`isWithinTolerance`/`absPctDiff` helpers are unchanged.
+
+Result: Property 3b now **passes at 1000 runs** — identical sorted vampire ids
+and identical per-cluster bite memberships across every random permutation —
+Properties 3/4/5/8 still pass (Property 3's and 5's ≥ 80% coverage guards still
+hold), and the full suite is green: **16 test files / 243 tests passed**, with
+`npx tsc -b` clean.
