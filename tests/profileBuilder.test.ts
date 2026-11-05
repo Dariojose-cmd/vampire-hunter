@@ -10,6 +10,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   annualBloodLossCents,
+  generateAvatar,
   predictNextBite,
   threatLevelFromCents,
 } from '../src/engine/profileBuilder';
@@ -167,5 +168,40 @@ describe('predictNextBite — interval arithmetic', () => {
 
   it('never throws — returns the input string on invalid date', () => {
     expect(() => predictNextBite('not-a-date', 'monthly')).not.toThrow();
+  });
+});
+
+// ---------------------------------------------------------------------------
+// generateAvatar  (Requirement 6.5)
+// ---------------------------------------------------------------------------
+
+describe('generateAvatar', () => {
+  it('is deterministic — same input yields identical output', () => {
+    for (const name of ['NETFLIX', 'SPOTIFY', 'DISNEY PLUS', '']) {
+      expect(generateAvatar(name)).toBe(generateAvatar(name));
+    }
+  });
+
+  it('produces distinct output for a set of clearly distinct names', () => {
+    const names = ['NETFLIX', 'SPOTIFY', 'DISNEY PLUS', 'AMAZON PRIME', 'APPLE MUSIC'];
+    const svgs = new Set(names.map((n) => generateAvatar(n)));
+    // Every distinct name maps to a distinct SVG string.
+    expect(svgs.size).toBe(names.length);
+  });
+
+  it('output starts with `<svg` and contains `viewBox`', () => {
+    const svg = generateAvatar('NETFLIX');
+    expect(svg.startsWith('<svg')).toBe(true);
+    expect(svg).toContain('viewBox');
+  });
+
+  it('empty string still yields a valid non-empty `<svg...` string (never throws)', () => {
+    let svg = '';
+    expect(() => {
+      svg = generateAvatar('');
+    }).not.toThrow();
+    expect(svg.length).toBeGreaterThan(0);
+    expect(svg.startsWith('<svg')).toBe(true);
+    expect(svg).toContain('viewBox');
   });
 });
