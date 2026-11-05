@@ -41,6 +41,21 @@ html {
   }
 }
 
+/* Global reduced-motion safety net: neutralize any animation or transition that
+   a component might have missed. Component-level `useReducedMotion` already
+   swaps the meaningful motion (stake crumble → fade, etc.); this guarantees no
+   residual movement for users who ask for none. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 body {
   font-family: var(--font-sans);
   font-size: var(--font-size-base);

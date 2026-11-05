@@ -1,15 +1,14 @@
 /**
  * App — top-level state and view routing for Vampire Hunter.
  *
- * Owns: parsed transactions, detection result, UI language, display currency,
- * and the "possible vampires" toggle. Routes between three views:
- *   - Uploader       (no results yet)
- *   - ColumnMapper   (engine returned COLUMN_MAPPING_NEEDED or ambiguous date)
- *   - results        (detection succeeded)
+ * Persistence (task 20): language, currency, and per-vampire decisions are held
+ * in `useCryptStorage` and written through to localStorage on every change.
+ * Raw transactions / CSV text are NEVER persisted. Because vampire ids are
+ * stable (`normalizedName_clusterIndex`), re-loading the same statement
+ * restores the saved decisions.
  *
- * The entire pipeline runs client-side: Papa Parse → parseStatement /
- * parseWithLayout → runDetection. No transaction data is ever sent over the
- * network (Requirement 13.1).
+ * Views: Uploader (no results) · ColumnMapper (mapping needed) · Crypt (results).
+ * The whole pipeline runs client-side; no transaction data leaves the device.
  */
 
 import { useState } from 'react';
@@ -22,13 +21,18 @@ import type {
   ColumnLayout,
   DateFormat,
   DetectionResult,
+  Transaction,
 } from '@engine/types';
-import { useTranslation, type Language, type TranslationKey } from '@i18n/index';
+import { useTranslation, type TranslationKey } from '@i18n/index';
 import { parseCsvText } from './csvUtils';
+import { useCryptStorage } from './useCryptStorage';
 import { CryptAtmosphere } from './CryptAtmosphere';
 import { Uploader } from './Uploader';
 import { ColumnMapper } from './ColumnMapper';
 import { Crypt } from './Crypt';
+import { LanguageSwitch } from './LanguageSwitch';
+import { CurrencySelector } from './CurrencySelector';
+import { BurnButton } from './BurnButton';
 import styles from './App.module.css';
 
 type View = 'upload' | 'mapper' | 'results';
@@ -45,15 +49,21 @@ function errorKeyForCode(code: string): TranslationKey {
   }
 }
 
-const CURRENCIES = ['USD', 'MXN', 'COP', 'ARS', 'CLP', 'EUR', 'BRL', 'GBP', 'CAD', 'PEN'];
-
 export function App() {
-  const [language, setLanguage] = useState<Language>('en');
-  const [currency, setCurrency] = useState<string>('USD');
+  // Persisted settings + decisions (localStorage-backed).
+  const {
+    decisions,
+    language,
+    currency,
+    setDecision,
+    setLanguage,
+    setCurrency,
+    burn,
+  } = useCryptStorage();
+
   const [view, setView] = useState<View>('upload');
   const [errorKey, setErrorKey] = useState<TranslationKey | null>(null);
   const [soundEnabled, setSoundEnabled] = useState(false);
-
   const [result, setResult] = useState<DetectionResult | null>(null);
 
   // Held while the user is in the ColumnMapper, so we can re-parse on confirm.
@@ -73,11 +83,7 @@ export function App() {
   /** Entry point from Uploader / SamplePicker: raw CSV text. */
   function handleCsv(_sourceName: string, csvText: string) {
     setErrorKey(null);
-
-    if (csvText.trim() === '') {
-      setErrorKey('errors.fileNotCsv');
-      return;
-    }
+    if (csvText.trim() === '') { setErrorKey('errors.fileNotCsv'); return; }
 
     const { headers, rows } = parseCsvText(csvText);
     const parsed = parseStatement(headers, rows);
@@ -97,7 +103,6 @@ export function App() {
     finishDetection(parsed.value.transactions, parsed.value.currency);
   }
 
-  /** Confirm handler from the ColumnMapper. */
   function handleMapperConfirm(layout: ColumnLayout, dateFormat: DateFormat | null) {
     if (!pendingCsv) { reset(); return; }
     const chosenFormat: DateFormat = dateFormat ?? 'YYYY-MM-DD';
@@ -111,14 +116,19 @@ export function App() {
     finishDetection(parsed.value.transactions, parsed.value.currency);
   }
 
-  function finishDetection(transactions: import('@engine/types').Transaction[], detectedCurrency: string) {
-    setCurrency(detectedCurrency);
+  function finishDetection(transactions: Transaction[], detectedCurrency: string) {
+    // Only adopt the auto-detected currency if the user has not already chosen
+    // one this session (currency is persisted; don't stomp a saved preference
+    // on every upload — but a fresh install starts at USD and should follow the
+    // statement). We update when the detected currency differs AND the current
+    // value is the default USD, mirroring the detector's intent without
+    // overriding an explicit user choice mid-session.
+    if (detectedCurrency && currency === 'USD') setCurrency(detectedCurrency);
     const detection = runDetection({ transactions, currency: detectedCurrency });
     setResult(detection);
     setPendingCsv(null);
     setView('results');
   }
-
 
   return (
     <div className={styles.app}>
@@ -140,26 +150,11 @@ export function App() {
           >
             {soundEnabled ? '\uD83D\uDD0A' : '\uD83D\uDD07'}
           </button>
-          <button
-            type="button"
-            className={styles.langBtn}
-            onClick={() => setLanguage((l) => (l === 'en' ? 'es' : 'en'))}
-            aria-label={t('nav.languageSwitchAriaLabel')}
-          >
-            {t('nav.languageSwitch')}
-          </button>
-          <div className={styles.control}>
-            <label htmlFor="currency">{t('currencySelector.label')}</label>
-            <select
-              id="currency"
-              className={styles.select}
-              value={currency}
-              onChange={(e) => setCurrency(e.target.value)}
-              aria-label={t('currencySelector.ariaLabel')}
-            >
-              {CURRENCIES.map((c) => <option key={c} value={c}>{c}</option>)}
-            </select>
-          </div>
+          <LanguageSwitch language={language} onChange={setLanguage} />
+          <CurrencySelector language={language} currency={currency} onChange={setCurrency} />
+          {view === 'results' && (
+            <BurnButton language={language} onConfirm={() => { burn(); reset(); }} />
+          )}
         </div>
       </header>
 
@@ -189,6 +184,8 @@ export function App() {
             currency={currency}
             result={result}
             soundEnabled={soundEnabled}
+            decisions={decisions}
+            onDecision={setDecision}
             onUploadAnother={reset}
           />
         )}

@@ -152,106 +152,106 @@ Build the Vampire Hunter SPA in a strict bottom-up order: scaffolding → styles
     - Zero React imports
     - _Requirements: 4.1, 4.8, 4.9, 4.10, 5.3, 5.5_
 
-- [ ] 13. Engine unit tests
-  - [~] 13.1 Write unit tests for `parser.ts`
+- [x] 13. Engine unit tests
+  - [x] 13.1 Write unit tests for `parser.ts`
     - In `tests/parser.test.ts`, cover: dot-decimal amounts; comma-decimal amounts; thousands-separator dot (`45.900` → 4590000 cents); `DD/MM/YYYY` parsing; `MM/DD/YYYY` parsing; `YYYY-MM-DD` parsing; ambiguous date → `'ambiguous'` result; two-column debit/credit layout; invalid date row → skipped; invalid amount row → skipped; `parseDate` always returns `Result`, never throws
     - _Requirements: 1.6, 1.7, 1.8, 1.9, 1.10, 1.11, 1.12_
 
-  - [~] 13.2 Write property test — Property 9: Amount Cents Integrity
+  - [x] 13.2 Write property test — Property 9: Amount Cents Integrity
     - In `tests/detection.property.test.ts`, implement Property 9 using `fc.oneof` of dot-decimal and comma-decimal generators; assert `Number.isInteger(parseCents(s, format))` for all generated strings
     - Tag comment: `// Property 9: Amount Cents Integrity — Validates: Requirements 1.8, 1.12`
     - _Requirements: 1.8, 1.12_
 
-  - [~] 13.3 Write property test — Property 11: Thousands-Separator Detection
+  - [x] 13.3 Write property test — Property 11: Thousands-Separator Detection
     - In `tests/detection.property.test.ts`, generate columns of amounts like `"45.900"` where dot is always followed by exactly 3 digits; assert `inferNumberFormat` returns `'noDecimal'`; assert each value parses to integer × 100 cents
     - Tag comment: `// Property 11: Thousands-Separator Detection — Validates: Requirements 1.8, 1.12`
     - _Requirements: 1.8, 1.12_
 
-  - [~] 13.4 Write unit tests for `normalizer.ts`
+  - [x] 13.4 Write unit tests for `normalizer.ts`
     - In `tests/normalizer.test.ts`, test each noise keyword (POS, PURCHASE, COMPRA, PAGO, CARGO, DEBIT, PAYMENT) case-insensitively; card-number removal (4+ digits); reference-code removal at start/end; whitespace collapsing; uppercase output; combined noise in a single string
     - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5_
 
-  - [~] 13.5 Write property test — Property 1: Normalization Idempotence
+  - [x] 13.5 Write property test — Property 1: Normalization Idempotence
     - In `tests/detection.property.test.ts`, implement Property 1: `fc.property(fc.string(), s => expect(normalize(normalize(s))).toBe(normalize(s)))`
     - Tag comment: `// Property 1: Normalization Idempotence — Validates: Requirements 2.6`
     - _Requirements: 2.6_
 
-  - [~] 13.6 Write unit tests for `cadenceDetector.ts`
+  - [x] 13.6 Write unit tests for `cadenceDetector.ts`
     - In `tests/cadenceDetector.test.ts`, cover: exactly 2 bites; gaps at each cadence boundary (weekly 5, weekly 9, monthly 26, monthly 35, quarterly 85, quarterly 97, yearly 355, yearly 375); gaps outside all buckets → `null`; free-trial detection (first bite zero cents); price-increase detection; ≥ 60% gap requirement (noisy data)
     - _Requirements: 4.2, 4.3, 4.7_
 
-  - [~] 13.7 Write property test — Property 2: Monthly Cadence Detection
+  - [x] 13.7 Write property test — Property 2: Monthly Cadence Detection
     - In `tests/detection.property.test.ts`, implement Property 2 using `fc.integer({ min: 2, max: 24 })` for count and `fc.integer({ min: 26, max: 35 })` for gap; assert `detectCadence` returns `'monthly'`
     - Tag comment: `// Property 2: Monthly Cadence Detection — Validates: Requirements 4.2, 4.4`
     - _Requirements: 4.2, 4.4_
 
-  - [~] 13.8 Write property test — Property 10: Cadence Tolerance Coverage
+  - [x] 13.8 Write property test — Property 10: Cadence Tolerance Coverage
     - In `tests/detection.property.test.ts`, implement Property 10 for all four cadence ranges `[5–9]`, `[26–35]`, `[85–97]`, `[355–375]`; use `CADENCE_RANGES` loop; assert correct cadence label for each range
     - Tag comment: `// Property 10: Cadence Tolerance Coverage — Validates: Requirements 4.2`
     - _Requirements: 4.2_
 
-  - [~] 13.9 Write unit tests for `grouper.ts`
+  - [x] 13.9 Write unit tests for `grouper.ts`
     - In `tests/grouper.test.ts`, cover: same merchant two different amounts interleaved → 2 clusters; sequential price step within 50% → 1 cluster with `hasPriceIncrease`; sequential step > 50% → 2 clusters; overlapping clusters → never merged; single transaction → no candidate; multiple merchants → independent grouping
     - _Requirements: 4.5, 4.6_
 
-  - [~] 13.10 Write property test — Property 12a: Interleaved Series → Two Vampires
+  - [x] 13.10 Write property test — Property 12a: Interleaved Series → Two Vampires
     - In `tests/detection.property.test.ts`, implement Property 12a: generate two clearly different amounts (> 10% apart) from the same merchant, interleave their transactions, assert `groupByMerchant` produces exactly 2 clusters
     - Tag comment: `// Property 12a: Intra-Merchant Clustering — Validates: Requirements 4.5, 4.6`
     - _Requirements: 4.5, 4.6_
 
-  - [~] 13.11 Write property test — Property 12b: Sequential Price Step → One Vampire
+  - [x] 13.11 Write property test — Property 12b: Sequential Price Step → One Vampire
     - In `tests/detection.property.test.ts`, implement Property 12b: generate n charges at amountA then m charges at amountB where B ≤ A × 1.5 and B > A, no date overlap; assert exactly 1 cluster with `hasPriceIncrease = true`
     - Tag comment: `// Property 12b: Sequential Price Step Merge — Validates: Requirements 4.5, 4.6`
     - _Requirements: 4.5, 4.6_
 
-  - [~] 13.12 Write unit tests for `scorer.ts`
+  - [x] 13.12 Write unit tests for `scorer.ts`
     - In `tests/scorer.test.ts`, cover: all signals present → score ≤ 100; no signals → score = 0; each signal in isolation; score with catalog bonus; clamping at 100 and 0
     - _Requirements: 5.1, 5.2_
 
-  - [~] 13.13 Write property test — Property 6: Confidence Score Range
+  - [x] 13.13 Write property test — Property 6: Confidence Score Range
     - In `tests/detection.property.test.ts`, implement Property 6 using `arbitraryCandidate()` generator; assert `Number.isInteger(score)`, `score >= 0`, `score <= 100`
     - Tag comment: `// Property 6: Confidence Score Range — Validates: Requirements 5.1`
     - _Requirements: 5.1_
 
-  - [~] 13.14 Write unit tests for `profileBuilder.ts`
+  - [x] 13.14 Write unit tests for `profileBuilder.ts`
     - In `tests/profileBuilder.test.ts`, cover: annual loss formula for each cadence (weekly×52, monthly×12, quarterly×4, yearly×1); threat level boundaries (boundary values at 50, 200, 500 USD equivalent); next-bite prediction for each cadence; `generateAvatar` same input → same output; different inputs → different outputs (probabilistic)
     - _Requirements: 6.2, 6.3, 6.5, 6.6_
 
-  - [~] 13.15 Write property test — Property 7: Threat Level Monotonicity
+  - [x] 13.15 Write property test — Property 7: Threat Level Monotonicity
     - In `tests/detection.property.test.ts`, implement Property 7 using two `fc.integer` generators for annual cents; if centsA > centsB assert `THREAT_ORDER[levelA] >= THREAT_ORDER[levelB]`
     - Tag comment: `// Property 7: Threat Level Monotonicity — Validates: Requirements 6.3, 14.5`
     - _Requirements: 6.3, 14.5_
 
-  - [~] 13.16 Write property test — Property 8: Avatar Determinism
+  - [x] 13.16 Write property test — Property 8: Avatar Determinism
     - In `tests/detection.property.test.ts`, implement Property 8: `fc.property(fc.string({ minLength: 1 }), name => expect(generateAvatar(name)).toBe(generateAvatar(name)))`
     - Tag comment: `// Property 8: Avatar Determinism — Validates: Requirements 6.5`
     - _Requirements: 6.5_
 
-  - [~] 13.17 Write unit tests for `currencyUtils.ts`
+  - [x] 13.17 Write unit tests for `currencyUtils.ts`
     - In `tests/currencyUtils.test.ts`, cover: detect USD from `$` symbol; detect EUR from `€`; detect MXN from header keyword; detect via ISO 4217 code; `$` with no locale signal → `'USD'`; threshold conversion for each currency in the table; `fallback rate = 1.0` when currency not in table
     - _Requirements: 14.1, 14.2, 14.5_
 
-  - [~] 13.18 Write unit tests for `icsGenerator.ts`
+  - [x] 13.18 Write unit tests for `icsGenerator.ts`
     - In `tests/icsGenerator.test.ts`, cover: output contains `BEGIN:VCALENDAR` and `BEGIN:VEVENT`; event DTSTART is 3 days before next bite; SUMMARY contains vampire display name; DESCRIPTION changes with language; never throws (always returns `Result`)
     - _Requirements: 10.1, 10.2, 10.3_
 
-- [ ] 14. Full-pipeline integration property tests
-  - [~] 14.1 Write property test — Property 3: Order Independence
+- [x] 14. Full-pipeline integration property tests
+  - [x] 14.1 Write property test — Property 3: Order Independence
     - In `tests/detection.property.test.ts`, implement Property 3: generate an array of transactions, shuffle, run `runDetection` twice; assert same vampire IDs (sorted) in both results
     - Tag comment: `// Property 3: Order Independence — Validates: Requirements 4.8`
     - _Requirements: 4.8_
 
-  - [~] 14.2 Write property test — Property 4: No-Singleton Rule
+  - [x] 14.2 Write property test — Property 4: No-Singleton Rule
     - In `tests/detection.property.test.ts`, implement Property 4: generate a single arbitrary debit transaction; assert it never appears in vampires or possibleVampires output
     - Tag comment: `// Property 4: No-Singleton Rule — Validates: Requirements 4.3, 4.9`
     - _Requirements: 4.3, 4.9_
 
-  - [~] 14.3 Write property test — Property 5: Credit Exclusion
+  - [x] 14.3 Write property test — Property 5: Credit Exclusion
     - In `tests/detection.property.test.ts`, implement Property 5: force first transaction to `type: 'credit'`; assert no bite in any output has `type === 'credit'`
     - Tag comment: `// Property 5: Credit Exclusion — Validates: Requirements 1.17, 4.10`
     - _Requirements: 1.17, 4.10_
 
-- [~] 15. Checkpoint — engine and tests complete
+- [x] 15. Checkpoint — engine and tests complete
   - Ensure all Vitest tests pass with `npx vitest --run`. Ask the user if any questions arise before proceeding to the UI layer.
 
 - [x] 16. React UI — foundation and routing
@@ -294,7 +294,7 @@ Build the Vampire Hunter SPA in a strict bottom-up order: scaffolding → styles
     - Update on stake/un-stake events
     - _Requirements: 7.3, 8.5_
 
-- [ ] 19. React UI — action modals and buttons
+- [x] 19. React UI — action modals and buttons
   - [x] 19.1 Implement `StakeModal.tsx` with cancellation instructions and email draft
     - When opened: display Catalog cancellation URL and step-by-step instructions (if catalog match); display generated cancellation email draft (call i18n template with service name and selected language); one-click copy button for the email draft
     - Focus trap: set `autoFocus` on first focusable element; return focus to Stake button on close (use Framer Motion `AnimatePresence`)
@@ -305,18 +305,18 @@ Build the Vampire Hunter SPA in a strict bottom-up order: scaffolding → styles
     - `GarlicButton`: native `<button>` with ARIA label; on click call `generateIcs` and trigger browser download via `URL.createObjectURL`; add "garlic-active" class with pulse animation; handle ICS generation failure gracefully (disable button, no crash)
     - _Requirements: 9.1, 9.3, 10.1, 10.2, 10.3_
 
-  - [~] 19.3 Implement `LanguageSwitch.tsx` and `CurrencySelector.tsx`
+  - [x] 19.3 Implement `LanguageSwitch.tsx` and `CurrencySelector.tsx`
     - `LanguageSwitch`: toggle button or two-segment control; on change update language in App state and persist to localStorage; re-render all i18n strings without page reload; regenerate any open cancellation email draft in new language
     - `CurrencySelector`: `<select>` with ISO 4217 options; on change update currency in App state and re-format all displayed amounts; persist to localStorage
     - _Requirements: 12.2, 12.3, 12.4, 12.5, 14.3, 14.4, 14.6_
 
-  - [~] 19.4 Implement `EmptyState.tsx` and `BurnButton.tsx`
+  - [x] 19.4 Implement `EmptyState.tsx` and `BurnButton.tsx`
     - `EmptyState`: shown when no CSV uploaded and no decisions in storage; display spooky prompt with upload CTA and "Try a sample" link
     - `BurnButton`: "Burn the Crypt" button; on click show confirmation modal (native `<dialog>` or Framer Motion animated div with focus trap); on confirm call `burnCrypt()` (clear localStorage key, clear React state, navigate to empty-state), return focus to upload drop zone
     - _Requirements: 7.5, 11.3, 11.4, 11.5_
 
-- [ ] 20. Persistence layer (`localStorage`)
-  - [~] 20.1 Implement `useCryptStorage` hook
+- [x] 20. Persistence layer (`localStorage`)
+  - [x] 20.1 Implement `useCryptStorage` hook
     - In `src/engine/cryptStorage.ts` (pure TS, no React) implement: `loadCryptStorage(): CryptStorage | null`, `saveCryptStorage(storage: CryptStorage): void`, `burnCrypt(): void`; handle `localStorage` unavailable gracefully (catch `SecurityError`, return `null` and signal `STORAGE_UNAVAILABLE`)
     - In `src/components/useCryptStorage.ts` (React hook), wrap the pure functions: initialize state from `loadStorage` on mount; expose `setDecision(vampireId, decision)`, `setLanguage`, `setCurrency`, `burn`; write through to localStorage on every change; never persist raw transaction data or CSV contents
     - _Requirements: 11.1, 11.2, 11.3, 8.6, 9.2, 10.4_
@@ -324,27 +324,27 @@ Build the Vampire Hunter SPA in a strict bottom-up order: scaffolding → styles
 - [~] 21. Checkpoint — UI and persistence complete
   - Ensure all Vitest tests pass with `npx vitest --run`. Verify that no test imports from `src/components/` within `tests/` (engine tests only). Ask the user if questions arise.
 
-- [ ] 22. Accessibility and responsive polish
-  - [~] 22.1 Audit and fix keyboard navigation and ARIA labels
+- [x] 22. Accessibility and responsive polish
+  - [x] 22.1 Audit and fix keyboard navigation and ARIA labels
     - Confirm every interactive element is a native `<button>` or `<input>` (no div-click handlers)
     - Add or verify ARIA labels on all `<VampireCard>` action buttons matching the pattern `"Stake {name} – cancel this subscription"`, `"Spare {name} – keep this subscription"`, `"Set garlic reminder for {name} – next charge on {date}"`
     - Verify `<article aria-label="{name} – {threatLevel} – {annualLoss} per year">` on each card
     - Run `@axe-core/react` in development and fix any reported violations
     - _Requirements: 15.1, 15.4, 15.5_
 
-  - [~] 22.2 Add focus management to modals and page transitions
+  - [x] 22.2 Add focus management to modals and page transitions
     - `StakeModal`: focus trap (cycle Tab/Shift+Tab within modal); `autoFocus` on first element; return focus to trigger button on close
     - `ColumnMapper`: focus first unresolved `<select>` on mount
     - After "Burn the Crypt" confirm: move focus to upload drop zone
     - _Requirements: 15.1_
 
-  - [~] 22.3 Implement reduced-motion support throughout
+  - [x] 22.3 Implement reduced-motion support throughout
     - Ensure all Framer Motion animation components use `useReducedMotion()` hook
     - Stake animation: swap to `opacity: 0, transition: { duration: 0.3 }` when reduced motion is preferred
     - All other animations: use `0` or very short durations; verify via browser `prefers-reduced-motion: reduce` media query in devtools
     - _Requirements: 15.6_
 
-  - [~] 22.4 Responsive layout at 360px minimum
+  - [x] 22.4 Responsive layout at 360px minimum
     - Add `.crypt-grid` CSS with `auto-fill minmax(300px, 1fr)` and `@media (max-width: 480px)` override to single column
     - Verify vampire card actions stack vertically at narrow widths
     - Test layout at 360px, 480px, 768px, 1280px

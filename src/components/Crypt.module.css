@@ -101,6 +101,9 @@
   gap: var(--space-5);
 }
 .possibleGrid > * { opacity: 0.68; }
+@media (max-width: 480px) {
+  .possibleGrid { grid-template-columns: 1fr; }
+}
 
 .empty {
   text-align: center;

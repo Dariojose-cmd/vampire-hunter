@@ -1,0 +1,62 @@
+/* Burn the Crypt button + confirmation modal. */
+.burnBtn {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-sm);
+  color: var(--color-accent-text);
+  border: 1px solid var(--color-stone-line);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-4);
+  background: transparent;
+  transition: border-color var(--transition-fast), color var(--transition-fast), background-color var(--transition-fast);
+}
+.burnBtn:hover { border-color: var(--color-accent-light); color: #fff; background: rgba(192, 57, 43, 0.18); }
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-5);
+  background: var(--color-overlay-deep);
+  backdrop-filter: blur(3px);
+}
+.panel {
+  width: 100%;
+  max-width: 440px;
+  background: linear-gradient(180deg, var(--color-altar-edge), var(--color-surface));
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg), 0 0 40px rgba(192, 57, 43, 0.3);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  text-align: center;
+}
+.title {
+  font-family: var(--font-display);
+  font-size: var(--font-size-2xl);
+  color: var(--color-accent-text);
+}
+.message { color: var(--color-text); line-height: var(--line-height-relaxed); }
+.actions { display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap; }
+.confirmBtn {
+  font-family: var(--font-heading);
+  color: #fff;
+  background: linear-gradient(180deg, var(--color-accent-light), var(--color-accent));
+  border: 1px solid var(--color-accent-light);
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-md);
+}
+.confirmBtn:hover { transform: translateY(-1px); }
+.cancelBtn {
+  font-family: var(--font-heading);
+  color: var(--color-text-muted);
+  background: transparent;
+  border: 1px solid var(--color-stone-line);
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-md);
+}
+.cancelBtn:hover { border-color: var(--color-text); color: var(--color-text); }

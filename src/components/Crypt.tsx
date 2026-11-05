@@ -38,17 +38,28 @@ export interface CryptProps {
   currency: string;
   result: DetectionResult;
   soundEnabled: boolean;
+  /** Persisted decisions keyed by vampire id (controlled by the parent). */
+  decisions: Record<string, DecisionType>;
+  /** Record or clear a decision; the parent persists it to localStorage. */
+  onDecision: (vampireId: string, decision: DecisionType) => void;
   onUploadAnother: () => void;
 }
 
-export function Crypt({ language, currency, result, soundEnabled, onUploadAnother }: CryptProps) {
+export function Crypt({
+  language,
+  currency,
+  result,
+  soundEnabled,
+  decisions,
+  onDecision,
+  onUploadAnother,
+}: CryptProps) {
   const { t } = useTranslation(language);
   const reduce = useReducedMotion();
 
   const [sortKey, setSortKey] = useState<SortKey>('threat');
   const [filter, setFilter] = useState<FilterKey>('all');
   const [showPossible, setShowPossible] = useState(false);
-  const [decisions, setDecisions] = useState<Record<string, DecisionType>>({});
   const [garlicFailed, setGarlicFailed] = useState<Record<string, boolean>>({});
 
   // Summoning ritual: show for ~1s on mount, then reveal the crypt.
@@ -74,7 +85,7 @@ export function Crypt({ language, currency, result, soundEnabled, onUploadAnothe
     if (soundEnabled) playStakeThud();
     setStakingId(v.id);
     const settle = () => {
-      setDecisions((prev) => ({ ...prev, [v.id]: 'staked' }));
+      onDecision(v.id, 'staked');
       setStakingId(null);
     };
     if (reduce) setTimeout(settle, 320);
@@ -82,11 +93,11 @@ export function Crypt({ language, currency, result, soundEnabled, onUploadAnothe
   }
 
   function toggleSpare(v: Vampire) {
-    setDecisions((prev) => ({ ...prev, [v.id]: prev[v.id] === 'spared' ? null : 'spared' }));
+    onDecision(v.id, decisions[v.id] === 'spared' ? null : 'spared');
   }
 
   function unstake(v: Vampire) {
-    setDecisions((prev) => ({ ...prev, [v.id]: null }));
+    onDecision(v.id, null);
   }
 
   function setGarlic(v: Vampire) {
@@ -95,7 +106,7 @@ export function Crypt({ language, currency, result, soundEnabled, onUploadAnothe
       setGarlicFailed((prev) => ({ ...prev, [v.id]: true }));
       return;
     }
-    setDecisions((prev) => ({ ...prev, [v.id]: prev[v.id] === 'garlic' ? null : 'garlic' }));
+    onDecision(v.id, decisions[v.id] === 'garlic' ? null : 'garlic');
   }
 
   const duplicateNames = useMemo(() => {
