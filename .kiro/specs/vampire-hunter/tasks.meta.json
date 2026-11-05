@@ -260,6 +260,375 @@
         "chatSessionId": "sess_16ce4f9e-6277-4be1-869f-f790d0030cd7",
         "timestamp": 1793754854147
       }
+    ],
+    "11.1 Implement `matchCatalog`": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793846991704
+      }
+    ],
+    "11.3 Implement `generateAvatar`": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793846996445
+      },
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847009580
+      },
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847157045
+      }
+    ],
+    "11.4 Implement currency detection and `inferCurrency`": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793846997541
+      },
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847010468
+      },
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847158450
+      }
+    ],
+    "11.5 Implement `generateIcs`": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793846997773
+      },
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847011296
+      },
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847159259
+      }
+    ],
+    "12.1 Wire the engine pipeline into `runDetection`": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793846998076
+      },
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847194072
+      },
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847360913
+      }
+    ],
+    "13.1 Write unit tests for `parser.ts`": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793846998231
+      }
+    ],
+    "13.2 Write property test — Property 9: Amount Cents Integrity": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793846998355
+      }
+    ],
+    "13.3 Write property test — Property 11: Thousands-Separator Detection": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793846998476
+      }
+    ],
+    "13.4 Write unit tests for `normalizer.ts`": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793846998633
+      }
+    ],
+    "13.5 Write property test — Property 1: Normalization Idempotence": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793846998771
+      }
+    ],
+    "13.6 Write unit tests for `cadenceDetector.ts`": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793846998929
+      }
+    ],
+    "13.7 Write property test — Property 2: Monthly Cadence Detection": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793846999119
+      }
+    ],
+    "13.8 Write property test — Property 10: Cadence Tolerance Coverage": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793846999324
+      }
+    ],
+    "13.9 Write unit tests for `grouper.ts`": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793846999601
+      }
+    ],
+    "13.10 Write property test — Property 12a: Interleaved Series → Two Vampires": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793846999962
+      }
+    ],
+    "13.11 Write property test — Property 12b: Sequential Price Step → One Vampire": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847000235
+      }
+    ],
+    "13.12 Write unit tests for `scorer.ts`": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847000376
+      }
+    ],
+    "13.13 Write property test — Property 6: Confidence Score Range": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847000502
+      }
+    ],
+    "13.14 Write unit tests for `profileBuilder.ts`": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847000664
+      }
+    ],
+    "13.15 Write property test — Property 7: Threat Level Monotonicity": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847000813
+      }
+    ],
+    "13.16 Write property test — Property 8: Avatar Determinism": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847000954
+      }
+    ],
+    "13.17 Write unit tests for `currencyUtils.ts`": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847001079
+      }
+    ],
+    "13.18 Write unit tests for `icsGenerator.ts`": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847001191
+      }
+    ],
+    "14.1 Write property test — Property 3: Order Independence": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847001334
+      }
+    ],
+    "14.2 Write property test — Property 4: No-Singleton Rule": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847001586
+      }
+    ],
+    "14.3 Write property test — Property 5: Credit Exclusion": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847001825
+      }
+    ],
+    "15. Checkpoint — engine and tests complete": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847001969
+      }
+    ],
+    "16.1 Create `App.tsx` with top-level state and view routing": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847002163
+      }
+    ],
+    "17.1 Implement `Uploader.tsx` with drop zone and sample picker": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847002306
+      }
+    ],
+    "17.2 Implement `ColumnMapper.tsx` for manual column assignment": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847002465
+      }
+    ],
+    "18.1 Implement `Crypt.tsx` with sorting, filtering, and Blood Meter": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847002658
+      }
+    ],
+    "18.2 Implement `VampireCard.tsx` with full profile display and actions": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847002819
+      }
+    ],
+    "18.3 Implement `BloodMeter.tsx`": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847002982
+      }
+    ],
+    "19.1 Implement `StakeModal.tsx` with cancellation instructions and email draft": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847003133
+      }
+    ],
+    "19.2 Implement `SpareButton.tsx` and `GarlicButton.tsx`": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847003288
+      }
+    ],
+    "19.3 Implement `LanguageSwitch.tsx` and `CurrencySelector.tsx`": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847003450
+      }
+    ],
+    "19.4 Implement `EmptyState.tsx` and `BurnButton.tsx`": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847003585
+      }
+    ],
+    "20.1 Implement `useCryptStorage` hook": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847003678
+      }
+    ],
+    "21. Checkpoint — UI and persistence complete": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847003819
+      }
+    ],
+    "22.1 Audit and fix keyboard navigation and ARIA labels": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847003951
+      }
+    ],
+    "22.2 Add focus management to modals and page transitions": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847004125
+      }
+    ],
+    "22.3 Implement reduced-motion support throughout": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847004265
+      }
+    ],
+    "22.4 Responsive layout at 360px minimum": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847004402
+      }
+    ],
+    "23.1 Add Amplify build configuration": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847004534
+      }
+    ],
+    "24. Final checkpoint — all tests pass, build succeeds": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847004730
+      }
+    ],
+    "11. Detection engine — catalog matcher, profile builder, currency utils, ICS generator": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847159562
+      }
+    ],
+    "12. Detection engine — public API (`index.ts`)": [
+      {
+        "executionId": "8c820e9a-30b6-41b8-b6dc-de0b970f7005",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793847361240
+      }
     ]
   }
 }

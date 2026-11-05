@@ -138,3 +138,162 @@ export function predictNextBite(lastBiteDate: string, cadence: Cadence): string 
     return lastBiteDate;
   }
 }
+
+// ---------------------------------------------------------------------------
+// generateAvatar
+// ---------------------------------------------------------------------------
+
+/**
+ * 8-colour cape palette. Indexed by `(hash >> 4) mod 8`.
+ * Spooky-but-readable hues that contrast against the dark crypt background.
+ */
+const CAPE_COLORS = [
+  '#7b1113', // deep blood red
+  '#4a235a', // dark violet
+  '#1b4f72', // midnight blue
+  '#145a32', // forest green
+  '#633974', // royal purple
+  '#78281f', // dried blood
+  '#1c2833', // charcoal
+  '#5b2c06', // dark amber
+] as const;
+
+/**
+ * 4 skin tones for the vampire face. Indexed by `(hash >> 8) mod 4`.
+ * Pale undead complexions ranging from grey-green to ashen.
+ */
+const SKIN_TONES = [
+  '#d9e4dd', // pale grey-green
+  '#e8e0d5', // ashen cream
+  '#cdd6d0', // cold grey
+  '#ddd0cf', // dusty rose-grey
+] as const;
+
+/**
+ * Compute a 32-bit FNV-1a hash of a string.
+ *
+ * FNV-1a: start from the offset basis, then for each byte XOR it into the hash
+ * and multiply by the FNV prime. `>>> 0` keeps the result an unsigned 32-bit
+ * integer after every step (JS bitwise ops operate on signed 32-bit values).
+ *
+ * @param input - The string to hash
+ * @returns      Unsigned 32-bit hash
+ */
+function fnv1a32(input: string): number {
+  let hash = 0x811c9dc5; // FNV offset basis (2166136261)
+  for (let i = 0; i < input.length; i++) {
+    hash ^= input.charCodeAt(i) & 0xff;
+    // Multiply by FNV prime 16777619 using shifts to stay in 32-bit range.
+    hash = Math.imul(hash, 0x01000193) >>> 0;
+  }
+  return hash >>> 0;
+}
+
+/**
+ * Build the SVG `<path>`/`<element>` markup for a pair of vampire eyes.
+ * Four distinct styles so different hashes produce visibly different faces.
+ */
+function eyeShape(style: number, color: string): string {
+  switch (style % 4) {
+    case 0: // round glowing eyes
+      return (
+        `<circle cx="40" cy="52" r="5" fill="${color}"/>` +
+        `<circle cx="60" cy="52" r="5" fill="${color}"/>`
+      );
+    case 1: // narrow slits
+      return (
+        `<rect x="35" y="50" width="12" height="3" rx="1.5" fill="${color}"/>` +
+        `<rect x="53" y="50" width="12" height="3" rx="1.5" fill="${color}"/>`
+      );
+    case 2: // angry slanted eyes
+      return (
+        `<path d="M35 55 L47 49 L47 53 Z" fill="${color}"/>` +
+        `<path d="M65 55 L53 49 L53 53 Z" fill="${color}"/>`
+      );
+    default: // wide oval eyes
+      return (
+        `<ellipse cx="40" cy="52" rx="6" ry="4" fill="${color}"/>` +
+        `<ellipse cx="60" cy="52" rx="6" ry="4" fill="${color}"/>`
+      );
+  }
+}
+
+/**
+ * Build the SVG markup for the vampire fangs.
+ * Three distinct styles.
+ */
+function fangShape(style: number, color: string): string {
+  switch (style % 3) {
+    case 0: // two short fangs
+      return (
+        `<path d="M44 66 L47 74 L50 66 Z" fill="${color}"/>` +
+        `<path d="M50 66 L53 74 L56 66 Z" fill="${color}"/>`
+      );
+    case 1: // two long dripping fangs
+      return (
+        `<path d="M43 66 L46 80 L49 66 Z" fill="${color}"/>` +
+        `<path d="M51 66 L54 80 L57 66 Z" fill="${color}"/>`
+      );
+    default: // wide-set fangs with a grin line
+      return (
+        `<path d="M40 66 L43 76 L46 66 Z" fill="${color}"/>` +
+        `<path d="M54 66 L57 76 L60 66 Z" fill="${color}"/>` +
+        `<rect x="40" y="64" width="20" height="2" rx="1" fill="${color}"/>`
+      );
+  }
+}
+
+/**
+ * Generate a unique, deterministic SVG avatar for a Vampire from its
+ * normalized name.
+ *
+ * The avatar is seeded with a 32-bit FNV-1a hash of `normalizedName`, from
+ * which four visual traits are derived:
+ *   - eye style  = hash mod 4
+ *   - fang style = hash mod 3
+ *   - cape color = CAPE_COLORS[(hash >> 4) mod 8]
+ *   - skin tone  = SKIN_TONES[(hash >> 8) mod 4]
+ *
+ * The result is a fully self-contained `<svg>` string with no external
+ * references, suitable for inlining directly into the DOM.
+ *
+ * The same input ALWAYS produces identical output (pure, deterministic) and
+ * the function never throws — an empty string still yields a valid avatar.
+ *
+ * @param normalizedName - The Vampire's normalized merchant name
+ * @returns              A complete, self-contained SVG string
+ *
+ * _Validates: Requirement 6.5_
+ */
+export function generateAvatar(normalizedName: string): string {
+  const hash = fnv1a32(normalizedName);
+
+  const eyeStyle = hash % 4;
+  const fangStyle = hash % 3;
+  const capeColor = CAPE_COLORS[(hash >> 4) % CAPE_COLORS.length];
+  const skinTone = SKIN_TONES[(hash >> 8) % SKIN_TONES.length];
+
+  const eyes = eyeShape(eyeStyle, '#c0392b');
+  const fangs = fangShape(fangStyle, '#ffffff');
+
+  // Composed from static templates + derived values. viewBox is fixed at
+  // 100x100 so the avatar scales cleanly wherever it is rendered.
+  return (
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" role="img" aria-label="vampire avatar">` +
+    // cape behind the head
+    `<path d="M20 100 Q50 70 80 100 L80 100 Q50 85 20 100 Z" fill="${capeColor}"/>` +
+    `<path d="M22 95 Q50 55 78 95 L78 100 L22 100 Z" fill="${capeColor}"/>` +
+    // high collar
+    `<path d="M30 70 L50 60 L70 70 L62 82 L50 74 L38 82 Z" fill="${capeColor}"/>` +
+    // head
+    `<ellipse cx="50" cy="48" rx="24" ry="28" fill="${skinTone}"/>` +
+    // widow's-peak hairline
+    `<path d="M26 40 Q50 18 74 40 Q68 30 50 34 Q32 30 26 40 Z" fill="#1c1c1c"/>` +
+    `<path d="M50 30 L46 40 L54 40 Z" fill="#1c1c1c"/>` +
+    eyes +
+    // nose
+    `<path d="M50 56 L47 62 L53 62 Z" fill="rgba(0,0,0,0.15)"/>` +
+    fangs +
+    `</svg>`
+  );
+}
