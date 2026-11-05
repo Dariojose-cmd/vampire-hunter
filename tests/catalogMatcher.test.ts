@@ -183,6 +183,57 @@ describe('matchCatalog — real src/data/catalog.json', () => {
     expect(entry?.aliases).toContain('APPLE.COM/BILL');
   });
 
+  it('resolves "APPLE.COM/BILL" to iCloud (single owner of the shared descriptor)', () => {
+    // The generic Apple billing descriptor is intentionally carried by exactly
+    // one entry so first-match-wins is deterministic. iCloud is the owner.
+    expect(matchCatalog('APPLE.COM/BILL', realCatalog)?.id).toBe('icloud');
+    const owners = realCatalog.filter((e) => e.aliases.includes('APPLE.COM/BILL'));
+    expect(owners.map((e) => e.id)).toEqual(['icloud']);
+  });
+
+  it('matches the bank-printed "DISNEY+" to Disney Plus', () => {
+    // Regression guard: a trailing "+" alias cannot satisfy the closing \b, so
+    // the entry must carry a bare companion ("DISNEY") that matches as a word.
+    expect(matchCatalog('DISNEY+', realCatalog)?.id).toBe('disney-plus');
+    expect(matchCatalog('DISNEY+ MONTHLY', realCatalog)?.id).toBe('disney-plus');
+  });
+
+  it('matches the bank-printed "MELI+" to Mercado Libre Meli Plus', () => {
+    expect(matchCatalog('MELI+', realCatalog)?.id).toBe('mercado-libre-meli-plus');
+    expect(matchCatalog('MELI*', realCatalog)?.id).toBe('mercado-libre-meli-plus');
+  });
+
+  it('matches the bank-printed "PARAMOUNT+" to Paramount Plus', () => {
+    expect(matchCatalog('PARAMOUNT+', realCatalog)?.id).toBe('paramount-plus');
+    expect(matchCatalog('PARAMOUNT +', realCatalog)?.id).toBe('paramount-plus');
+  });
+
+  it('matches the bank-printed "VIX+" to ViX Premium', () => {
+    expect(matchCatalog('VIX+', realCatalog)?.id).toBe('vix-premium');
+  });
+
+  it('matches the bank-printed "ICLOUD+" to iCloud', () => {
+    expect(matchCatalog('ICLOUD+', realCatalog)?.id).toBe('icloud');
+  });
+
+  it('matches the bank-printed "APPLE TV+" to Apple TV Plus', () => {
+    expect(matchCatalog('APPLE TV+', realCatalog)?.id).toBe('apple-tv-plus');
+  });
+
+  it('carries no dead symbol-terminated aliases (each alias matches its own form)', () => {
+    // Every alias must be matchable via the same \b…\b regex the matcher builds;
+    // an alias ending in a non-word char (e.g. "DROPBOX*") would silently never
+    // fire. This pins the catalog so the dead-alias class cannot creep back in.
+    const dead: string[] = [];
+    for (const entry of realCatalog) {
+      for (const alias of entry.aliases) {
+        const pattern = new RegExp('\\b' + escapeRegex(alias) + '\\b', 'i');
+        if (!pattern.test(alias)) dead.push(`${entry.id}:${alias}`);
+      }
+    }
+    expect(dead).toEqual([]);
+  });
+
   it('does NOT match "APPLEXCOMYBILL" (dot/slash are literal in the real catalog)', () => {
     // Would only match if "." and "/" in APPLE.COM/BILL were treated as wildcards.
     // "APPLE" alone is not a standalone word here, so no Apple entry should match.

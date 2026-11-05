@@ -26,7 +26,7 @@
   {
     "id": "disney-plus",
     "canonicalName": "Disney Plus",
-    "aliases": ["DISNEY PLUS", "DISNEYPLUS", "DISNEY+", "DISNEY PLUS.COM"],
+    "aliases": ["DISNEY PLUS", "DISNEYPLUS", "DISNEY PLUS.COM", "DISNEY"],
     "cancelUrl": "https://help.disneyplus.com/en-US/article/disneyplus-cancel-subscription",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -50,7 +50,7 @@
   {
     "id": "amazon-prime",
     "canonicalName": "Amazon Prime",
-    "aliases": ["AMAZON PRIME", "AMZN PRIME", "AMZN MKTP", "PRIME VIDEO", "AMAZON PRIME*", "AMZN DIGITAL"],
+    "aliases": ["AMAZON PRIME", "AMZN PRIME", "AMZN MKTP", "PRIME VIDEO", "AMZN DIGITAL"],
     "cancelUrl": "https://www.amazon.com/gp/primecentral",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -62,7 +62,7 @@
   {
     "id": "icloud",
     "canonicalName": "iCloud",
-    "aliases": ["ICLOUD", "APPLE.COM/BILL", "APPLE ICLOUD", "ICLOUD+", "APPLE COM BILL"],
+    "aliases": ["ICLOUD", "APPLE.COM/BILL", "APPLE ICLOUD", "APPLE COM BILL"],
     "cancelUrl": "https://support.apple.com/en-us/HT202039",
     "cancelSteps": [
       "Open Settings and tap your name / Abre Ajustes y toca tu nombre",
@@ -134,7 +134,7 @@
   {
     "id": "paramount-plus",
     "canonicalName": "Paramount Plus",
-    "aliases": ["PARAMOUNT PLUS", "PARAMOUNT+", "PARAMOUNTPLUS", "PARAMOUNT +", "PPLUS"],
+    "aliases": ["PARAMOUNT PLUS", "PARAMOUNTPLUS", "PPLUS", "PARAMOUNT"],
     "cancelUrl": "https://www.paramountplus.com/account/",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -146,7 +146,7 @@
   {
     "id": "apple-tv-plus",
     "canonicalName": "Apple TV Plus",
-    "aliases": ["APPLE TV", "APPLE TV+", "APPLE TV PLUS", "APPLETV", "APPLE.COM/BILL"],
+    "aliases": ["APPLE TV", "APPLE TV PLUS", "APPLETV"],
     "cancelUrl": "https://tv.apple.com",
     "cancelSteps": [
       "Open Settings and tap your name / Abre Ajustes y toca tu nombre",
@@ -158,7 +158,7 @@
   {
     "id": "apple-music",
     "canonicalName": "Apple Music",
-    "aliases": ["APPLE MUSIC", "APPLEMUSIC", "APPLE.COM/BILL", "APPLE COM BILL"],
+    "aliases": ["APPLE MUSIC", "APPLEMUSIC", "APPLE COM BILL"],
     "cancelUrl": "https://music.apple.com/account/settings",
     "cancelSteps": [
       "Open Settings and tap your name / Abre Ajustes y toca tu nombre",
@@ -278,7 +278,7 @@
   {
     "id": "dropbox",
     "canonicalName": "Dropbox",
-    "aliases": ["DROPBOX", "DROPBOX*", "DROPBOX.COM"],
+    "aliases": ["DROPBOX", "DROPBOX.COM"],
     "cancelUrl": "https://help.dropbox.com/",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -314,7 +314,7 @@
   {
     "id": "canva",
     "canonicalName": "Canva",
-    "aliases": ["CANVA", "CANVA PRO", "CANVA*", "CANVA.COM"],
+    "aliases": ["CANVA", "CANVA PRO", "CANVA.COM"],
     "cancelUrl": "",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -326,7 +326,7 @@
   {
     "id": "figma",
     "canonicalName": "Figma",
-    "aliases": ["FIGMA", "FIGMA.COM", "FIGMA*", "FIGMA SUBSCRIPTION"],
+    "aliases": ["FIGMA", "FIGMA.COM", "FIGMA SUBSCRIPTION"],
     "cancelUrl": "https://help.figma.com/hc/en-us/articles/360040328273-Cancel-your-subscription",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -338,7 +338,7 @@
   {
     "id": "notion",
     "canonicalName": "Notion",
-    "aliases": ["NOTION", "NOTION.SO", "NOTION LABS", "NOTION*"],
+    "aliases": ["NOTION", "NOTION.SO", "NOTION LABS"],
     "cancelUrl": "",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -350,7 +350,7 @@
   {
     "id": "slack",
     "canonicalName": "Slack",
-    "aliases": ["SLACK", "SLACK.COM", "SLACK TECHNOLOGIES", "SLACK*"],
+    "aliases": ["SLACK", "SLACK.COM", "SLACK TECHNOLOGIES"],
     "cancelUrl": "https://slack.com/help/articles/218915077-Cancel-your-paid-subscription",
     "cancelSteps": [
       "Sign in to your workspace / Inicia sesion en tu espacio de trabajo",
@@ -362,7 +362,7 @@
   {
     "id": "zoom",
     "canonicalName": "Zoom",
-    "aliases": ["ZOOM", "ZOOM.US", "ZOOM VIDEO", "ZOOM*", "ZOOMCOMM"],
+    "aliases": ["ZOOM", "ZOOM.US", "ZOOM VIDEO", "ZOOMCOMM"],
     "cancelUrl": "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0066150",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -374,7 +374,7 @@
   {
     "id": "grammarly",
     "canonicalName": "Grammarly",
-    "aliases": ["GRAMMARLY", "GRAMMARLY.COM", "GRAMMARLY*", "GRAMMARLY PREMIUM"],
+    "aliases": ["GRAMMARLY", "GRAMMARLY.COM", "GRAMMARLY PREMIUM"],
     "cancelUrl": "https://support.grammarly.com/hc/en-us/articles/115000091472-Cancel-a-subscription",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -386,7 +386,7 @@
   {
     "id": "linkedin-premium",
     "canonicalName": "LinkedIn Premium",
-    "aliases": ["LINKEDIN PREMIUM", "LINKEDIN", "LINKEDIN.COM", "LNKD*", "LINKEDIN*"],
+    "aliases": ["LINKEDIN PREMIUM", "LINKEDIN", "LINKEDIN.COM", "LNKD"],
     "cancelUrl": "https://www.linkedin.com/help/linkedin/answer/a564304",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -398,7 +398,7 @@
   {
     "id": "tinder-gold",
     "canonicalName": "Tinder Gold",
-    "aliases": ["TINDER", "TINDER GOLD", "TINDER PLUS", "TINDER*", "MATCH*TINDER"],
+    "aliases": ["TINDER", "TINDER GOLD", "TINDER PLUS", "MATCH*TINDER"],
     "cancelUrl": "https://www.tinder.com/",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -410,7 +410,7 @@
   {
     "id": "bumble-boost",
     "canonicalName": "Bumble Boost",
-    "aliases": ["BUMBLE", "BUMBLE BOOST", "BUMBLE PREMIUM", "BUMBLE*"],
+    "aliases": ["BUMBLE", "BUMBLE BOOST", "BUMBLE PREMIUM"],
     "cancelUrl": "",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -422,7 +422,7 @@
   {
     "id": "crunchyroll",
     "canonicalName": "Crunchyroll",
-    "aliases": ["CRUNCHYROLL", "CRUNCHYROLL.COM", "CRUNCHYROLL*", "CR CRUNCHYROLL"],
+    "aliases": ["CRUNCHYROLL", "CRUNCHYROLL.COM", "CR CRUNCHYROLL"],
     "cancelUrl": "",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -434,7 +434,7 @@
   {
     "id": "mubi",
     "canonicalName": "Mubi",
-    "aliases": ["MUBI", "MUBI.COM", "MUBI*"],
+    "aliases": ["MUBI", "MUBI.COM"],
     "cancelUrl": "https://help.mubi.com/",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -446,7 +446,7 @@
   {
     "id": "deezer",
     "canonicalName": "Deezer",
-    "aliases": ["DEEZER", "DEEZER.COM", "DEEZER*", "DEEZER PREMIUM"],
+    "aliases": ["DEEZER", "DEEZER.COM", "DEEZER PREMIUM"],
     "cancelUrl": "https://support.deezer.com/hc/en-us",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -458,7 +458,7 @@
   {
     "id": "tidal",
     "canonicalName": "Tidal",
-    "aliases": ["TIDAL", "TIDAL.COM", "TIDAL*", "TIDAL MUSIC"],
+    "aliases": ["TIDAL", "TIDAL.COM", "TIDAL MUSIC"],
     "cancelUrl": "",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -470,7 +470,7 @@
   {
     "id": "siriusxm",
     "canonicalName": "SiriusXM",
-    "aliases": ["SIRIUSXM", "SIRIUS XM", "SIRIUS", "SIRIUSXM.COM", "SIRIUSXM*"],
+    "aliases": ["SIRIUSXM", "SIRIUS XM", "SIRIUS", "SIRIUSXM.COM"],
     "cancelUrl": "https://care.siriusxm.com/",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -482,7 +482,7 @@
   {
     "id": "nytimes",
     "canonicalName": "The New York Times",
-    "aliases": ["NEW YORK TIMES", "NYTIMES", "NYTIMES.COM", "NYT*", "NYT"],
+    "aliases": ["NEW YORK TIMES", "NYTIMES", "NYTIMES.COM", "NYT"],
     "cancelUrl": "https://help.nytimes.com/hc/en-us/articles/115014893428-Cancel-your-subscription",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -506,7 +506,7 @@
   {
     "id": "wsj",
     "canonicalName": "The Wall Street Journal",
-    "aliases": ["WALL STREET JOURNAL", "WSJ", "WSJ.COM", "WSJ*", "DOW JONES WSJ"],
+    "aliases": ["WALL STREET JOURNAL", "WSJ", "WSJ.COM", "DOW JONES WSJ"],
     "cancelUrl": "https://customercenter.wsj.com/",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -518,7 +518,7 @@
   {
     "id": "peloton",
     "canonicalName": "Peloton",
-    "aliases": ["PELOTON", "PELOTON.COM", "PELOTON*", "PELOTON MEMBERSHIP"],
+    "aliases": ["PELOTON", "PELOTON.COM", "PELOTON MEMBERSHIP"],
     "cancelUrl": "https://support.onepeloton.com/hc/en-us",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -530,7 +530,7 @@
   {
     "id": "classpass",
     "canonicalName": "ClassPass",
-    "aliases": ["CLASSPASS", "CLASS PASS", "CLASSPASS.COM", "CLASSPASS*"],
+    "aliases": ["CLASSPASS", "CLASS PASS", "CLASSPASS.COM"],
     "cancelUrl": "",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -578,7 +578,7 @@
   {
     "id": "att",
     "canonicalName": "AT&T",
-    "aliases": ["AT&T", "ATT", "ATT.COM", "AT T", "ATT*"],
+    "aliases": ["AT&T", "ATT", "ATT.COM", "AT T"],
     "cancelUrl": "https://www.att.com/support/",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -638,7 +638,7 @@
   {
     "id": "mercado-pago",
     "canonicalName": "Mercado Pago",
-    "aliases": ["MERCADO PAGO", "MERCADOPAGO", "MERPAGO", "MERCADOPAGO*"],
+    "aliases": ["MERCADO PAGO", "MERCADOPAGO", "MERPAGO"],
     "cancelUrl": "https://www.mercadopago.com.ar/ayuda",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -650,7 +650,7 @@
   {
     "id": "rappi-prime",
     "canonicalName": "Rappi Prime",
-    "aliases": ["RAPPI PRIME", "RAPPI", "RAPPIPRIME", "RAPPI*", "RAPPI PRIME*"],
+    "aliases": ["RAPPI PRIME", "RAPPI", "RAPPIPRIME"],
     "cancelUrl": "",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -662,7 +662,7 @@
   {
     "id": "uber-one",
     "canonicalName": "Uber One",
-    "aliases": ["UBER ONE", "UBERONE", "UBER* ONE", "UBER ONE*", "UBER"],
+    "aliases": ["UBER ONE", "UBERONE", "UBER* ONE", "UBER"],
     "cancelUrl": "",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -674,7 +674,7 @@
   {
     "id": "doordash-dashpass",
     "canonicalName": "DoorDash DashPass",
-    "aliases": ["DOORDASH DASHPASS", "DASHPASS", "DOORDASH", "DD *DOORDASH", "DOORDASH*"],
+    "aliases": ["DOORDASH DASHPASS", "DASHPASS", "DOORDASH", "DD *DOORDASH"],
     "cancelUrl": "https://help.doordash.com/consumers/s/",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -710,7 +710,7 @@
   {
     "id": "smart-fit",
     "canonicalName": "Smart Fit",
-    "aliases": ["SMART FIT", "SMARTFIT", "SMART FIT*", "SMARTFIT*"],
+    "aliases": ["SMART FIT", "SMARTFIT"],
     "cancelUrl": "https://www.smartfit.com.mx/",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -734,7 +734,7 @@
   {
     "id": "mercado-libre-meli-plus",
     "canonicalName": "Mercado Libre Meli Plus",
-    "aliases": ["MELI+", "MELI PLUS", "MERCADO LIBRE", "MERCADOLIBRE", "MELI*", "MERCADOLIBRE*"],
+    "aliases": ["MELI PLUS", "MERCADO LIBRE", "MERCADOLIBRE", "MELI"],
     "cancelUrl": "https://www.mercadolibre.com.ar/ayuda",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -746,7 +746,7 @@
   {
     "id": "directv-go",
     "canonicalName": "DirecTV GO",
-    "aliases": ["DIRECTV GO", "DIRECTVGO", "DIRECTV", "DTVGO", "DIRECTV GO*"],
+    "aliases": ["DIRECTV GO", "DIRECTVGO", "DIRECTV", "DTVGO"],
     "cancelUrl": "https://www.directvgo.com/",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -758,7 +758,7 @@
   {
     "id": "globoplay",
     "canonicalName": "Globoplay",
-    "aliases": ["GLOBOPLAY", "GLOBO PLAY", "GLOBOPLAY.COM", "GLOBOPLAY*"],
+    "aliases": ["GLOBOPLAY", "GLOBO PLAY", "GLOBOPLAY.COM"],
     "cancelUrl": "https://www.globoplay.com.br/",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -770,7 +770,7 @@
   {
     "id": "vix-premium",
     "canonicalName": "ViX Premium",
-    "aliases": ["VIX PREMIUM", "VIX", "VIX+", "VIXPREMIUM", "VIX*"],
+    "aliases": ["VIX PREMIUM", "VIX", "VIXPREMIUM"],
     "cancelUrl": "https://www.vix.com/",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -782,7 +782,7 @@
   {
     "id": "audible",
     "canonicalName": "Audible",
-    "aliases": ["AUDIBLE", "AUDIBLE.COM", "AUDIBLE*", "AUDIBLEUS", "AMZN AUDIBLE"],
+    "aliases": ["AUDIBLE", "AUDIBLE.COM", "AUDIBLEUS", "AMZN AUDIBLE"],
     "cancelUrl": "https://www.audible.com/account",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -794,7 +794,7 @@
   {
     "id": "twitch",
     "canonicalName": "Twitch",
-    "aliases": ["TWITCH", "TWITCH.TV", "TWITCH*", "TWITCHTV", "TWITCH TURBO"],
+    "aliases": ["TWITCH", "TWITCH.TV", "TWITCHTV", "TWITCH TURBO"],
     "cancelUrl": "https://help.twitch.tv/s/",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -806,7 +806,7 @@
   {
     "id": "patreon",
     "canonicalName": "Patreon",
-    "aliases": ["PATREON", "PATREON.COM", "PATREON*", "PATREON MEMBERSHIP"],
+    "aliases": ["PATREON", "PATREON.COM", "PATREON MEMBERSHIP"],
     "cancelUrl": "",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -818,7 +818,7 @@
   {
     "id": "medium",
     "canonicalName": "Medium",
-    "aliases": ["MEDIUM", "MEDIUM.COM", "MEDIUM*", "MEDIUM MONTHLY"],
+    "aliases": ["MEDIUM", "MEDIUM.COM", "MEDIUM MONTHLY"],
     "cancelUrl": "",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -830,7 +830,7 @@
   {
     "id": "strava",
     "canonicalName": "Strava",
-    "aliases": ["STRAVA", "STRAVA.COM", "STRAVA*", "STRAVA SUBSCRIPTION"],
+    "aliases": ["STRAVA", "STRAVA.COM", "STRAVA SUBSCRIPTION"],
     "cancelUrl": "https://support.strava.com/hc/en-us",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -842,7 +842,7 @@
   {
     "id": "dashlane",
     "canonicalName": "Dashlane",
-    "aliases": ["DASHLANE", "DASHLANE.COM", "DASHLANE*", "DASHLANE PREMIUM"],
+    "aliases": ["DASHLANE", "DASHLANE.COM", "DASHLANE PREMIUM"],
     "cancelUrl": "https://www.dashlane.com/",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -854,7 +854,7 @@
   {
     "id": "surfshark",
     "canonicalName": "Surfshark",
-    "aliases": ["SURFSHARK", "SURFSHARK.COM", "SURFSHARK*", "SURFSHARK VPN"],
+    "aliases": ["SURFSHARK", "SURFSHARK.COM", "SURFSHARK VPN"],
     "cancelUrl": "https://support.surfshark.com/hc/en-us",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -866,7 +866,7 @@
   {
     "id": "masterclass",
     "canonicalName": "Masterclass",
-    "aliases": ["MASTERCLASS", "MASTERCLASS.COM", "MASTERCLASS*", "MSTRCLASS"],
+    "aliases": ["MASTERCLASS", "MASTERCLASS.COM", "MSTRCLASS"],
     "cancelUrl": "",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -878,7 +878,7 @@
   {
     "id": "skillshare",
     "canonicalName": "Skillshare",
-    "aliases": ["SKILLSHARE", "SKILLSHARE.COM", "SKILLSHARE*", "SKILLSHARE MEMBERSHIP"],
+    "aliases": ["SKILLSHARE", "SKILLSHARE.COM", "SKILLSHARE MEMBERSHIP"],
     "cancelUrl": "",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
@@ -890,7 +890,7 @@
   {
     "id": "coursera-plus",
     "canonicalName": "Coursera Plus",
-    "aliases": ["COURSERA PLUS", "COURSERA", "COURSERA.ORG", "COURSERA*"],
+    "aliases": ["COURSERA PLUS", "COURSERA", "COURSERA.ORG"],
     "cancelUrl": "https://www.coursera.support/s/",
     "cancelSteps": [
       "Sign in to your account / Inicia sesion en tu cuenta",
