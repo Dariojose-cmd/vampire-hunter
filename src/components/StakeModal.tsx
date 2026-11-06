@@ -15,6 +15,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import type { Vampire } from '@engine/types';
 import { useTranslation, type Language } from '@i18n/index';
+import { Icon } from './Icon';
 import styles from './StakeModal.module.css';
 
 export interface StakeModalProps {
@@ -138,7 +139,7 @@ export function StakeModal({
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                🔗 {t('stakeModal.cancelUrlButton')}
+                <Icon name="link" /> {t('stakeModal.cancelUrlButton')}
               </a>
             )}
             {steps.length > 0 ? (
@@ -177,7 +178,7 @@ export function StakeModal({
               onClick={() => { onConfirm(); close(); }}
               aria-label={t('stakeModal.confirmStakeAriaLabel', { name })}
             >
-              🩸 {t('stakeModal.confirmStakeButton')}
+              <Icon name="blood-drop" /> {t('stakeModal.confirmStakeButton')}
             </button>
           </div>
         </motion.div>

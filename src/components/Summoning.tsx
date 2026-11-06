@@ -7,6 +7,7 @@
 
 import { motion, useReducedMotion } from 'framer-motion';
 import { useTranslation, type Language } from '@i18n/index';
+import { Icon } from './Icon';
 import styles from './Summoning.module.css';
 
 export interface SummoningProps {
@@ -30,7 +31,7 @@ export function Summoning({ language }: SummoningProps) {
       <div className={styles.sigil} aria-hidden="true">
         <span className={styles.ring} />
         <span className={`${styles.ring} ${styles.ring2}`} />
-        <span className={styles.drop}>🩸</span>
+        <span className={styles.drop}><Icon name="blood-drop" /></span>
       </div>
       <h2 className={`${styles.title} font-display`}>{t('crypt.summoning')}</h2>
       <p className={styles.hint}>{t('crypt.summoningHint')}</p>

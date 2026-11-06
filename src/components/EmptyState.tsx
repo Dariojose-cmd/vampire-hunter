@@ -5,6 +5,7 @@
  */
 
 import { useTranslation, type Language } from '@i18n/index';
+import { Icon } from './Icon';
 import styles from './EmptyState.module.css';
 
 export interface EmptyStateProps {
@@ -17,7 +18,7 @@ export function EmptyState({ language, onUpload, onTrySample }: EmptyStateProps)
   const { t } = useTranslation(language);
   return (
     <section className={styles.empty}>
-      <span className={styles.icon} aria-hidden="true">⚰️</span>
+      <span className={styles.icon} aria-hidden="true"><Icon name="coffin" /></span>
       <h2 className={`${styles.title} font-display`}>{t('emptyState.title')}</h2>
       <p className={styles.subtitle}>{t('emptyState.subtitle')}</p>
       <div className={styles.actions}>

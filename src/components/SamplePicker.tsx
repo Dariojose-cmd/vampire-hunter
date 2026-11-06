@@ -12,9 +12,11 @@
 import { useEffect, useRef } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useTranslation, type Language } from '@i18n/index';
+import { Icon, type IconName } from './Icon';
 import styles from './SamplePicker.module.css';
 
-/** A bundled sample file: the public path and its i18n label key + icon. */
+/** A bundled sample file: the public path, its i18n label key, an icon, and
+ *  an optional short country-code badge. */
 interface SampleDef {
   file: string;
   labelKey:
@@ -22,14 +24,15 @@ interface SampleDef {
     | 'upload.samplePicker.mxn'
     | 'upload.samplePicker.cop'
     | 'upload.samplePicker.messy';
-  icon: string;
+  icon: IconName;
+  country?: string;
 }
 
 const SAMPLES: SampleDef[] = [
-  { file: 'us-bank-usd.csv', labelKey: 'upload.samplePicker.us', icon: '🦅' },
-  { file: 'latam-bank-mxn.csv', labelKey: 'upload.samplePicker.mxn', icon: '🌮' },
-  { file: 'latam-bank-cop.csv', labelKey: 'upload.samplePicker.cop', icon: '☕' },
-  { file: 'messy-statement.csv', labelKey: 'upload.samplePicker.messy', icon: '🕸️' },
+  { file: 'us-bank-usd.csv', labelKey: 'upload.samplePicker.us', icon: 'marker-us', country: 'US' },
+  { file: 'latam-bank-mxn.csv', labelKey: 'upload.samplePicker.mxn', icon: 'marker-mx', country: 'MX' },
+  { file: 'latam-bank-cop.csv', labelKey: 'upload.samplePicker.cop', icon: 'marker-co', country: 'CO' },
+  { file: 'messy-statement.csv', labelKey: 'upload.samplePicker.messy', icon: 'web' },
 ];
 
 export interface SamplePickerProps {
@@ -94,8 +97,11 @@ export function SamplePicker({ language, onPick, onClose }: SamplePickerProps) {
                 className={styles.sample}
                 onClick={() => handlePick(s.file)}
               >
-                <span className={styles.sampleIcon} aria-hidden="true">{s.icon}</span>
+                <span className={styles.sampleIcon} aria-hidden="true"><Icon name={s.icon} /></span>
                 <span className={styles.sampleLabel}>{t(s.labelKey)}</span>
+                {s.country && (
+                  <span className={styles.sampleCountry} aria-hidden="true">{s.country}</span>
+                )}
               </button>
             ))}
           </div>

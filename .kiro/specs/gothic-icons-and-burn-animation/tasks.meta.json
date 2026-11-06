@@ -62,6 +62,21 @@
         "executionId": "163f0884-cbad-46d1-95d9-21bd58ddc85a",
         "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
         "timestamp": 1793860653140
+      },
+      {
+        "executionId": "a20fb905-c9da-4c3a-80b7-9dda0fa56545",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793929423427
+      },
+      {
+        "executionId": "a20fb905-c9da-4c3a-80b7-9dda0fa56545",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793929427999
+      },
+      {
+        "executionId": "a20fb905-c9da-4c3a-80b7-9dda0fa56545",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793929647928
       }
     ],
     "2.2 VampireCard icons (blood-drop, trend-up, ticket, praying-hands, garlic, tombstone, undo)": [
@@ -69,6 +84,16 @@
         "executionId": "163f0884-cbad-46d1-95d9-21bd58ddc85a",
         "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
         "timestamp": 1793860136881
+      },
+      {
+        "executionId": "a20fb905-c9da-4c3a-80b7-9dda0fa56545",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793928857230
+      },
+      {
+        "executionId": "a20fb905-c9da-4c3a-80b7-9dda0fa56545",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793928911016
       }
     ],
     "2.3 BloodMeter and Cleansed shield icons": [
@@ -76,6 +101,16 @@
         "executionId": "163f0884-cbad-46d1-95d9-21bd58ddc85a",
         "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
         "timestamp": 1793860136959
+      },
+      {
+        "executionId": "a20fb905-c9da-4c3a-80b7-9dda0fa56545",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793928915143
+      },
+      {
+        "executionId": "a20fb905-c9da-4c3a-80b7-9dda0fa56545",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793928968292
       }
     ],
     "2.4 StakeModal icons (link, blood-drop)": [
@@ -83,6 +118,16 @@
         "executionId": "163f0884-cbad-46d1-95d9-21bd58ddc85a",
         "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
         "timestamp": 1793860137060
+      },
+      {
+        "executionId": "a20fb905-c9da-4c3a-80b7-9dda0fa56545",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793928972187
+      },
+      {
+        "executionId": "a20fb905-c9da-4c3a-80b7-9dda0fa56545",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793929022557
       }
     ],
     "2.5 Summoning, EmptyState, Uploader icons (blood-drop, coffin, warning, lock)": [
@@ -90,6 +135,16 @@
         "executionId": "163f0884-cbad-46d1-95d9-21bd58ddc85a",
         "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
         "timestamp": 1793860137150
+      },
+      {
+        "executionId": "a20fb905-c9da-4c3a-80b7-9dda0fa56545",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793929027447
+      },
+      {
+        "executionId": "a20fb905-c9da-4c3a-80b7-9dda0fa56545",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793929101308
       }
     ],
     "2.6 BurnButton flame icons": [
@@ -97,6 +152,16 @@
         "executionId": "163f0884-cbad-46d1-95d9-21bd58ddc85a",
         "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
         "timestamp": 1793860137256
+      },
+      {
+        "executionId": "a20fb905-c9da-4c3a-80b7-9dda0fa56545",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793929105365
+      },
+      {
+        "executionId": "a20fb905-c9da-4c3a-80b7-9dda0fa56545",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793929148061
       }
     ],
     "2.7 SamplePicker themed markers + country labels": [
@@ -104,6 +169,16 @@
         "executionId": "163f0884-cbad-46d1-95d9-21bd58ddc85a",
         "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
         "timestamp": 1793860137511
+      },
+      {
+        "executionId": "a20fb905-c9da-4c3a-80b7-9dda0fa56545",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793929152092
+      },
+      {
+        "executionId": "a20fb905-c9da-4c3a-80b7-9dda0fa56545",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793929228901
       }
     ],
     "3.1 Create the BurnOverlay component and styles": [
@@ -111,6 +186,16 @@
         "executionId": "163f0884-cbad-46d1-95d9-21bd58ddc85a",
         "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
         "timestamp": 1793860137692
+      },
+      {
+        "executionId": "a20fb905-c9da-4c3a-80b7-9dda0fa56545",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793929233031
+      },
+      {
+        "executionId": "a20fb905-c9da-4c3a-80b7-9dda0fa56545",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793929405894
       }
     ],
     "3.2 Orchestrate the burn in App and rewire BurnButton": [
@@ -118,6 +203,16 @@
         "executionId": "163f0884-cbad-46d1-95d9-21bd58ddc85a",
         "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
         "timestamp": 1793860137786
+      },
+      {
+        "executionId": "a20fb905-c9da-4c3a-80b7-9dda0fa56545",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793929652538
+      },
+      {
+        "executionId": "a20fb905-c9da-4c3a-80b7-9dda0fa56545",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793929846526
       }
     ],
     "3.3 Write the burn flow test": [
@@ -125,6 +220,16 @@
         "executionId": "163f0884-cbad-46d1-95d9-21bd58ddc85a",
         "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
         "timestamp": 1793860137851
+      },
+      {
+        "executionId": "a20fb905-c9da-4c3a-80b7-9dda0fa56545",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793929855831
+      },
+      {
+        "executionId": "a20fb905-c9da-4c3a-80b7-9dda0fa56545",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793929980955
       }
     ],
     "4.1 Strip emoji from en.json and es.json": [
@@ -132,6 +237,16 @@
         "executionId": "163f0884-cbad-46d1-95d9-21bd58ddc85a",
         "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
         "timestamp": 1793860137958
+      },
+      {
+        "executionId": "a20fb905-c9da-4c3a-80b7-9dda0fa56545",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793929985795
+      },
+      {
+        "executionId": "a20fb905-c9da-4c3a-80b7-9dda0fa56545",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793930047388
       }
     ],
     "4.2 Remove emoji from the IcsI18n doc-comment": [
@@ -139,6 +254,16 @@
         "executionId": "163f0884-cbad-46d1-95d9-21bd58ddc85a",
         "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
         "timestamp": 1793860138058
+      },
+      {
+        "executionId": "a20fb905-c9da-4c3a-80b7-9dda0fa56545",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793930051672
+      },
+      {
+        "executionId": "a20fb905-c9da-4c3a-80b7-9dda0fa56545",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793930270753
       }
     ],
     "5.1 Add the no-emoji guard test and i18n key-parity assertion": [
@@ -146,6 +271,16 @@
         "executionId": "163f0884-cbad-46d1-95d9-21bd58ddc85a",
         "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
         "timestamp": 1793860138156
+      },
+      {
+        "executionId": "a20fb905-c9da-4c3a-80b7-9dda0fa56545",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793930275351
+      },
+      {
+        "executionId": "a20fb905-c9da-4c3a-80b7-9dda0fa56545",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793930417598
       }
     ],
     "5.2 Run the full suite and production build": [
@@ -153,6 +288,26 @@
         "executionId": "163f0884-cbad-46d1-95d9-21bd58ddc85a",
         "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
         "timestamp": 1793860138230
+      },
+      {
+        "executionId": "a20fb905-c9da-4c3a-80b7-9dda0fa56545",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793930421711
+      },
+      {
+        "executionId": "a20fb905-c9da-4c3a-80b7-9dda0fa56545",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793930527573
+      },
+      {
+        "executionId": "0bf82a63-a9d9-4452-b996-edf00e5081a8",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793931746735
+      },
+      {
+        "executionId": "0bf82a63-a9d9-4452-b996-edf00e5081a8",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793931752252
       }
     ],
     "1. Build the shared Icon component and its glyph set": [
@@ -160,6 +315,34 @@
         "executionId": "163f0884-cbad-46d1-95d9-21bd58ddc85a",
         "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
         "timestamp": 1793860643850
+      }
+    ],
+    "2. Replace emojis across all components with the Icon": [
+      {
+        "executionId": "a20fb905-c9da-4c3a-80b7-9dda0fa56545",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793929647978
+      }
+    ],
+    "3. Implement the Burn Sequence": [
+      {
+        "executionId": "a20fb905-c9da-4c3a-80b7-9dda0fa56545",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793929981021
+      }
+    ],
+    "4. Remove emojis from i18n strings and engine doc-comment": [
+      {
+        "executionId": "a20fb905-c9da-4c3a-80b7-9dda0fa56545",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793930270823
+      }
+    ],
+    "5. Guard tests and full verification": [
+      {
+        "executionId": "a20fb905-c9da-4c3a-80b7-9dda0fa56545",
+        "chatSessionId": "sess_f5a30bb9-0b34-4699-8e13-667a080f67fd",
+        "timestamp": 1793930527642
       }
     ]
   }

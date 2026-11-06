@@ -278,7 +278,7 @@ export type ExchangeRates = Record<string, number>;
  * Consumers should pass the relevant i18n leaf from `en.json` / `es.json`.
  */
 export interface IcsI18n {
-  /** e.g. "⚠️ {{name}} charge in 3 days" */
+  /** e.g. "{{name}} charge in 3 days" */
   icsEventSummary: string;
   /** e.g. "Your {{name}} subscription is about to charge {{amount}}. …" */
   icsEventDescription: string;

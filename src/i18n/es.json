@@ -17,7 +17,7 @@
     "browseButton": "Elegir archivo",
     "orText": "o",
     "trySampleButton": "Probar un ejemplo",
-    "privacyNotice": "🔒 Tus datos nunca salen de tu dispositivo. Todo ocurre en tu navegador.",
+    "privacyNotice": "Tus datos nunca salen de tu dispositivo. Todo ocurre en tu navegador.",
     "privacyNoticeDetail": "Sin cuentas. Sin servidores. Sin analíticas. Tus datos bancarios se quedan en tu computadora.",
     "supportedFormats": "Compatible con archivos CSV de la mayoría de los bancos.",
     "samplePicker": {
@@ -123,7 +123,7 @@
     "saved": "Ahorrado",
     "drainingValue": "{{amount}} / año",
     "savedValue": "{{amount}} ahorrados",
-    "allStaked": "¡Todos los vampiros estacados! Tu sangre está a salvo. 🧛‍♂️",
+    "allStaked": "¡Todos los vampiros estacados! Tu sangre está a salvo.",
     "totalDrained": "Total drenado hasta ahora",
     "perYear": "por año",
     "perMonth": "{{amount}} / mes",
@@ -152,7 +152,7 @@
   },
 
   "garlic": {
-    "icsEventSummary": "⚠️ Cargo de {{name}} en 3 días",
+    "icsEventSummary": "Cargo de {{name}} en 3 días",
     "icsEventDescription": "Tu suscripción de {{name}} está a punto de cargarte {{amount}}. Decide ahora: cancela o consérvala.\n\nGenerado con Vampire Hunter – tus datos bancarios nunca salieron de tu dispositivo.",
     "icsFilename": "recordatorio-vampiro-{{name}}.ics",
     "downloadSuccess": "Recordatorio agregado a tu calendario.",

@@ -12,6 +12,7 @@
 import { motion, useReducedMotion } from 'framer-motion';
 import { useTranslation, type Language } from '@i18n/index';
 import { formatMoney } from './format';
+import { Icon } from './Icon';
 import styles from './BloodMeter.module.css';
 
 export interface BloodMeterProps {
@@ -78,7 +79,7 @@ export function BloodMeter({
         )}
 
         <div className={styles.savedRow} aria-live="polite">
-          <span className={styles.savedLabel}>🛡️ {t('bloodMeter.savedLabel')}</span>
+          <span className={styles.savedLabel}><Icon name="shield" /> {t('bloodMeter.savedLabel')}</span>
           <span className={styles.savedValue}>{formatMoney(savedCents, currency, language)}</span>
         </div>
       </div>

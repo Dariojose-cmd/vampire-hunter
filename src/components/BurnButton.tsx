@@ -11,6 +11,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useTranslation, type Language } from '@i18n/index';
+import { Icon } from './Icon';
 import styles from './BurnButton.module.css';
 
 export interface BurnButtonProps {
@@ -64,7 +65,7 @@ export function BurnButton({ language, onConfirm }: BurnButtonProps) {
         onClick={() => setOpen(true)}
         aria-label={t('burn.buttonAriaLabel')}
       >
-        🔥 {t('burn.buttonLabel')}
+        <Icon name="flame" /> {t('burn.buttonLabel')}
       </button>
 
       <AnimatePresence>
@@ -108,7 +109,7 @@ export function BurnButton({ language, onConfirm }: BurnButtonProps) {
                   onClick={() => { onConfirm(); setOpen(false); }}
                   aria-label={t('burn.confirmAriaLabel')}
                 >
-                  🔥 {t('burn.confirmButton')}
+                  <Icon name="flame" /> {t('burn.confirmButton')}
                 </button>
               </div>
             </motion.div>

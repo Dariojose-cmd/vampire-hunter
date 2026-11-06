@@ -33,6 +33,8 @@ import { Crypt } from './Crypt';
 import { LanguageSwitch } from './LanguageSwitch';
 import { CurrencySelector } from './CurrencySelector';
 import { BurnButton } from './BurnButton';
+import { BurnOverlay } from './BurnOverlay';
+import { Icon } from './Icon';
 import styles from './App.module.css';
 
 type View = 'upload' | 'mapper' | 'results';
@@ -62,6 +64,7 @@ export function App() {
   } = useCryptStorage();
 
   const [view, setView] = useState<View>('upload');
+  const [burnPhase, setBurnPhase] = useState<'idle' | 'burning'>('idle');
   const [errorKey, setErrorKey] = useState<TranslationKey | null>(null);
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [result, setResult] = useState<DetectionResult | null>(null);
@@ -78,6 +81,23 @@ export function App() {
     setDateAmbiguous(false);
     setErrorKey(null);
     setView('upload');
+  }
+
+  /**
+   * Burn confirmed: wipe persisted decisions immediately (the data wipe must
+   * not depend on the animation, Req 1.4/8.4), then start the burn sequence.
+   * We intentionally keep `view === 'results'` so the crypt stays visible under
+   * the flames; the view switch is deferred to onBurnComplete (Req 1.5/1.6).
+   */
+  function onBurnConfirmed() {
+    burn();
+    setBurnPhase('burning');
+  }
+
+  /** Burn sequence finished: switch to the Upload View (empty altar), then idle. */
+  function onBurnComplete() {
+    reset();
+    setBurnPhase('idle');
   }
 
   /** Entry point from Uploader / SamplePicker: raw CSV text. */
@@ -136,7 +156,7 @@ export function App() {
 
       <header className={styles.topBar}>
         <div className={styles.brand}>
-          <span className={styles.brandMark} aria-hidden="true">🦇</span>
+          <span className={styles.brandMark} aria-hidden="true"><Icon name="bat" /></span>
           <span>Vampire Hunter</span>
         </div>
         <div className={styles.controls}>
@@ -148,12 +168,12 @@ export function App() {
             aria-label={t('nav.soundToggleAriaLabel')}
             title={soundEnabled ? t('nav.soundOn') : t('nav.soundOff')}
           >
-            {soundEnabled ? '\uD83D\uDD0A' : '\uD83D\uDD07'}
+            <Icon name={soundEnabled ? 'sound-on' : 'sound-off'} />
           </button>
           <LanguageSwitch language={language} onChange={setLanguage} />
           <CurrencySelector language={language} currency={currency} onChange={setCurrency} />
           {view === 'results' && (
-            <BurnButton language={language} onConfirm={() => { burn(); reset(); }} />
+            <BurnButton language={language} onConfirm={onBurnConfirmed} />
           )}
         </div>
       </header>
@@ -188,6 +208,10 @@ export function App() {
             onDecision={setDecision}
             onUploadAnother={reset}
           />
+        )}
+
+        {view === 'results' && burnPhase === 'burning' && (
+          <BurnOverlay onComplete={onBurnComplete} />
         )}
       </main>
     </div>

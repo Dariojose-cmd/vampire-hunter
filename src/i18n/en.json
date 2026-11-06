@@ -17,7 +17,7 @@
     "browseButton": "Pick a file",
     "orText": "or",
     "trySampleButton": "Try a sample",
-    "privacyNotice": "🔒 Your data never leaves your device. Everything runs in your browser.",
+    "privacyNotice": "Your data never leaves your device. Everything runs in your browser.",
     "privacyNoticeDetail": "No accounts. No servers. No analytics. Your bank data stays on your computer.",
     "supportedFormats": "Supports CSV files from most banks.",
     "samplePicker": {
@@ -123,7 +123,7 @@
     "saved": "Saved",
     "drainingValue": "{{amount}} / year",
     "savedValue": "{{amount}} saved",
-    "allStaked": "All vampires staked! Your blood is safe. 🧛‍♂️",
+    "allStaked": "All vampires staked! Your blood is safe.",
     "totalDrained": "Total drained so far",
     "perYear": "per year",
     "perMonth": "{{amount}} / month",
@@ -152,7 +152,7 @@
   },
 
   "garlic": {
-    "icsEventSummary": "⚠️ {{name}} charge in 3 days",
+    "icsEventSummary": "{{name}} charge in 3 days",
     "icsEventDescription": "Your {{name}} subscription is about to charge {{amount}}. Decide now: cancel or keep it.\n\nOpened with Vampire Hunter – your bank data never left your device.",
     "icsFilename": "vampire-reminder-{{name}}.ics",
     "downloadSuccess": "Reminder added to your calendar.",

@@ -81,6 +81,9 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  /* Positioned ancestor so the absolutely-positioned BurnOverlay is contained
+     to the main/crypt region (stays below the Top Bar header sibling). */
+  position: relative;
 }
 
 @media (max-width: 480px) {

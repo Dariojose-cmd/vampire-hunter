@@ -17,6 +17,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import type { Vampire, ThreatLevel, Cadence, DecisionType } from '@engine/types';
 import { useTranslation, type Language, type TranslationKey } from '@i18n/index';
 import { formatMoney, formatDate } from './format';
+import { Icon } from './Icon';
 import styles from './VampireCard.module.css';
 
 const THREAT_CARD_CLASS: Record<ThreatLevel, string> = {
@@ -178,13 +179,13 @@ export function VampireCard({
           className={`${styles.threatBadge} ${THREAT_BADGE_CLASS[vampire.threatLevel]}`}
           aria-label={t(`threatLevel.${vampire.threatLevel}_ariaLabel` as TranslationKey)}
         >
-          🩸 {threatLabel}
+          <Icon name="blood-drop" /> {threatLabel}
         </span>
         {vampire.hasPriceIncrease && (
-          <span className={styles.flagBadge}>📈 {t('vampireCard.priceIncreaseLabel')}</span>
+          <span className={styles.flagBadge}><Icon name="trend-up" /> {t('vampireCard.priceIncreaseLabel')}</span>
         )}
         {vampire.hasFreeTrial && (
-          <span className={`${styles.flagBadge} ${styles.flagTrial}`}>🎟️ {t('vampireCard.freeTrial')}</span>
+          <span className={`${styles.flagBadge} ${styles.flagTrial}`}><Icon name="ticket" /> {t('vampireCard.freeTrial')}</span>
         )}
       </div>
 
@@ -211,9 +212,11 @@ export function VampireCard({
           spared / garlic; staked gets its own state block below. */}
       {(decision === 'spared' || decision === 'garlic') && (
         <div className={`${styles.decisionBanner} ${decision === 'spared' ? styles.bannerSpared : styles.bannerGarlic}`}>
-          {decision === 'spared'
-            ? `🙏 ${t('vampireCard.decisionSpared')}`
-            : `🧄 ${t('vampireCard.decisionGarlic')}`}
+          {decision === 'spared' ? (
+            <><Icon name="praying-hands" /> {t('vampireCard.decisionSpared')}</>
+          ) : (
+            <><Icon name="garlic" /> {t('vampireCard.decisionGarlic')}</>
+          )}
         </div>
       )}
 
@@ -221,7 +224,7 @@ export function VampireCard({
         // Staked state: clearly "done", with an Undo affordance.
         <div className={styles.stakedBlock}>
           <div className={styles.stakedState}>
-            <span className={styles.stakedMark} aria-hidden="true">🪦</span>
+            <span className={styles.stakedMark} aria-hidden="true"><Icon name="tombstone" /></span>
             <span>
               <strong>{t('vampireCard.stakedState')}</strong>
               <span className={styles.stakedDetail}>{t('vampireCard.stakedStateDetail')}</span>
@@ -234,7 +237,7 @@ export function VampireCard({
             onClick={() => onUnstake?.(vampire)}
             aria-label={t('vampireCard.undoAriaLabel', { name: vampire.displayName })}
           >
-            ↺ {t('vampireCard.undoButton')}
+            <Icon name="undo" /> {t('vampireCard.undoButton')}
           </button>
         </div>
       ) : (

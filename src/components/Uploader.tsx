@@ -13,6 +13,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { useTranslation, type Language, type TranslationKey } from '@i18n/index';
 import { isCsvFile } from './csvUtils';
 import { SamplePicker } from './SamplePicker';
+import { Icon } from './Icon';
 import styles from './Uploader.module.css';
 
 export interface UploaderProps {
@@ -74,7 +75,7 @@ export function Uploader({ language, errorKey, onDismissError, onCsv }: Uploader
 
       {errorKey && (
         <div className={styles.error} role="alert">
-          <span>⚠️</span>
+          <span><Icon name="warning" /></span>
           <span>{t(errorKey)}</span>
           {onDismissError && (
             <button
@@ -141,7 +142,7 @@ export function Uploader({ language, errorKey, onDismissError, onCsv }: Uploader
       </div>
 
       <div className={styles.privacy}>
-        <p className={styles.privacyMain}>{t('upload.privacyNotice')}</p>
+        <p className={styles.privacyMain}><Icon name="lock" /> {t('upload.privacyNotice')}</p>
         <p className={styles.privacyDetail}>{t('upload.privacyNoticeDetail')}</p>
       </div>
 

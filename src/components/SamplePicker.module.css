@@ -58,6 +58,19 @@
 .sampleIcon { font-size: 1.4rem; line-height: 1; }
 .sampleLabel { font-size: var(--font-size-sm); }
 
+/* A compact gothic country-code chip (e.g. "US"), decorative. */
+.sampleCountry {
+  margin-left: auto;
+  font-family: var(--font-display);
+  font-size: var(--font-size-xs);
+  letter-spacing: 0.08em;
+  color: var(--color-accent-text);
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--color-stone-line);
+  border-radius: var(--radius-sm);
+  line-height: 1;
+}
+
 .close {
   align-self: center;
   margin-top: var(--space-1);

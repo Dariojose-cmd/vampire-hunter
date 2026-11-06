@@ -7,6 +7,7 @@
 import { motion, useReducedMotion } from 'framer-motion';
 import { useTranslation, type Language } from '@i18n/index';
 import { formatMoney } from './format';
+import { Icon } from './Icon';
 import styles from './Cleansed.module.css';
 
 export interface CleansedProps {
@@ -33,7 +34,7 @@ export function Cleansed({ language, currency, savedCents }: CleansedProps) {
       <h2 className={`${styles.title} font-display`}>{t('crypt.cleansedTitle')}</h2>
       <p className={styles.subtitle}>{t('crypt.cleansedSubtitle')}</p>
       <p className={styles.saved}>
-        🛡️ <span className={styles.savedAmount}>
+        <Icon name="shield" /> <span className={styles.savedAmount}>
           {t('crypt.cleansedSaved', { amount: formatMoney(savedCents, currency, language) })}
         </span>
       </p>
