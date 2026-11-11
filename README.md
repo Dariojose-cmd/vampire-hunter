@@ -103,7 +103,7 @@ Sample statements for trying the app are in `samples/` (fake data only).
 npm test         # vitest run
 ```
 
-Last run of `npx vitest --run`: **21 test files, 325 tests, all passing.**
+Last run of `npx vitest --run`: **21 test files, 337 tests, all passing.**
 
 The engine is covered by unit tests and by fast-check property tests (`tests/*.property.test.ts`, 1000 runs per property). There are also integration tests over the sample statements (`tests/integration.sampleStatements.test.ts`) and UI tests for the burn flow and icons.
 
