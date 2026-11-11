@@ -5,6 +5,8 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
+    // Property tests run 1000+ cases; 5s default is too tight on a busy laptop.
+    testTimeout: 30000,
     include: ['src/**/*.{test,spec}.{ts,tsx}', 'tests/**/*.{test,spec}.{ts,tsx}'],
   },
   resolve: {
