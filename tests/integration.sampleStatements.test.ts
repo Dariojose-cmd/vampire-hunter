@@ -102,3 +102,29 @@ describe('sample statement integration', () => {
     }
   });
 });
+
+describe('ISO-only date statement', () => {
+  it('parses and detects a vampire when every date is YYYY-MM-DD', () => {
+    const headers = ['Date', 'Description', 'Amount', 'Currency'];
+    const rows = [
+      ['2025-01-05', 'NETFLIX STREAMING SERVICE', '-15.49', 'USD'],
+      ['2025-02-05', 'NETFLIX STREAMING SERVICE', '-15.49', 'USD'],
+      ['2025-03-05', 'NETFLIX STREAMING SERVICE', '-15.49', 'USD'],
+      ['2025-04-05', 'NETFLIX STREAMING SERVICE', '-15.49', 'USD'],
+      ['2025-05-05', 'NETFLIX STREAMING SERVICE', '-15.49', 'USD'],
+      ['2025-05-10', 'SALARY DIRECT DEPOSIT', '3000.00', 'USD'],
+    ];
+    const parsed = parseStatement(headers, rows);
+    expect(parsed.ok).toBe(true);
+    if (!parsed.ok) throw new Error('unreachable');
+    expect(parsed.value.transactions.length).toBe(6);
+
+    const result = runDetection({
+      transactions: parsed.value.transactions,
+      currency: parsed.value.currency,
+    });
+    const all = [...result.vampires, ...result.possibleVampires];
+    expect(all.some((v) => /NETFLIX/i.test(JSON.stringify(v)))).toBe(true);
+    expect(all.some((v) => /SALARY/i.test(JSON.stringify(v)))).toBe(false);
+  });
+});
