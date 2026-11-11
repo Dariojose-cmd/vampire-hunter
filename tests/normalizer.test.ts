@@ -9,7 +9,7 @@
  */
 
 import { describe, expect, it } from 'vitest';
-import { normalize } from '../src/engine/normalizer';
+import { normalize, normalizeForDisplay } from '../src/engine/normalizer';
 
 describe('normalize — noise keywords (case-insensitive, word-boundary)', () => {
   const keywords = ['POS', 'PURCHASE', 'COMPRA', 'PAGO', 'CARGO', 'DEBITO', 'DEBIT', 'PAYMENT'];
@@ -110,5 +110,24 @@ describe('normalize: phone numbers, store numbers, 7-ELEVEN', () => {
   it('treats 7ELEVEN / 7-ELEVEN / 7 ELEVEN consistently', () => {
     const variants = ['7ELEVEN', '7-ELEVEN', '7 ELEVEN', '7-Eleven #2345', '7ELEVEN 800-555-1234'];
     for (const v of variants) expect(normalize(v)).toBe('7-ELEVEN');
+  });
+});
+
+describe('embedded dates and accents', () => {
+  it('strips YYYY-MM-DD dates', () => {
+    expect(normalize('SMART FIT COLOMBIA 2026-01-05')).toBe('SMART FIT COLOMBIA');
+  });
+  it('strips DD/MM/YYYY dates', () => {
+    expect(normalize('SMART FIT COLOMBIA 05/01/2026')).toBe('SMART FIT COLOMBIA');
+  });
+  it('strips DD-MM-YYYY dates', () => {
+    expect(normalize('SMART FIT COLOMBIA 05-01-2026')).toBe('SMART FIT COLOMBIA');
+  });
+  it('groups descriptions that differ only by accents', () => {
+    expect(normalize('SUSCRIPCIÓN X')).toBe(normalize('SUSCRIPCION X'));
+    expect(normalize('SUSCRIPCIÓN X')).toBe('SUSCRIPCION X');
+  });
+  it('normalizeForDisplay keeps accents', () => {
+    expect(normalizeForDisplay('suscripción x 2026-01-05')).toBe('SUSCRIPCIÓN X');
   });
 });

@@ -52,6 +52,33 @@ const STORE_NUMBER_RE = /#\s*\d+/g;
 const SEVEN_ELEVEN_RE = /\b7[\s-]*ELEVEN\b/g;
 
 /**
+ * Full dates embedded in descriptions: YYYY-MM-DD, DD/MM/YYYY, DD-MM-YYYY.
+ * Stripped before any other cleanup so "SMART FIT 2026-01-05" does not leave
+ * a "-01-05" remnant after the card-number pass removes the year.
+ */
+const DATE_RE =
+  /(?<!\d)(?:\d{4}-\d{1,2}-\d{1,2}|\d{1,2}[/-]\d{1,2}[/-]\d{4})(?!\d)/g;
+
+/** Remove diacritics (accents) from a string. */
+export function stripAccents(s: string): string {
+  return s.normalize('NFD').replace(/\p{M}/gu, '');
+}
+
+/**
+ * Normalize a bank transaction description string.
+ * Accents are removed so descriptions differing only by accents group together.
+ * Use `normalizeForDisplay` to keep accents for showing a name to the user.
+ */
+export function normalize(s: string): string {
+  return normalizeCore(s, true);
+}
+
+/** Same cleanup as `normalize`, but keeps accents (for display only). */
+export function normalizeForDisplay(s: string): string {
+  return normalizeCore(s, false);
+}
+
+/**
  * Normalize a bank transaction description string.
  *
  * Logical steps (per spec):
@@ -77,9 +104,11 @@ const SEVEN_ELEVEN_RE = /\b7[\s-]*ELEVEN\b/g;
  * @param s - Raw description string from bank statement
  * @returns Cleaned, uppercased merchant name
  */
-export function normalize(s: string): string {
+function normalizeCore(s: string, removeAccents: boolean): string {
   // Step 1: Uppercase (done once; the loop below only strips characters).
-  let result = s.toUpperCase();
+  let result = removeAccents ? stripAccents(s) : s;
+  result = result.toUpperCase();
+  if (removeAccents) result = stripAccents(result);
 
   // Iterate the cleaning steps until the string reaches a fixpoint. Each pass
   // only removes or collapses characters, so the string is monotonically
@@ -88,6 +117,9 @@ export function normalize(s: string): string {
   const MAX_ITERATIONS = 100;
   for (let iter = 0; iter < MAX_ITERATIONS; iter++) {
     const prev = result;
+
+    // Full dates first, so their digits are not mangled by later passes.
+    result = result.replace(DATE_RE, ' ');
 
     // Phone numbers, store numbers and 7-ELEVEN spelling. 7-ELEVEN is made
     // canonical first so "7ELEVEN" is not mistaken for a reference code.

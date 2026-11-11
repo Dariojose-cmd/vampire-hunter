@@ -6,7 +6,7 @@
 
 import { describe, expect, it } from 'vitest';
 import fc from 'fast-check';
-import { normalize } from '../src/engine/normalizer';
+import { normalize, stripAccents } from '../src/engine/normalizer';
 
 /**
  * Bank-like token generator.
@@ -92,5 +92,35 @@ describe('Property 1: Normalization Idempotence', () => {
   it('is idempotent on "NETFLIX 0AA000 0AAAA0" (regression)', () => {
     const s = 'NETFLIX 0AA000 0AAAA0';
     expect(normalize(normalize(s))).toBe(normalize(s));
+  });
+});
+
+describe('Accent-insensitive normalization', () => {
+  const accented = fc
+    .array(
+      fc.oneof(
+        bankToken,
+        fc.constantFrom('SUSCRIPCIÓN', 'Café', 'ñandú', 'Müller', 'Crédito', 'à la carte'),
+      ),
+      { minLength: 1, maxLength: 8 },
+    )
+    .map((t) => t.join(' '));
+
+  it('normalize(stripAccents(s)) === normalize(s)', () => {
+    fc.assert(
+      fc.property(accented, (s) => {
+        expect(normalize(stripAccents(s))).toBe(normalize(s));
+      }),
+      { numRuns: 1000 },
+    );
+  });
+
+  it('normalize(stripAccents(s)) === normalize(s) for arbitrary unicode strings', () => {
+    fc.assert(
+      fc.property(fc.string({ unit: 'binary' }), (s) => {
+        expect(normalize(stripAccents(s))).toBe(normalize(s));
+      }),
+      { numRuns: 500 },
+    );
   });
 });

@@ -21,7 +21,7 @@ import type {
   Vampire,
 } from './types';
 
-import { normalize } from './normalizer';
+import { normalize, normalizeForDisplay } from './normalizer';
 import { buildCandidates } from './grouper';
 import { detectCadence, detectFreeTrial } from './cadenceDetector';
 import { matchCatalog } from './catalogMatcher';
@@ -138,7 +138,10 @@ export function runDetection(input: DetectionInput): DetectionResult {
       const lastBiteDate = candidate.bites[candidate.bites.length - 1].date;
       const nextBiteDate = predictNextBite(lastBiteDate, cadence);
       const avatarSvg = generateAvatar(candidate.normalizedName);
-      const displayName = match ? match.canonicalName : candidate.normalizedName;
+      const displayName = match
+        ? match.canonicalName
+        : normalizeForDisplay(candidate.bites[0].description) ||
+          candidate.normalizedName;
 
       // 4g. Assemble the Vampire.
       const vampire: Vampire = {

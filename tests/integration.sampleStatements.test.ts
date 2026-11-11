@@ -128,3 +128,69 @@ describe('ISO-only date statement', () => {
     expect(all.some((v) => /SALARY/i.test(JSON.stringify(v)))).toBe(false);
   });
 });
+
+describe('vampire ids are stable for the sample statements', () => {
+  const EXPECTED_IDS: Record<string, string[]> = {
+    'latam-bank-cop.csv': [
+      'NETFLIX ENTRETENIMIENTO MENSUAL_0',
+      'SPOTIFY MUSIC SUSCRIPCION_0',
+      'SMARTFIT GIMNASIO MENSUAL_0',
+      'CLARO PLAN MOVIL_0',
+    ],
+    'latam-bank-mxn.csv': [
+      'NETFLIX ENTRETENIMIENTO MENSUAL_0',
+      'SPOTIFY MUSIC SUSCRIPCION_0',
+      'DISNEY PLUS STREAMING_0',
+      'BLIM TV STREAMING LOCAL_0',
+      'SMART FIT GIMNASIO MENSUAL_0',
+    ],
+    'messy-statement.csv': [
+      'NETFLIX MONTHLY SUBSCRIPTION_0',
+      'SPOTIFY PREMIUM MUSIC_0',
+      'GYM MEMBERSHIP FIT CLUB_0',
+    ],
+    'us-bank-usd.csv': [
+      'COSTCO ANNUAL MEMBERSHIP_0',
+      'NETFLIX STREAMING SERVICE_0',
+      'SPOTIFY USA MUSIC SUBSCRIPTION_0',
+      'APPLE.COM/BILL_0',
+      'APPLE.COM/BILL_1',
+      'MEALBOX HELLOFRESH SUBSCRIPTION_0',
+      'AMAZON PRIME MEMBERSHIP FEE_0',
+      'PLANET FITNESS GYM MEMBERSHIP_0',
+      'AT&T WIRELESS MOBILE PLAN_0',
+      'GREEN CHEF WEEKLY MEAL BOX_0',
+    ],
+  };
+
+  for (const [file, ids] of Object.entries(EXPECTED_IDS)) {
+    it(`${file} yields the expected vampire ids`, () => {
+      const { vampires, possibleVampires } = detectFromSample(file);
+      expect(vampires.map((v) => v.id)).toEqual(ids);
+      expect(possibleVampires).toEqual([]);
+    });
+  }
+});
+
+describe('accents and embedded dates in descriptions', () => {
+  it('groups accent variants and dates into one vampire, keeping the accented display name', () => {
+    const headers = ['Date', 'Description', 'Amount', 'Currency'];
+    const rows = [
+      ['2025-01-05', 'SUSCRIPCIÓN ZETA 2025-01-05', '-9.99', 'USD'],
+      ['2025-02-05', 'SUSCRIPCION ZETA 05/02/2025', '-9.99', 'USD'],
+      ['2025-03-05', 'SUSCRIPCIÓN ZETA 05-03-2025', '-9.99', 'USD'],
+      ['2025-04-05', 'SUSCRIPCION ZETA 2025-04-05', '-9.99', 'USD'],
+      ['2025-05-05', 'SUSCRIPCIÓN ZETA 2025-05-05', '-9.99', 'USD'],
+    ];
+    const parsed = parseStatement(headers, rows);
+    if (!parsed.ok) throw new Error('parse failed');
+    const result = runDetection({
+      transactions: parsed.value.transactions,
+      currency: parsed.value.currency,
+    });
+    const all = [...result.vampires, ...result.possibleVampires];
+    expect(all).toHaveLength(1);
+    expect(all[0].id).toBe('SUSCRIPCION ZETA_0');
+    expect(all[0].displayName).toBe('SUSCRIPCIÓN ZETA');
+  });
+});
