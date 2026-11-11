@@ -30,11 +30,11 @@ const ROOT = process.cwd();
  * Deliberately EXCLUDED so ordinary typography never trips the guard:
  *  - × U+00D7 multiplication sign (used as a close glyph)
  *  - • U+2022 bullet, … U+2026 ellipsis, – U+2013 / — U+2014 dashes, curly quotes
- * The ZWJ (U+200D) and variation selector (U+FE00–FE0F) only form emoji when adjacent
- * to a pictographic codepoint, so they are matched only when they follow an emoji char.
+ * The ZWJ (U+200D), variation selectors (U+FE00–FE0F) and keycap mark only form emoji when
+ * attached to a pictographic base codepoint, so matching the base alone is sufficient (and
+ * avoids joiner/combining sequences in a character class, which lint flags).
  */
-const EMOJI_RE =
-  /[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{1F000}-\u{1F0FF}][\u{FE00}-\u{FE0F}\u{200D}\u{20E3}]*|[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{1F000}-\u{1F0FF}]/u;
+const EMOJI_RE = /[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{1F000}-\u{1F0FF}]/u;
 
 /** Scan text and return the first emoji match, or null if clean. */
 function findEmoji(text: string): string | null {

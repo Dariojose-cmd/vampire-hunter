@@ -307,3 +307,25 @@ describe('matchCatalog — real src/data/catalog.json', () => {
     expect(matchCatalog('LOCAL CORNER STORE 1234', realCatalog)).toBeUndefined();
   });
 });
+
+describe('matchCatalog: accent-insensitive', () => {
+  const entry = (aliases: string[]): CatalogEntry => ({
+    id: 'sus',
+    canonicalName: 'Servicio',
+    aliases,
+    cancelUrl: '',
+    cancelSteps: { en: ['a'], es: ['b'] },
+  });
+
+  it('matches accented description against unaccented alias', () => {
+    const cat = [entry(['SUSCRIPCION'])];
+    expect(matchCatalog('SUSCRIPCIÓN MENSUAL', cat)?.id).toBe('sus');
+  });
+  it('matches unaccented description against accented alias', () => {
+    const cat = [entry(['SUSCRIPCIÓN'])];
+    expect(matchCatalog('SUSCRIPCION MENSUAL', cat)?.id).toBe('sus');
+  });
+  it('still respects word boundaries after folding', () => {
+    expect(matchCatalog('RESUSCRIPCIÓN', [entry(['SUSCRIPCION'])])).toBeUndefined();
+  });
+});
