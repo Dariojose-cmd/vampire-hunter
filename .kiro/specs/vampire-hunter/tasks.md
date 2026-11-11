@@ -321,7 +321,7 @@ Build the Vampire Hunter SPA in a strict bottom-up order: scaffolding → styles
     - In `src/components/useCryptStorage.ts` (React hook), wrap the pure functions: initialize state from `loadStorage` on mount; expose `setDecision(vampireId, decision)`, `setLanguage`, `setCurrency`, `burn`; write through to localStorage on every change; never persist raw transaction data or CSV contents
     - _Requirements: 11.1, 11.2, 11.3, 8.6, 9.2, 10.4_
 
-- [~] 21. Checkpoint — UI and persistence complete
+- [ ] 21. Checkpoint — UI and persistence complete
   - Ensure all Vitest tests pass with `npx vitest --run`. Verify that no test imports from `src/components/` within `tests/` (engine tests only). Ask the user if questions arise.
 
 - [x] 22. Accessibility and responsive polish
@@ -351,15 +351,15 @@ Build the Vampire Hunter SPA in a strict bottom-up order: scaffolding → styles
     - Ensure no hover-only interactions: all info available on `:focus-visible` or tap
     - _Requirements: 15.7, 15.8_
 
-- [ ] 23. AWS Amplify deploy configuration
-  - [~] 23.1 Add Amplify build configuration
+- [x] 23. AWS Amplify deploy configuration
+  - [x] 23.1 Add Amplify build configuration
     - Create `amplify.yml` at the repo root with build commands: `npm ci` and `npm run build`; set `baseDirectory: dist`; set `framework: vite`
     - Confirm `vite.config.ts` `base` is set to `'/'` for correct asset resolution on Amplify
     - Verify `dist/` is in `.gitignore`
     - No server-side or network-dependent configuration — this is a fully static site
     - _Requirements: 13.1 (static, no backend)_
 
-- [~] 24. Final checkpoint — all tests pass, build succeeds
+- [ ] 24. Final checkpoint — all tests pass, build succeeds
   - Run `npx vitest --run` and confirm all tests pass (unit + all 12 property-based tests)
   - Run `npm run build` and confirm the Vite build succeeds with zero TypeScript errors
   - Confirm no test file imports from React components (engine tests are pure TS only)
