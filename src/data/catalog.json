@@ -52,7 +52,8 @@
     "aliases": [
       "DISNEY PLUS",
       "DISNEYPLUS",
-      "DISNEY PLUS.COM"
+      "DISNEY PLUS.COM",
+      "DISNEY+"
     ],
     "cancelUrl": "https://help.disneyplus.com/en-US/article/disneyplus-cancel-subscription",
     "cancelSteps": {

@@ -24,6 +24,18 @@ export function escapeRegex(term: string): string {
 }
 
 /**
+ * Build the case-insensitive boundary regex for a catalog term. Terms that end
+ * (or start) with a word character use `\b`; terms ending in a symbol such as
+ * "DISNEY+" use a lookaround instead, because `\b` after "+" would only match
+ * when another word character followed it.
+ */
+export function buildTermPattern(term: string): RegExp {
+  const lead = /^\w/.test(term) ? '\\b' : '(?<!\\w)';
+  const trail = /\w$/.test(term) ? '\\b' : '(?!\\w)';
+  return new RegExp(lead + escapeRegex(term) + trail, 'i');
+}
+
+/**
  * Match a normalized merchant name against the catalog.
  *
  * For each entry, a case-insensitive word-boundary regex is built for the
@@ -48,7 +60,7 @@ export function matchCatalog(
     const terms = [entry.canonicalName, ...entry.aliases];
     for (const term of terms) {
       if (!term) continue;
-      const pattern = new RegExp('\\b' + escapeRegex(term) + '\\b', 'i');
+      const pattern = buildTermPattern(term);
       if (pattern.test(normalizedName)) {
         return entry;
       }
