@@ -272,7 +272,8 @@ export function inferNumberFormat(column: string[]): NumberFormat {
  */
 export function parseCents(s: string, format: NumberFormat): number {
   // Step 1: strip whitespace and currency symbols
-  let clean = s.replace(/\s+/g, '').replace(CURRENCY_RE, '');
+  // Accounting-style negatives such as "(15.49)" are treated as magnitude only
+  let clean = s.replace(/\s+/g, '').replace(CURRENCY_RE, '').replace(/[()]/g, '');
 
   // Step 2: normalize separators per format
   switch (format) {
@@ -300,7 +301,7 @@ export function parseCents(s: string, format: NumberFormat): number {
 // ---------------------------------------------------------------------------
 
 /** Date-like value pattern: 1-4 digits, separator, 1-2 digits, separator, 2-4 digits */
-const DATE_VALUE_RE = /^\d{1,4}[\/\-]\d{1,2}[\/\-]\d{2,4}$/;
+const DATE_VALUE_RE = /^\d{1,4}[/-]\d{1,2}[/-]\d{2,4}$/;
 
 /**
  * Returns true if at least 70% of the non-empty values in the column
@@ -310,7 +311,7 @@ function isMostlyNumeric(values: string[]): boolean {
   const nonEmpty = values.filter((v) => v != null && v.trim() !== '');
   if (nonEmpty.length === 0) return false;
   const numeric = nonEmpty.filter((v) => {
-    const clean = v.trim().replace(CURRENCY_RE, '').replace(/[,\s]/g, '').replace(/^-/, '');
+    const clean = v.trim().replace(CURRENCY_RE, '').replace(/[,\s]/g, '').replace(/^-/, '').replace(/^\((.*)\)$/, '$1');
     return clean !== '' && isFinite(Number(clean));
   });
   return numeric.length / nonEmpty.length >= 0.7;
@@ -513,7 +514,7 @@ export function parseRows(
         if (amountCents === 0) {
           // Requirement 1.18: zero-amount → debit (free trial)
           type = 'debit';
-        } else if (cleanedForSign.startsWith('-')) {
+        } else if (cleanedForSign.startsWith('-') || /^\(.*\)$/.test(cleanedForSign)) {
           type = 'debit';
         } else {
           type = 'credit';

@@ -4,7 +4,7 @@
  */
 
 import { describe, it, expect } from 'vitest';
-import { inferNumberFormat, parseCents } from '../src/engine/parser';
+import { inferNumberFormat, parseCents, parseRows } from '../src/engine/parser';
 
 // ---------------------------------------------------------------------------
 // inferNumberFormat
@@ -209,5 +209,37 @@ describe('parseCents', () => {
 
   it('returns 0 for empty string', () => {
     expect(parseCents('', 'dotDecimal')).toBe(0);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Parenthesis negatives
+// ---------------------------------------------------------------------------
+
+describe('parenthesis negatives', () => {
+  const layout = { type: 'single' as const, dateCol: 0, descCol: 1, amountCol: 2 };
+
+  it('parseCents treats "(15.49)" as 1549 cents', () => {
+    expect(parseCents('(15.49)', 'dotDecimal')).toBe(1549);
+    expect(parseCents('($15.49)', 'dotDecimal')).toBe(1549);
+  });
+
+  it('parseRows marks "(15.49)" as a debit and "15.49" as a credit', () => {
+    const { transactions, skipped } = parseRows(
+      [
+        ['2024-01-05', 'NETFLIX', '(15.49)'],
+        ['2024-01-06', 'REFUND', '15.49'],
+        ['2024-01-07', 'SPOTIFY', '($9.99)'],
+      ],
+      layout,
+      'YYYY-MM-DD',
+      'dotDecimal',
+    );
+    expect(skipped).toBe(0);
+    expect(transactions.map((t) => [t.amountCents, t.type])).toEqual([
+      [1549, 'debit'],
+      [1549, 'credit'],
+      [999, 'debit'],
+    ]);
   });
 });

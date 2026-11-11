@@ -12,7 +12,7 @@
  */
 
 import { describe, expect, it } from 'vitest';
-import { escapeRegex, matchCatalog } from '../src/engine/catalogMatcher';
+import { buildTermPattern, escapeRegex, matchCatalog } from '../src/engine/catalogMatcher';
 import catalog from '../src/data/catalog.json';
 import type { CatalogEntry } from '../src/engine/types';
 
@@ -214,6 +214,7 @@ describe('matchCatalog — real src/data/catalog.json', () => {
     expect(matchCatalog('DISNEY PLUS', realCatalog)?.id).toBe('disney-plus');
     expect(matchCatalog('DISNEYPLUS', realCatalog)?.id).toBe('disney-plus');
     expect(matchCatalog('DISNEY PLUS.COM', realCatalog)?.id).toBe('disney-plus');
+    expect(matchCatalog('DISNEY+', realCatalog)?.id).toBe('disney-plus');
     // And the bare "DISNEY STORE" line must NOT resolve to the subscription.
     expect(matchCatalog('DISNEY STORE', realCatalog)).toBeUndefined();
   });
@@ -240,14 +241,13 @@ describe('matchCatalog — real src/data/catalog.json', () => {
     expect(matchCatalog('APPLE TV+', realCatalog)?.id).toBe('apple-tv-plus');
   });
 
-  it('carries no dead symbol-terminated aliases (each alias matches its own form)', () => {
-    // Every alias must be matchable via the same \b…\b regex the matcher builds;
-    // an alias ending in a non-word char (e.g. "DROPBOX*") would silently never
-    // fire. This pins the catalog so the dead-alias class cannot creep back in.
+  it('carries no dead aliases (each alias matches its own form)', () => {
+    // Every alias must be matchable via the same boundary regex the matcher
+    // builds (buildTermPattern handles symbol-terminated aliases like "DISNEY+").
     const dead: string[] = [];
     for (const entry of realCatalog) {
       for (const alias of entry.aliases) {
-        const pattern = new RegExp('\\b' + escapeRegex(alias) + '\\b', 'i');
+        const pattern = buildTermPattern(alias);
         if (!pattern.test(alias)) dead.push(`${entry.id}:${alias}`);
       }
     }
