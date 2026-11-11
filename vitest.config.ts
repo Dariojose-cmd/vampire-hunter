@@ -1,4 +1,4 @@
-import { resolve } from 'path'
+import { resolve } from 'node:path'
 import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
@@ -9,11 +9,11 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@engine': resolve(__dirname, 'src/engine'),
-      '@data': resolve(__dirname, 'src/data'),
-      '@components': resolve(__dirname, 'src/components'),
-      '@i18n': resolve(__dirname, 'src/i18n'),
-      '@styles': resolve(__dirname, 'src/styles'),
+      '@engine': resolve(import.meta.dirname, 'src/engine'),
+      '@data': resolve(import.meta.dirname, 'src/data'),
+      '@components': resolve(import.meta.dirname, 'src/components'),
+      '@i18n': resolve(import.meta.dirname, 'src/i18n'),
+      '@styles': resolve(import.meta.dirname, 'src/styles'),
     },
   },
 })

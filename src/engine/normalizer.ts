@@ -39,6 +39,19 @@ const REF_CODE_START_RE = /^[A-Z0-9]*\d[A-Z0-9]{5,}\s*/;
 const REF_CODE_END_RE = /\s*[A-Z0-9]*\d[A-Z0-9]{5,}$/;
 
 /**
+ * Phone numbers: optional country code, optional parenthesised area code,
+ * 3-3-4 digits with optional space/dot/dash separators (800-555-1234,
+ * (800) 555 1234, 1-800-555-1234, 8885551234).
+ */
+const PHONE_RE = /(?<![\w])(?:\+?1[\s.-]?)?(?:\(\d{3}\)|\d{3})[\s.-]?\d{3}[\s.-]?\d{4}(?![\w])/g;
+
+/** Store numbers such as "#1234" or "# 42". */
+const STORE_NUMBER_RE = /#\s*\d+/g;
+
+/** "7ELEVEN", "7 ELEVEN", "7-ELEVEN" all collapse to one canonical form. */
+const SEVEN_ELEVEN_RE = /\b7[\s-]*ELEVEN\b/g;
+
+/**
  * Normalize a bank transaction description string.
  *
  * Logical steps (per spec):
@@ -75,6 +88,12 @@ export function normalize(s: string): string {
   const MAX_ITERATIONS = 100;
   for (let iter = 0; iter < MAX_ITERATIONS; iter++) {
     const prev = result;
+
+    // Phone numbers, store numbers and 7-ELEVEN spelling. 7-ELEVEN is made
+    // canonical first so "7ELEVEN" is not mistaken for a reference code.
+    result = result.replace(PHONE_RE, ' ');
+    result = result.replace(STORE_NUMBER_RE, ' ');
+    result = result.replace(SEVEN_ELEVEN_RE, '7-ELEVEN');
 
     // Step 2: Remove noise keywords (word-boundary, already uppercased)
     result = result.replace(NOISE_KEYWORDS_RE, '');

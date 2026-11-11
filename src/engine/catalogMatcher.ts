@@ -11,6 +11,14 @@
 import type { CatalogEntry } from './types';
 
 /**
+ * Remove diacritics (e.g. "SUSCRIPCIÓN" -> "SUSCRIPCION", "Ñ" -> "N") so that
+ * matching is accent-insensitive on both sides.
+ */
+export function stripAccents(s: string): string {
+  return s.normalize('NFD').replace(/\p{M}/gu, '');
+}
+
+/**
  * Escape all regex special characters in `term` so it can be embedded in a
  * `RegExp` and matched literally.
  *
@@ -30,9 +38,9 @@ export function escapeRegex(term: string): string {
  * when another word character followed it.
  */
 export function buildTermPattern(term: string): RegExp {
-  const lead = /^\w/.test(term) ? '\\b' : '(?<!\\w)';
-  const trail = /\w$/.test(term) ? '\\b' : '(?!\\w)';
-  return new RegExp(lead + escapeRegex(term) + trail, 'i');
+  const lead = /^\w/.test(stripAccents(term)) ? '\\b' : '(?<!\\w)';
+  const trail = /\w$/.test(stripAccents(term)) ? '\\b' : '(?!\\w)';
+  return new RegExp(lead + escapeRegex(stripAccents(term)) + trail, 'i');
 }
 
 /**
@@ -56,12 +64,13 @@ export function matchCatalog(
   normalizedName: string,
   catalog: CatalogEntry[],
 ): CatalogEntry | undefined {
+  const haystack = stripAccents(normalizedName);
   for (const entry of catalog) {
     const terms = [entry.canonicalName, ...entry.aliases];
     for (const term of terms) {
       if (!term) continue;
       const pattern = buildTermPattern(term);
-      if (pattern.test(normalizedName)) {
+      if (pattern.test(haystack)) {
         return entry;
       }
     }

@@ -91,3 +91,24 @@ describe('normalize — combined noise in a single string', () => {
     expect(normalize('SPOTIFY')).toBe('SPOTIFY');
   });
 });
+
+describe('normalize: phone numbers, store numbers, 7-ELEVEN', () => {
+  it('strips dashed phone numbers', () => {
+    expect(normalize('NETFLIX 800-555-1234')).toBe('NETFLIX');
+  });
+  it('strips unformatted 10-digit phone numbers', () => {
+    expect(normalize('SPOTIFY 8885551234')).toBe('SPOTIFY');
+  });
+  it('strips parenthesised and country-code phone numbers', () => {
+    expect(normalize('HULU (800) 555-1234')).toBe('HULU');
+    expect(normalize('HULU 1-800-555-1234')).toBe('HULU');
+  });
+  it('strips #-prefixed store numbers', () => {
+    expect(normalize('TARGET #1234')).toBe('TARGET');
+    expect(normalize('TARGET #12 MAIN')).toBe('TARGET MAIN');
+  });
+  it('treats 7ELEVEN / 7-ELEVEN / 7 ELEVEN consistently', () => {
+    const variants = ['7ELEVEN', '7-ELEVEN', '7 ELEVEN', '7-Eleven #2345', '7ELEVEN 800-555-1234'];
+    for (const v of variants) expect(normalize(v)).toBe('7-ELEVEN');
+  });
+});
