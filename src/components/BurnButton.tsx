@@ -65,7 +65,8 @@ export function BurnButton({ language, onConfirm }: BurnButtonProps) {
         onClick={() => setOpen(true)}
         aria-label={t('burn.buttonAriaLabel')}
       >
-        <Icon name="flame" /> {t('burn.buttonLabel')}
+        <Icon name="flame" />
+        <span className={styles.burnLabel}>{t('burn.buttonLabel')}</span>
       </button>
 
       <AnimatePresence>

@@ -6,6 +6,8 @@
 
 Built for the Kiroween hackathon.
 
+![Home screen: upload a bank statement](docs/screenshots/01-home.png)
+
 | Sample picker | The Crypt (US sample) |
 |---|---|
 | ![Sample picker](docs/screenshots/02-sample-picker.png) | ![Crypt with US sample](docs/screenshots/03-crypt-us.png) |

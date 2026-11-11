@@ -7,7 +7,25 @@
   border-radius: var(--radius-md);
   padding: var(--space-2) var(--space-4);
   background: transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+  position: relative;
+  white-space: nowrap;
   transition: border-color var(--transition-fast), color var(--transition-fast), background-color var(--transition-fast);
+}
+/* Narrow screens: icon-only (the aria-label keeps the accessible name). */
+@media (max-width: 480px) {
+  .burnLabel {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .burnBtn { padding: var(--space-2) var(--space-3); font-size: var(--font-size-lg); line-height: 1; }
 }
 .burnBtn:hover { border-color: var(--color-accent-light); color: #fff; background: rgba(192, 57, 43, 0.18); }
 

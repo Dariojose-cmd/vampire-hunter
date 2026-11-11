@@ -57,6 +57,10 @@
 .langBtn:hover { border-color: var(--color-accent-light); color: var(--color-text); }
 
 .iconBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
   font-size: var(--font-size-lg);
   line-height: 1;
   color: var(--color-text-muted);
@@ -88,5 +92,8 @@
 
 @media (max-width: 480px) {
   .topBar { flex-direction: column; align-items: stretch; gap: var(--space-2); }
-  .controls { justify-content: space-between; }
+  .controls { justify-content: space-between; gap: var(--space-2); min-width: 0; }
+  .langBtn { flex-shrink: 0; white-space: nowrap; padding: var(--space-2); }
+  .control { min-width: 0; }
+  .select { min-width: 0; }
 }
