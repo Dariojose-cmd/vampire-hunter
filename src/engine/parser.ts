@@ -142,12 +142,15 @@ export function parseDate(
  *  - Split each value on '/' or '-'.
  *  - If any row's first segment is > 12 → format is 'DD/MM/YYYY'.
  *  - If any row's second segment is > 12 → format is 'MM/DD/YYYY'.
+ *  - If every non-empty value is ISO (YYYY-MM-DD) → 'YYYY-MM-DD'.
  *  - If neither signal is found across the whole column → 'ambiguous'.
  *
  * Note: 'DD/MM/YYYY' signal takes priority over 'MM/DD/YYYY' because a first
  * segment > 12 is unambiguous proof that it cannot be a month.
  */
 export function inferDateFormat(column: string[]): DateFormat | 'ambiguous' {
+  let sawIso = false;
+  let sawSlash = false;
   for (const raw of column) {
     if (raw == null) continue;
     const value = raw.trim();
@@ -156,7 +159,11 @@ export function inferDateFormat(column: string[]): DateFormat | 'ambiguous' {
     // The DD/MM vs MM/DD ambiguity only applies to slash-separated dates.
     // Hyphen-separated values follow YYYY-MM-DD where the first segment is a
     // 4-digit year (always > 12), so we skip them to avoid a false positive.
-    if (!value.includes('/')) continue;
+    if (!value.includes('/')) {
+      if (/^\d{4}-\d{2}-\d{2}$/.test(value)) sawIso = true;
+      continue;
+    }
+    sawSlash = true;
 
     const parts = value.split('/');
     if (parts.length < 2) continue;
@@ -174,6 +181,10 @@ export function inferDateFormat(column: string[]): DateFormat | 'ambiguous' {
       return 'MM/DD/YYYY';
     }
   }
+
+  // A column of only ISO dates is unambiguous (year-first, no DD/MM vs MM/DD
+  // question). Mixed ISO + undecidable slash dates stay 'ambiguous'.
+  if (sawIso && !sawSlash) return 'YYYY-MM-DD';
 
   return 'ambiguous';
 }

@@ -4,7 +4,7 @@
  */
 
 import { describe, it, expect } from 'vitest';
-import { inferNumberFormat, parseCents } from '../src/engine/parser';
+import { inferDateFormat, inferNumberFormat, parseCents } from '../src/engine/parser';
 
 // ---------------------------------------------------------------------------
 // inferNumberFormat
@@ -209,5 +209,19 @@ describe('parseCents', () => {
 
   it('returns 0 for empty string', () => {
     expect(parseCents('', 'dotDecimal')).toBe(0);
+  });
+});
+
+describe('inferDateFormat with ISO dates', () => {
+  it('accepts an all-ISO column as YYYY-MM-DD', () => {
+    expect(inferDateFormat(['2025-01-05', '2025-02-03', ''])).toBe('YYYY-MM-DD');
+  });
+
+  it('still reports ambiguous for undecidable slash dates', () => {
+    expect(inferDateFormat(['01/02/2025', '03/04/2025'])).toBe('ambiguous');
+  });
+
+  it('still reports ambiguous for ISO mixed with undecidable slash dates', () => {
+    expect(inferDateFormat(['2025-01-05', '01/02/2025'])).toBe('ambiguous');
   });
 });
