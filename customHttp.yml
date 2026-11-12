@@ -1,0 +1,35 @@
+# AWS Amplify Hosting custom response headers.
+# Applied to every path. `npm run preview` reads this same file (see
+# vite.config.ts), so what you test locally is what Amplify serves.
+#
+# Keep each value on ONE line wrapped in double quotes: vite.config.ts parses
+# this file with a tiny line-based reader, not a full YAML parser.
+#
+# Content-Security-Policy, directive by directive:
+#   default-src 'self'      Everything not listed below may only load from our own origin.
+#   script-src 'self'       Only the bundled JS. No inline scripts, no eval.
+#   style-src 'self'        Only the bundled CSS file. React and Framer Motion set styles
+#                           through the CSSOM (element.style.x = ...), which CSP allows,
+#                           so 'unsafe-inline' is NOT needed (verified with Playwright).
+#   img-src 'self' data: blob:
+#                           data: = the vampire avatars (SVG data URIs in <img>).
+#                           blob: = object URLs created in the browser (.ics download).
+#   font-src 'self'         Self-hosted @fontsource fonts only.
+#   connect-src 'self'      The key line. The page can only fetch/XHR/WebSocket to its own
+#                           origin (bundled sample CSVs). The browser itself blocks any
+#                           attempt to send transaction data elsewhere.
+#   object-src 'none'       No plugins (Flash, PDF embeds, ...).
+#   base-uri 'self'         Stops injected <base> tags from rerouting relative URLs.
+#   form-action 'self'      Forms can only submit to our own origin.
+#   frame-ancestors 'none'  Nobody can embed the app in an iframe (clickjacking).
+customHeaders:
+  - pattern: '**'
+    headers:
+      - key: Content-Security-Policy
+        value: "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+      - key: X-Content-Type-Options
+        value: "nosniff"
+      - key: Referrer-Policy
+        value: "no-referrer"
+      - key: Permissions-Policy
+        value: "camera=(), microphone=(), geolocation=()"

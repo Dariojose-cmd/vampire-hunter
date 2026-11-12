@@ -17,6 +17,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import type { Vampire, ThreatLevel, Cadence, DecisionType } from '@engine/types';
 import { useTranslation, type Language, type TranslationKey } from '@i18n/index';
 import { GARLIC_REMINDER_DAYS } from '@engine/icsGenerator';
+import { avatarDataUri } from './avatarDataUri';
 import { formatMoney, formatDate, garlicHintId } from './format';
 import { GarlicHint } from './GarlicHint';
 import { Icon } from './Icon';
@@ -94,6 +95,7 @@ export function VampireCard({
   const { t } = useTranslation(language);
   const reduce = useReducedMotion();
   const stakeBtnRef = useRef<HTMLButtonElement>(null);
+  const avatarSrc = useMemo(() => avatarDataUri(vampire.avatarSvg), [vampire.avatarSvg]);
 
   const amountPerBite = formatMoney(vampire.medianAmountCents, currency, language);
   const bloodDrained = formatMoney(
@@ -165,11 +167,9 @@ export function VampireCard({
         </>
       )}
 
-      <div
-        className={styles.avatar}
-        aria-hidden="true"
-        dangerouslySetInnerHTML={{ __html: vampire.avatarSvg }}
-      />
+      <div className={styles.avatar} aria-hidden="true">
+        <img src={avatarSrc} alt="" width={92} height={92} draggable={false} />
+      </div>
 
       <div>
         <h3 className={styles.name}>{vampire.displayName}</h3>
