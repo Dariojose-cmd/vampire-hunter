@@ -1,0 +1,27 @@
+{
+  "bank": "American Express US",
+  "currency": "USD",
+  "window": "2024-08-03 .. 2025-09-25",
+  "signConvention": "charges POSITIVE, payments/credits NEGATIVE",
+  "expected": [
+    { "name": "Adobe Creative Cloud", "cadence": "monthly", "medianAmountCents": 6249, "currentAmountCents": 6499, "bites": 14, "note": "5999 x7 (Aug24-Feb25) then 6499 x7 (Mar-Sep25); +8.3%; median of 14 bites = floor((5999+6499)/2) = 6249 (fixture author first wrote 6499, which was wrong)" },
+    { "name": "Amazon Prime", "cadence": "monthly", "medianAmountCents": 1499, "bites": 14, "note": "descriptor carries a unique token each month: AMAZON PRIME*RT4GH7ZK0 AMZN.COM/BILL WA" },
+    { "name": "Apple (plan A) APPLE.COM/BILL", "cadence": "monthly", "medianAmountCents": 99, "bites": 14, "note": "same merchant, two plans: 0.99 on the 9th" },
+    { "name": "Apple (plan B) APPLE.COM/BILL", "cadence": "monthly", "medianAmountCents": 1099, "bites": 14, "note": "same merchant, two plans: 10.99 on the 21st" },
+    { "name": "Costco Membership", "cadence": "yearly", "medianAmountCents": 6250, "bites": 2, "note": "6000 on 2024-08-20 and 6500 on 2025-08-19 (364 days apart); median of two = floor((6000+6500)/2)=6250" }
+  ],
+  "mustNotDetect": [
+    "AUTOPAY PAYMENT - THANK YOU",
+    "TRADER JOE'S",
+    "COSTCO WHSE",
+    "DOORDASH",
+    "AplPay STARBUCKS",
+    "DELTA AIR LINES",
+    "AMAZON MKTPLACE",
+    "AMAZON.COM REFUND"
+  ],
+  "notes": [
+    "Payments are negative (e.g. -187.34): an engine that treats negative as debit will see them as spending.",
+    "Costco WHSE (irregular, catalog alias COSTCO matches) is a trap for the catalog +20 bonus."
+  ]
+}

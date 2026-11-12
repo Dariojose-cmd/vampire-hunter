@@ -1,0 +1,13 @@
+{
+  "bank": "American Express US (probe)",
+  "currency": "USD",
+  "purpose": "Subset of amex-us.csv with the sign convention FLIPPED (charges negative, refund positive) so the engine's sign assumption is satisfied; shows downstream behaviour for Prime unique tokens, two plans on one merchant, yearly cadence and price increase.",
+  "expected": [
+    { "name": "Adobe Creative Cloud", "cadence": "monthly", "medianAmountCents": 6249, "currentAmountCents": 6499, "bites": 14, "note": "5999 x7 then 6499 x7; median of 14 bites = floor((5999+6499)/2) = 6249 (fixture author first wrote 6499, which was wrong); price increase expected" },
+    { "name": "Amazon Prime", "cadence": "monthly", "medianAmountCents": 1499, "bites": 14 },
+    { "name": "Apple plan A", "cadence": "monthly", "medianAmountCents": 99, "bites": 14 },
+    { "name": "Apple plan B", "cadence": "monthly", "medianAmountCents": 1099, "bites": 14 },
+    { "name": "Costco Membership", "cadence": "yearly", "medianAmountCents": 6250, "bites": 2 }
+  ],
+  "mustNotDetect": ["TRADER JOE'S", "COSTCO WHSE", "AMAZON.COM REFUND"]
+}

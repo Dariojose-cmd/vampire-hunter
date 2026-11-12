@@ -1,0 +1,13 @@
+{
+  "bank": "Chase US (probe)",
+  "currency": "USD",
+  "purpose": "Same data as chase-us.csv (all subscription rows, reduced noise) with the 'Details' column moved AFTER 'Description' and 'Balance'/'Check or Slip #' removed, to see what the engine does once column mapping is no longer wrong.",
+  "expected": [
+    { "name": "Netflix", "cadence": "monthly", "medianAmountCents": 1549, "currentAmountCents": 1799, "bites": 9 },
+    { "name": "Spotify", "cadence": "monthly", "medianAmountCents": 1199, "bites": 9 },
+    { "name": "Planet Fitness", "cadence": "monthly", "medianAmountCents": 1000, "bites": 9, "note": "4900 one-off fee on 2025-03-03 same descriptor" },
+    { "name": "Hulu", "cadence": "monthly", "medianAmountCents": 999, "bites": 8, "note": "free trial 0.00 first" },
+    { "name": "HelloFresh", "cadence": "weekly", "medianAmountCents": 7194, "bites": 10 }
+  ],
+  "mustNotDetect": ["WHOLE FOODS", "SHELL OIL", "WALGREENS", "Zelle payment", "ACME CORP PAYROLL"]
+}

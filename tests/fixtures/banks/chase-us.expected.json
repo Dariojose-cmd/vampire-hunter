@@ -1,0 +1,30 @@
+{
+  "bank": "Chase US",
+  "currency": "USD",
+  "window": "2025-01-03 .. 2025-09-30",
+  "expected": [
+    { "name": "Netflix", "cadence": "monthly", "medianAmountCents": 1549, "currentAmountCents": 1799, "bites": 9, "note": "1549 x5 (Jan-May) then 1799 x4 (Jun-Sep); median of all 9 bites is 1549 (fixture author first wrote 1799, which was wrong); price increase expected; posting date shifts on weekends" },
+    { "name": "Spotify", "cadence": "monthly", "medianAmountCents": 1199, "bites": 9, "note": "descriptor is PAYPAL *SPOTIFY USA <phone>" },
+    { "name": "Planet Fitness", "cadence": "monthly", "medianAmountCents": 1000, "bites": 9, "note": "one-off 4900 annual fee on 2025-03-03 has the SAME descriptor and must not become a second vampire" },
+    { "name": "Hulu", "cadence": "monthly", "medianAmountCents": 999, "bites": 8, "note": "free trial: 0.00 on 2025-02-10, then 999 x7" },
+    { "name": "HelloFresh", "cadence": "weekly", "medianAmountCents": 7194, "bites": 10, "note": "Mondays 2025-06-02 .. 2025-08-04" }
+  ],
+  "mustNotDetect": [
+    "WHOLE FOODS",
+    "SHELL OIL",
+    "STARBUCKS",
+    "WALGREENS",
+    "Zelle payment",
+    "UBER",
+    "TARGET",
+    "BEST BUY",
+    "AMAZON MKTPLACE",
+    "ACME CORP PAYROLL",
+    "AMAZON.COM REFUND"
+  ],
+  "notes": [
+    "File has a trailing comma on header and every row (Chase style).",
+    "Header 'Details' column holds DEBIT/CREDIT and is NOT the description column.",
+    "Data rows total = 116 (106 debits incl. one 0.00 trial row + 10 credits); 116 was confirmed because the engine parsed 116 with 0 skipped and the file has no blank rows."
+  ]
+}

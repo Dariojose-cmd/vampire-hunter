@@ -1,0 +1,13 @@
+{
+  "bank": "Santander ES (probe)",
+  "currency": "EUR",
+  "purpose": "Subset of santander-es.csv with the 'Fecha valor' column removed, to see downstream behaviour once column mapping is no longer wrong.",
+  "expected": [
+    { "name": "Netflix", "cadence": "monthly", "medianAmountCents": 1299, "bites": 9 },
+    { "name": "Spotify", "cadence": "monthly", "medianAmountCents": 1099, "bites": 9 },
+    { "name": "Movistar", "cadence": "monthly", "medianAmountCents": 5490, "bites": 9 },
+    { "name": "Basic-Fit", "cadence": "monthly", "medianAmountCents": 2999, "bites": 9 }
+  ],
+  "mustNotDetect": ["MERCADONA", "BIZUM A LUCIA", "EL CORTE INGLES", "PCCOMPONENTES", "NOMINA EMPRESA EJEMPLO", "DEVOLUCION COMPRA EL CORTE INGLES"],
+  "ambiguous": ["RECIBO ENDESA ENERGIA XXI (monthly utility, variable amount)"]
+}

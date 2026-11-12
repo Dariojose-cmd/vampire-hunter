@@ -1,0 +1,13 @@
+{
+  "bank": "Bancolombia CO (probe)",
+  "currency": "COP",
+  "purpose": "Subset of bancolombia-co.csv with the 'Saldo' column removed so the split Debito/Credito layout can be recognised; checks downstream behaviour (noDecimal numbers, price increase >10%).",
+  "expected": [
+    { "name": "Netflix", "cadence": "monthly", "medianAmountCents": 4490000, "currentAmountCents": 4990000, "bites": 8 },
+    { "name": "Smart Fit", "cadence": "monthly", "medianAmountCents": 9990000, "bites": 8 },
+    { "name": "Spotify", "cadence": "monthly", "medianAmountCents": 1690000, "bites": 8 },
+    { "name": "Claro", "cadence": "monthly", "medianAmountCents": 5990000, "bites": 8 },
+    { "name": "Rappi Prime", "cadence": "monthly", "medianAmountCents": 1490000, "bites": 8 }
+  ],
+  "mustNotDetect": ["EXITO ENVIGADO", "TERPEL ESTACION", "TRANSFERENCIA A NEQUI", "UBER", "RAPPI*PEDIDO", "ABONO NOMINA", "DEVOLUCION COMPRA EXITO"]
+}

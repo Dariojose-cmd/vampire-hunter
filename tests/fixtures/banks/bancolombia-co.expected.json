@@ -1,0 +1,32 @@
+{
+  "bank": "Bancolombia CO",
+  "currency": "COP",
+  "window": "2025-02-04 .. 2025-09-30",
+  "layout": "split debit/credit + running balance (Saldo)",
+  "expected": [
+    { "name": "Netflix", "cadence": "monthly", "medianAmountCents": 4490000, "bites": 8, "note": "44.900 COP x5 (Feb-Jun) then 49.900 x3 (Jul-Sep); +11% (more than the 10% cluster tolerance). Amounts stored x100 because the engine treats every currency as having 2 decimals." },
+    { "name": "Smart Fit", "cadence": "monthly", "medianAmountCents": 9990000, "bites": 8, "note": "99.900 COP; descriptor PAGO PSE SMART FIT" },
+    { "name": "Spotify", "cadence": "monthly", "medianAmountCents": 1690000, "bites": 8, "note": "16.900 COP" },
+    { "name": "Claro", "cadence": "monthly", "medianAmountCents": 5990000, "bites": 8, "note": "59.900 COP; descriptor PAGO CLARO COLOMBIA" },
+    { "name": "Rappi Prime", "cadence": "monthly", "medianAmountCents": 1490000, "bites": 8, "note": "14.900 COP" }
+  ],
+  "mustNotDetect": [
+    "EXITO ENVIGADO",
+    "TERPEL ESTACION",
+    "JUAN VALDEZ",
+    "TRANSFERENCIA A NEQUI",
+    "UBER",
+    "RAPPI*PEDIDO",
+    "CINE COLOMBIA",
+    "ABONO NOMINA",
+    "DEVOLUCION COMPRA EXITO"
+  ],
+  "notes": [
+    "No currency symbol or ISO code anywhere in the file (real Bancolombia exports are like this), so currency cannot be known from content; expected COP.",
+    "Amounts use '.' as thousands separator with no decimals (e.g. 1.250.000).",
+    "Debito/Credito are separate columns; Saldo is the running balance.",
+    "Rows 'COMPRA RAPPI*PEDIDO' (delivery orders, irregular) share the RAPPI brand with the Rappi Prime subscription.",
+    "A few dates are deliberately out of chronological order (2025-06-07, 2025-08-30) as real exports sometimes are.",
+    "Data rows = 88."
+  ]
+}

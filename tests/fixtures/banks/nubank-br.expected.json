@@ -1,0 +1,30 @@
+{
+  "bank": "Nubank BR",
+  "currency": "BRL",
+  "window": "2025-01-03 .. 2025-09-20",
+  "signConvention": "purchases POSITIVE, payments/refunds NEGATIVE",
+  "expected": [
+    { "name": "Netflix", "cadence": "monthly", "medianAmountCents": 5590, "bites": 9, "note": "5590 x5 (Jan-May) then 5990 x4 (Jun-Sep); +7.2%. Median of 9 sorted amounts = 5590." },
+    { "name": "Spotify", "cadence": "monthly", "medianAmountCents": 2190, "bites": 9 },
+    { "name": "Globoplay", "cadence": "monthly", "medianAmountCents": 2490, "bites": 9 },
+    { "name": "Smart Fit", "cadence": "monthly", "medianAmountCents": 11990, "bites": 9, "note": "title 'Smart Fit Academia'" },
+    { "name": "Disney Plus", "cadence": "monthly", "medianAmountCents": 3390, "bites": 8, "note": "free trial: 0.00 on 2025-02-03, then 3390 x7" }
+  ],
+  "mustNotDetect": [
+    "iFood *iFood",
+    "Mercado Extra",
+    "Posto Ipiranga",
+    "Uber *Trip",
+    "Drogasil",
+    "Amazon Marketplace",
+    "Magalu - Parcela",
+    "Pagamento recebido",
+    "Estorno de compra - Amazon"
+  ],
+  "notes": [
+    "Header is exactly the real Nubank card export: date,category,title,amount (no column named description).",
+    "No BRL symbol or ISO code in the file, so currency cannot come from content; expected BRL.",
+    "Magalu installments ('Parcela 1/3', '2/3', '3/3') are a finite installment plan, not a subscription.",
+    "Data rows = 101."
+  ]
+}

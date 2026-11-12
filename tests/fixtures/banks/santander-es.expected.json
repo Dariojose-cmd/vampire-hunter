@@ -1,0 +1,30 @@
+{
+  "bank": "Santander ES",
+  "currency": "EUR",
+  "window": "2025-01-02 .. 2025-09-30",
+  "delimiter": ";",
+  "expected": [
+    { "name": "Netflix", "cadence": "monthly", "medianAmountCents": 1299, "bites": 9, "note": "1299 x6 (Jan-Jun) then 1399 x3 (Jul-Sep); +7.7%" },
+    { "name": "Spotify", "cadence": "monthly", "medianAmountCents": 1099, "bites": 9 },
+    { "name": "Movistar", "cadence": "monthly", "medianAmountCents": 5490, "bites": 9, "note": "5490 x6 then 5690 x3 (+3.6%); descriptor RECIBO MOVISTAR" },
+    { "name": "Basic-Fit", "cadence": "monthly", "medianAmountCents": 2999, "bites": 9, "note": "not in catalog" }
+  ],
+  "mustNotDetect": [
+    "MERCADONA",
+    "REPSOL",
+    "BIZUM A LUCIA",
+    "EL CORTE INGLES",
+    "PCCOMPONENTES",
+    "NOMINA EMPRESA EJEMPLO",
+    "DEVOLUCION COMPRA EL CORTE INGLES"
+  ],
+  "ambiguous": [
+    { "name": "RECIBO ENDESA ENERGIA XXI", "why": "monthly utility bill with varying amounts (4475..9014); recurring but not a subscription. Not counted as a false positive in totals." }
+  ],
+  "notes": [
+    "Header has TWO 'Fecha' columns; the second is 'Fecha valor' (value date), which contains the keyword 'valor'.",
+    "Importe uses '-' sign on debits, '1.234,56' thousands/comma-decimal; 'Saldo' is running balance.",
+    "Divisa column carries EUR; there is no currency symbol in the amounts.",
+    "Data rows = 86."
+  ]
+}

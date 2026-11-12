@@ -1,0 +1,13 @@
+{
+  "bank": "Nubank BR (probe)",
+  "currency": "BRL",
+  "purpose": "Subset of nubank-br.csv with the 'title' header renamed to 'description' so the column mapper succeeds; shows the sign-convention problem (purchases are POSITIVE).",
+  "expected": [
+    { "name": "Netflix", "cadence": "monthly", "medianAmountCents": 5590, "bites": 9 },
+    { "name": "Spotify", "cadence": "monthly", "medianAmountCents": 2190, "bites": 9 },
+    { "name": "Globoplay", "cadence": "monthly", "medianAmountCents": 2490, "bites": 9 },
+    { "name": "Smart Fit", "cadence": "monthly", "medianAmountCents": 11990, "bites": 9 },
+    { "name": "Disney Plus", "cadence": "monthly", "medianAmountCents": 3390, "bites": 8, "note": "free trial 0.00 first" }
+  ],
+  "mustNotDetect": ["iFood *iFood", "Posto Ipiranga", "Drogasil", "Pagamento recebido", "Estorno de compra - Amazon"]
+}

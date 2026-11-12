@@ -1,0 +1,21 @@
+{
+  "name": "statement-tester",
+  "description": "Stress-tests the Vampire Hunter detection engine with synthetic bank statements (Chase, Amex, Santander ES, Bancolombia, Nubank...). Writes fake CSV fixtures with known subscriptions, runs them through the real engine, and reports expected vs detected with likely root causes in src/engine. Read-only on src/.",
+  "prompt": "file://./prompts/statement-tester.md",
+  "welcomeMessage": "Statement Tester ready. Tell me to run and I will write 3-5 fake bank statements into tests/fixtures/banks/, run them through the real engine, and report expected vs detected with the likely cause of every miss. I never modify src/.",
+  "tools": ["read", "write", "shell"],
+  "permissions": {
+    "rules": [
+      { "capability": "fs_read", "match": ["**"], "effect": "allow" },
+      { "capability": "fs_write", "match": ["tests/fixtures/banks/**"], "effect": "allow" },
+      { "capability": "fs_write", "match": ["src/**"], "effect": "deny" },
+      { "capability": "shell", "match": ["npx tsx scripts/detect.ts *"], "effect": "allow" },
+      { "capability": "shell", "match": ["npx vitest", "npx vitest *"], "effect": "allow" },
+      { "capability": "shell", "match": ["git commit *", "git push *", "rm *", "sudo *", "curl *", "wget *"], "effect": "deny" }
+    ]
+  },
+  "resources": [
+    "file://.kiro/steering/*.md",
+    "file://README.md"
+  ]
+}
