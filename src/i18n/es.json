@@ -199,7 +199,8 @@
   "currencySelector": {
     "label": "Moneda",
     "ariaLabel": "Seleccionar moneda de visualización",
-    "autoDetected": "Detectada automáticamente: {{currency}}"
+    "autoDetected": "Detectada automáticamente: {{currency}}",
+    "notDetected": "Moneda no detectada — mostrando USD. Cámbiala aquí."
   },
 
   "common": {

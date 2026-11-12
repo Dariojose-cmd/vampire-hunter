@@ -4,7 +4,7 @@
  */
 
 import { describe, it, expect } from 'vitest';
-import { inferDateFormat, inferNumberFormat, parseCents, parseRows } from '../src/engine/parser';
+import { detectColumns, inferDateFormat, inferNumberFormat, parseCents, parseDate, parseRows } from '../src/engine/parser';
 
 // ---------------------------------------------------------------------------
 // inferNumberFormat
@@ -255,5 +255,42 @@ describe('inferDateFormat with ISO dates', () => {
 
   it('still reports ambiguous for ISO mixed with undecidable slash dates', () => {
     expect(inferDateFormat(['2025-01-05', '01/02/2025'])).toBe('ambiguous');
+  });
+});
+
+describe('dates with a time part', () => {
+  it('parseDate ignores the time for YYYY-MM-DD', () => {
+    expect(parseDate('2026-01-09 10:12:00', 'YYYY-MM-DD')).toEqual({ ok: true, value: '2026-01-09' });
+    expect(parseDate('2026-01-09T10:12:00Z', 'YYYY-MM-DD')).toEqual({ ok: true, value: '2026-01-09' });
+    expect(parseDate('2026-01-09T10:12:00.123+01:00', 'YYYY-MM-DD')).toEqual({ ok: true, value: '2026-01-09' });
+  });
+
+  it('parseDate ignores the time for slash formats', () => {
+    expect(parseDate('09/01/2026 10:12', 'DD/MM/YYYY')).toEqual({ ok: true, value: '2026-01-09' });
+    expect(parseDate('09/01/2026 10:12', 'MM/DD/YYYY')).toEqual({ ok: true, value: '2026-09-01' });
+    expect(parseDate('09/01/2026 10:12 PM', 'DD/MM/YYYY')).toEqual({ ok: true, value: '2026-01-09' });
+  });
+
+  it('parseDate still rejects bad dates', () => {
+    expect(parseDate('2026-13-09 10:12:00', 'YYYY-MM-DD').ok).toBe(false);
+  });
+
+  it('inferDateFormat handles ISO datetimes', () => {
+    expect(inferDateFormat(['2026-01-09 10:12:00', '2026-01-10T08:00:00Z'])).toBe('YYYY-MM-DD');
+  });
+
+  it('inferDateFormat decides slash datetimes when a segment exceeds 12', () => {
+    expect(inferDateFormat(['09/01/2026 10:12', '15/01/2026 11:00'])).toBe('DD/MM/YYYY');
+    expect(inferDateFormat(['09/01/2026 10:12', '01/15/2026 11:00'])).toBe('MM/DD/YYYY');
+  });
+
+  it('inferDateFormat stays ambiguous for undecidable slash datetimes', () => {
+    expect(inferDateFormat(['09/01/2026 10:12', '10/02/2026 11:00'])).toBe('ambiguous');
+  });
+
+  it('detectColumns prefers Completed Date in a Revolut header', () => {
+    const headers = ['Type', 'Product', 'Started Date', 'Completed Date', 'Description', 'Amount', 'Fee', 'Currency', 'State', 'Balance'];
+    const rows = [['CARD_PAYMENT', 'Current', '2025-01-03 10:12:00', '2025-01-04 08:30:45', 'Netflix', '-10.99', '0.00', 'GBP', 'COMPLETED', '100.00']];
+    expect(detectColumns(headers, rows)).toEqual({ type: 'single', dateCol: 3, descCol: 4, amountCol: 5 });
   });
 });

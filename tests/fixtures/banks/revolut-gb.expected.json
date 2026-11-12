@@ -1,0 +1,47 @@
+{
+  "bank": "Revolut GB",
+  "currency": "GBP",
+  "window": "2025-01-04 .. 2025-09-01",
+  "expected": [
+    {
+      "name": "Netflix",
+      "cadence": "monthly",
+      "medianAmountCents": 1099,
+      "bites": 8,
+      "note": "Jan-Aug, 10.99"
+    },
+    {
+      "name": "Spotify",
+      "cadence": "monthly",
+      "medianAmountCents": 1199,
+      "bites": 8,
+      "note": "Jan-Aug, 11.99"
+    },
+    {
+      "name": "PureGym",
+      "cadence": "monthly",
+      "medianAmountCents": 2499,
+      "bites": 8,
+      "note": "Jan-Aug, 24.99"
+    }
+  ],
+  "mustNotDetect": [
+    "Salary ACME LTD",
+    "Tesco",
+    "Sainsburys",
+    "Co-op",
+    "Lidl",
+    "Aldi",
+    "Pret A Manger",
+    "To John Smith",
+    "TfL Travel",
+    "Amazon",
+    "Zara",
+    "ATM Withdrawal"
+  ],
+  "notes": [
+    "Revolut export: dates carry a time part (YYYY-MM-DD HH:MM:SS) and there are both Started Date and Completed Date columns; Completed Date is preferred.",
+    "REVERTED and PENDING rows have an empty Completed Date and are skipped as unparseable.",
+    "Currency comes from the dedicated Currency column (GBP). Fee column is not the amount."
+  ]
+}

@@ -109,11 +109,11 @@ export function inferCurrencyFromLocale(
  * @param headerRow    - Raw CSV header cells.
  * @returns A valid ISO 4217 currency code. Defaults to 'USD'.
  */
-export function inferCurrency(
+export function inferCurrencyDetailed(
   amountColumn: string[],
   headerRow: string[],
   textSamples: string[] = [],
-): string {
+): { currency: string; detected: boolean } {
   // Defensive: tolerate null/undefined entries without throwing.
   const haystacks: string[] = [];
   if (Array.isArray(headerRow)) {
@@ -132,7 +132,7 @@ export function inferCurrency(
     const re = isoCodeRegex(code);
     for (const text of haystacks) {
       if (re.test(text)) {
-        return code;
+        return { currency: code, detected: true };
       }
     }
   }
@@ -141,7 +141,7 @@ export function inferCurrency(
   for (const { symbol, code } of SYMBOL_MAP) {
     for (const text of haystacks) {
       if (text.includes(symbol)) {
-        return code;
+        return { currency: code, detected: true };
       }
     }
   }
@@ -149,15 +149,24 @@ export function inferCurrency(
   // Priority 2b: locale signals (no explicit code or symbol). Strict enough
   // that US-style statements never trigger them.
   const locale = inferCurrencyFromLocale(amountColumn, headerRow, textSamples);
-  if (locale) return locale;
+  if (locale) return { currency: locale, detected: true };
 
   // Priority 3: bare `$` with no other locale signal → USD.
   for (const text of haystacks) {
     if (text.includes('$')) {
-      return 'USD';
+      return { currency: 'USD', detected: true };
     }
   }
 
   // Priority 4: nothing detected → default.
-  return 'USD';
+  return { currency: 'USD', detected: false };
+}
+
+/** Same as {@link inferCurrencyDetailed} but returns only the currency code. */
+export function inferCurrency(
+  amountColumn: string[],
+  headerRow: string[],
+  textSamples: string[] = [],
+): string {
+  return inferCurrencyDetailed(amountColumn, headerRow, textSamples).currency;
 }

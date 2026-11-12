@@ -40,6 +40,15 @@ function isValidDate(year: number, month: number, day: number): boolean {
 // parseDate
 // ---------------------------------------------------------------------------
 
+const TIME_SUFFIX_RE =
+  /[ T]\d{1,2}:\d{2}(?::\d{2}(?:[.,]\d+)?)?\s*(?:[AaPp]\.?[Mm]\.?)?\s*(?:Z|[+-]\d{2}(?::?\d{2})?)?$/;
+
+/** Trims a value and removes a trailing time-of-day part (e.g. " 10:12:00", "T10:12:00Z"). */
+function stripTimePart(s: string): string {
+  const trimmed = s.trim();
+  return trimmed.replace(TIME_SUFFIX_RE, '').trim();
+}
+
 /**
  * Parses a date string in one of the three supported formats and returns an
  * ISO 8601 date string (YYYY-MM-DD) wrapped in a Result.
@@ -53,7 +62,7 @@ export function parseDate(
   format: DateFormat,
 ): Result<string, AppError> {
   try {
-    const trimmed = (s ?? '').trim();
+    const trimmed = stripTimePart(s ?? '');
 
     if (trimmed === '') {
       return parseFailed(`Empty date string`);
@@ -153,7 +162,7 @@ export function inferDateFormat(column: string[]): DateFormat | 'ambiguous' {
   let sawSlash = false;
   for (const raw of column) {
     if (raw == null) continue;
-    const value = raw.trim();
+    const value = stripTimePart(raw);
     if (value === '') continue;
 
     // The DD/MM vs MM/DD ambiguity only applies to slash-separated dates.
@@ -358,13 +367,18 @@ export function detectColumns(
   // Pass 1: header-keyword heuristics (high confidence)
   // -----------------------------------------------------------------------
   let weakDescCol = -1;
+  // Revolut-style exports have "Started Date" and "Completed Date": prefer the
+  // completed one (the settled date); otherwise the first date-like header wins.
+  const completedDateCol = lc.findIndex(
+    (h) => DATE_HEADER_RE.test(h) && /completed|completad/.test(h),
+  );
   for (let i = 0; i < lc.length; i++) {
     const h = lc[i];
     const isDateHeader = DATE_HEADER_RE.test(h);
 
     // Date keywords
     if (dateCol === -1 && isDateHeader) {
-      dateCol = i;
+      dateCol = completedDateCol !== -1 ? completedDateCol : i;
       continue;
     }
 
