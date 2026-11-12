@@ -38,6 +38,8 @@
     "amountColumn": "Amount column",
     "debitColumn": "Debit column",
     "creditColumn": "Credit column",
+    "positiveCharges": "Charges appear as positive numbers",
+    "positiveChargesHint": "Check this if purchases are positive and payments or refunds are negative (common in credit card exports).",
     "dateFormat": "Date format",
     "dateFormatDdMmYyyy": "DD/MM/YYYY (e.g. 31/12/2024)",
     "dateFormatMmDdYyyy": "MM/DD/YYYY (e.g. 12/31/2024)",

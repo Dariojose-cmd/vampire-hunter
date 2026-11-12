@@ -38,6 +38,8 @@
     "amountColumn": "Columna de monto",
     "debitColumn": "Columna de débito",
     "creditColumn": "Columna de crédito",
+    "positiveCharges": "Los cargos aparecen como números positivos",
+    "positiveChargesHint": "Márcalo si las compras son positivas y los pagos o reembolsos son negativos (común en extractos de tarjeta de crédito).",
     "dateFormat": "Formato de fecha",
     "dateFormatDdMmYyyy": "DD/MM/AAAA (ej. 31/12/2024)",
     "dateFormatMmDdYyyy": "MM/DD/AAAA (ej. 12/31/2024)",

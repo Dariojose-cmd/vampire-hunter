@@ -194,3 +194,15 @@ describe('accents and embedded dates in descriptions', () => {
     expect(all[0].displayName).toBe('SUSCRIPCIÓN ZETA');
   });
 });
+
+describe('sample vampire ids are stable across sign-convention changes', () => {
+  it.each([
+    ['us-bank-usd.csv', 10],
+    ['latam-bank-mxn.csv', 5],
+    ['latam-bank-cop.csv', 4],
+    ['messy-statement.csv', 3],
+  ])('%s keeps its vampire ids', (file, count) => {
+    const { vampires } = detectFromSample(file);
+    expect(vampires.length).toBe(count);
+  });
+});

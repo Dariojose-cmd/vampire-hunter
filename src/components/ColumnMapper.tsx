@@ -68,7 +68,11 @@ export interface ColumnMapperProps {
   /** True when the date format could not be inferred and must be chosen. */
   dateFormatAmbiguous: boolean;
   onCancel: () => void;
-  onConfirm: (layout: ColumnLayout, dateFormat: DateFormat | null) => void;
+  onConfirm: (
+    layout: ColumnLayout,
+    dateFormat: DateFormat | null,
+    positiveIsCharge?: boolean,
+  ) => void;
 }
 
 export function ColumnMapper({
@@ -86,6 +90,7 @@ export function ColumnMapper({
   const [amountCol, setAmountCol] = useState<number>(UNSET);
   const [debitCol, setDebitCol] = useState<number>(UNSET);
   const [creditCol, setCreditCol] = useState<number>(UNSET);
+  const [positiveIsCharge, setPositiveIsCharge] = useState(false);
   const [dateFormat, setDateFormat] = useState<DateFormat | ''>('');
 
   useEffect(() => {
@@ -119,7 +124,11 @@ export function ColumnMapper({
             dateCol,
             descCol,
           };
-    onConfirm(layout, dateFormat === '' ? null : dateFormat);
+    onConfirm(
+      layout,
+      dateFormat === '' ? null : dateFormat,
+      layout.type === 'single' && positiveIsCharge ? true : undefined,
+    );
   }
 
   const placeholder = t('columnMapper.selectColumn');
@@ -173,6 +182,21 @@ export function ColumnMapper({
           options={options}
           onChange={setCreditCol}
         />
+
+        {amountCol !== UNSET && (
+          <div className={styles.field}>
+            <label htmlFor="map-positive-charges">
+              <input
+                id="map-positive-charges"
+                type="checkbox"
+                checked={positiveIsCharge}
+                onChange={(e) => setPositiveIsCharge(e.target.checked)}
+              />{' '}
+              {t('columnMapper.positiveCharges')}
+            </label>
+            <p className={styles.hint}>{t('columnMapper.positiveChargesHint')}</p>
+          </div>
+        )}
 
         {dateFormatAmbiguous && (
           <div className={styles.field}>

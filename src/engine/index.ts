@@ -34,6 +34,7 @@ import {
 } from './profileBuilder';
 import {
   detectColumns,
+  detectPositiveIsCharge,
   inferDateFormat,
   inferNumberFormat,
   parseRows,
@@ -252,6 +253,14 @@ export function parseStatement(
       return out;
     };
 
+    // Header-only (or all-blank) file: nothing to parse.
+    if (!rows.some((r) => r && r.some((c) => (c ?? '').trim() !== ''))) {
+      return fail(
+        'NO_VALID_ROWS',
+        'The file was parsed but contained no usable transactions.',
+      );
+    }
+
     // Step 2: infer date format.
     const dateFormatResult = inferDateFormat(columnValues(layout.dateCol));
     if (dateFormatResult === 'ambiguous') {
@@ -312,6 +321,7 @@ export function parseStatement(
       layout,
       dateFormat,
       numberFormat,
+      detectPositiveIsCharge(rows, layout),
     );
 
     if (transactions.length === 0) {
@@ -344,6 +354,9 @@ export function parseStatement(
  * dedicated currency column (header currency/moneda/divisa) combined with the
  * amount column(s) and headers.
  *
+ * `positiveIsCharge` overrides the sign convention (true = positive amounts are
+ * charges); when undefined it is auto-detected.
+ *
  * Never throws.
  */
 export function parseWithLayout(
@@ -351,6 +364,7 @@ export function parseWithLayout(
   rows: string[][],
   layout: ColumnLayout,
   dateFormat: DateFormat,
+  positiveIsCharge?: boolean,
 ): Result<ParsedStatement, AppError> {
   try {
     const columnValues = (col: number): string[] => {
@@ -388,7 +402,13 @@ export function parseWithLayout(
       headers,
     );
 
-    const { transactions, skipped } = parseRows(rows, layout, dateFormat, numberFormat);
+    const { transactions, skipped } = parseRows(
+      rows,
+      layout,
+      dateFormat,
+      numberFormat,
+      positiveIsCharge ?? detectPositiveIsCharge(rows, layout),
+    );
     if (transactions.length === 0) {
       return fail('NO_VALID_ROWS', 'The file was parsed but contained no usable transactions.');
     }
