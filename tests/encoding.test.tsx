@@ -58,10 +58,10 @@ describe('CurrencySelector rates note', () => {
   it('shows the approximate-rates note in EN and ES', () => {
     expect(exchangeRates.asOf).toMatch(/^\d{4}-\d{2}-\d{2}$/);
     render(<CurrencySelector language="en" currency="USD" onChange={() => {}} />);
-    expect(screen.getByText(/Approximate rates as of January 15, 2025/)).toBeTruthy();
+    expect(screen.getByText(`Approximate rates as of ${formatRatesDate(exchangeRates.asOf, 'en')}`, { exact: false })).toBeTruthy();
     cleanup();
     render(<CurrencySelector language="es" currency="USD" onChange={() => {}} />);
-    expect(screen.getByText(/Tasas aproximadas al 15 de enero de 2025/)).toBeTruthy();
+    expect(screen.getByText(`Tasas aproximadas al ${formatRatesDate(exchangeRates.asOf, 'es')}`, { exact: false })).toBeTruthy();
   });
 });
 
