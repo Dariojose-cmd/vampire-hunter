@@ -13,6 +13,7 @@ export default defineConfig({
       '@components': resolve(import.meta.dirname, 'src/components'),
       '@i18n': resolve(import.meta.dirname, 'src/i18n'),
       '@styles': resolve(import.meta.dirname, 'src/styles'),
+      '@audio': resolve(import.meta.dirname, 'src/audio'),
     },
   },
 })

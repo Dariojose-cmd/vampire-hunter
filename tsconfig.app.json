@@ -31,7 +31,8 @@
       "@data/*": ["./src/data/*"],
       "@components/*": ["./src/components/*"],
       "@i18n/*": ["./src/i18n/*"],
-      "@styles/*": ["./src/styles/*"]
+      "@styles/*": ["./src/styles/*"],
+      "@audio/*": ["./src/audio/*"]
     }
   },
   "include": ["src"]

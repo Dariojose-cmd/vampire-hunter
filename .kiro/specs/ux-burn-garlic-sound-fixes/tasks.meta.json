@@ -1,0 +1,896 @@
+{
+  "pbtResults": {
+    "1.2 Write property test for the ICS offset": {
+      "status": "passed",
+      "lastRunTimestamp": 1794372991072
+    },
+    "2.2 Write property test for sound off": {
+      "status": "passed",
+      "lastRunTimestamp": 1794373240419
+    },
+    "2.9 Write property test for sound preference round trip and wipe": {
+      "status": "passed",
+      "lastRunTimestamp": 1794373247753
+    },
+    "2.3 Write property test for disable": {
+      "status": "passed",
+      "lastRunTimestamp": 1794373333499
+    },
+    "4.4 Write property test for truthful garlic copy": {
+      "status": "passed",
+      "lastRunTimestamp": 1794373476198
+    },
+    "4.5 Write property test for locale key parity": {
+      "status": "passed",
+      "lastRunTimestamp": 1794373538404
+    },
+    "5.3 Write property test for chime on success only": {
+      "status": "passed",
+      "lastRunTimestamp": 1794373637763
+    },
+    "2.5 Write property test for volume limits": {
+      "status": "passed",
+      "lastRunTimestamp": 1794373673295
+    },
+    "4.6 Write property test for hint linking and unique ids": {
+      "status": "passed",
+      "lastRunTimestamp": 1794373756934
+    },
+    "2.6 Write property test for the crackle lifecycle": {
+      "status": "passed",
+      "lastRunTimestamp": 1794373787943
+    },
+    "2.7 Write property test for unsupported Web Audio": {
+      "status": "passed",
+      "lastRunTimestamp": 1794373906411
+    },
+    "11.2 Update and extend the sound tests": {
+      "status": "passed",
+      "lastRunTimestamp": 1794380866414
+    }
+  },
+  "executionHistory": {
+    "1.1 Export `GARLIC_REMINDER_DAYS = 3` from `src/engine/icsGenerator.ts`": [
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372757158
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372763364
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372851597
+      }
+    ],
+    "1.2 Write property test for the ICS offset": [
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372757206
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372856895
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373137545
+      }
+    ],
+    "1.3 Add the `@audio` alias and `soundConfig.ts`": [
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372757244
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372763808
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372852214
+      }
+    ],
+    "2.1 Implement the Sound_Engine in `src/audio`": [
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372757282
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372857639
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373138788
+      }
+    ],
+    "2.2 Write property test for sound off": [
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372757424
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373142127
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373284946
+      }
+    ],
+    "2.3 Write property test for disable": [
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372757470
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373290560
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373370065
+      }
+    ],
+    "2.4 Write property test for the ambience singleton": [
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372757514
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373373794
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373492063
+      }
+    ],
+    "2.5 Write property test for volume limits": [
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372757545
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373496465
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373685847
+      }
+    ],
+    "2.6 Write property test for the crackle lifecycle": [
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372757575
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373692587
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373819559
+      }
+    ],
+    "2.7 Write property test for unsupported Web Audio": [
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372757616
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373824771
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373915407
+      }
+    ],
+    "2.8 Persist the sound preference in `src/engine/cryptStorage.ts`": [
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372757648
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372858390
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373136512
+      }
+    ],
+    "2.9 Write property test for sound preference round trip and wipe": [
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372757675
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373143016
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373285628
+      }
+    ],
+    "3. Checkpoint - Sound engine and storage": [
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372757723
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373925633
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794374036954
+      }
+    ],
+    "4.1 Replace garlic copy in `en.json` and `es.json`": [
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372757764
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372859028
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373136605
+      }
+    ],
+    "4.2 Create `GarlicToast` and `GarlicHint` components": [
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372757841
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373143213
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373286558
+      }
+    ],
+    "4.3 Update `VampireCard.tsx`": [
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372757964
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373291908
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373370460
+      }
+    ],
+    "4.4 Write property test for truthful garlic copy": [
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372757998
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373374611
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373492628
+      }
+    ],
+    "4.5 Write property test for locale key parity": [
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372758030
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373497609
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373685907
+      }
+    ],
+    "4.6 Write property test for hint linking and unique ids": [
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372758059
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373693260
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373819674
+      }
+    ],
+    "4.7 Write example tests for `GarlicToast`": [
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372758090
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373292173
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373370179
+      }
+    ],
+    "5.1 Create the `useSoundEngine` hook in `src/components/useSoundEngine.ts`": [
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372758131
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373143758
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373287282
+      }
+    ],
+    "5.2 Wire `Crypt.tsx` to the engine and toast": [
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372758165
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373375621
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373493131
+      }
+    ],
+    "5.3 Write property test for chime on success only": [
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372758198
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373498410
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373687242
+      }
+    ],
+    "6.1 Make `BurnOverlay` viewport-fixed": [
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372758229
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372859676
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373138117
+      }
+    ],
+    "6.2 Update `App.tsx` for sound, burn lifecycle and scroll": [
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372758383
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373499066
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373688073
+      }
+    ],
+    "6.3 Write example tests for the burn overlay and scroll": [
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372758431
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373694604
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373820988
+      }
+    ],
+    "6.4 Write example tests for the Sound_Toggle and visibility handling": [
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372758481
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373696819
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373820369
+      }
+    ],
+    "7. Checkpoint - Full automated suite": [
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372758532
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373924609
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794374037866
+      }
+    ],
+    "8.1 Verify in a real browser with Playwright MCP on desktop and 390px": [
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372758576
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794374040772
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794377974631
+      }
+    ],
+    "9.1 Verify the working tree is uncommitted and no push happened": [
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794372758614
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794377977503
+      },
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794377995147
+      }
+    ],
+    "1. Shared constants and module setup": [
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373137599
+      }
+    ],
+    "5. Wire sound into the app": [
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373687305
+      }
+    ],
+    "4. Honest garlic feedback": [
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373819778
+      }
+    ],
+    "6. Fixed burn overlay, scroll to top and App sound wiring": [
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373821041
+      }
+    ],
+    "2. Sound engine and sound persistence": [
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794373915507
+      }
+    ],
+    "8. Playwright MCP verification": [
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794377974730
+      }
+    ],
+    "9. Confirm nothing is committed": [
+      {
+        "executionId": "edfca95d-043c-4c04-b900-74f6957824d9",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794377995204
+      }
+    ],
+    "10.1 Update `SOUND_CONFIG` and implement the new synthesis": [
+      {
+        "executionId": "c94f0d99-4409-4822-b895-2344998cf521",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794378461836
+      },
+      {
+        "executionId": "c94f0d99-4409-4822-b895-2344998cf521",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794378465165
+      },
+      {
+        "executionId": "c94f0d99-4409-4822-b895-2344998cf521",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794378519167
+      }
+    ],
+    "10.2 Update tests that encode the old limits and add Property 13": [
+      {
+        "executionId": "c94f0d99-4409-4822-b895-2344998cf521",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794378461972
+      },
+      {
+        "executionId": "c94f0d99-4409-4822-b895-2344998cf521",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794378522066
+      },
+      {
+        "executionId": "c94f0d99-4409-4822-b895-2344998cf521",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794378827510
+      }
+    ],
+    "10.3 Run the automated suite and verify audibility in Chrome": [
+      {
+        "executionId": "c94f0d99-4409-4822-b895-2344998cf521",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794378462027
+      },
+      {
+        "executionId": "c94f0d99-4409-4822-b895-2344998cf521",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794378830509
+      },
+      {
+        "executionId": "c94f0d99-4409-4822-b895-2344998cf521",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794379102891
+      }
+    ],
+    "10.4 Confirm nothing is committed": [
+      {
+        "executionId": "c94f0d99-4409-4822-b895-2344998cf521",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794378462082
+      },
+      {
+        "executionId": "c94f0d99-4409-4822-b895-2344998cf521",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794379106093
+      },
+      {
+        "executionId": "c94f0d99-4409-4822-b895-2344998cf521",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794379127711
+      }
+    ],
+    "10. Fix audibility of sound on small speakers": [
+      {
+        "executionId": "c94f0d99-4409-4822-b895-2344998cf521",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794379127769
+      }
+    ],
+    "11.1 Implement the new ambience in `src/audio`": [
+      {
+        "executionId": "49132f69-5791-4d79-b380-f082d6bb9b7d",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794379820653
+      },
+      {
+        "executionId": "49132f69-5791-4d79-b380-f082d6bb9b7d",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794379824133
+      },
+      {
+        "executionId": "49132f69-5791-4d79-b380-f082d6bb9b7d",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794379940657
+      }
+    ],
+    "11.2 Update and extend the sound tests": [
+      {
+        "executionId": "49132f69-5791-4d79-b380-f082d6bb9b7d",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794379820721
+      },
+      {
+        "executionId": "49132f69-5791-4d79-b380-f082d6bb9b7d",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794379943891
+      },
+      {
+        "executionId": "49132f69-5791-4d79-b380-f082d6bb9b7d",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794380883829
+      }
+    ],
+    "11.3 Run the automated suite and measure the ambience in Chrome": [
+      {
+        "executionId": "49132f69-5791-4d79-b380-f082d6bb9b7d",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794379820797
+      },
+      {
+        "executionId": "49132f69-5791-4d79-b380-f082d6bb9b7d",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794380887381
+      },
+      {
+        "executionId": "49132f69-5791-4d79-b380-f082d6bb9b7d",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794381656657
+      }
+    ],
+    "11.4 Confirm nothing is committed": [
+      {
+        "executionId": "49132f69-5791-4d79-b380-f082d6bb9b7d",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794379820943
+      },
+      {
+        "executionId": "49132f69-5791-4d79-b380-f082d6bb9b7d",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794381656811
+      },
+      {
+        "executionId": "49132f69-5791-4d79-b380-f082d6bb9b7d",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794381698102
+      }
+    ],
+    "11. Redesign ambience as an eerie pad with gusts, bell and rare details": [
+      {
+        "executionId": "49132f69-5791-4d79-b380-f082d6bb9b7d",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794381698212
+      }
+    ],
+    "12.1 Adjust the sound constants and update the tests": [
+      {
+        "executionId": "e1f6fdd0-d905-44a2-8eed-e961bb29d127",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794428794304
+      },
+      {
+        "executionId": "e1f6fdd0-d905-44a2-8eed-e961bb29d127",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794428797708
+      },
+      {
+        "executionId": "e1f6fdd0-d905-44a2-8eed-e961bb29d127",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794429060550
+      }
+    ],
+    "12.2 Measure in Chrome and tune until the target is met": [
+      {
+        "executionId": "e1f6fdd0-d905-44a2-8eed-e961bb29d127",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794428794378
+      },
+      {
+        "executionId": "e1f6fdd0-d905-44a2-8eed-e961bb29d127",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794429060634
+      },
+      {
+        "executionId": "e1f6fdd0-d905-44a2-8eed-e961bb29d127",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794429613395
+      }
+    ],
+    "12.3 Confirm nothing is committed": [
+      {
+        "executionId": "e1f6fdd0-d905-44a2-8eed-e961bb29d127",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794428794431
+      },
+      {
+        "executionId": "e1f6fdd0-d905-44a2-8eed-e961bb29d127",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794429614075
+      },
+      {
+        "executionId": "e1f6fdd0-d905-44a2-8eed-e961bb29d127",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794429649150
+      }
+    ],
+    "12. Lift ambience loudness": [
+      {
+        "executionId": "e1f6fdd0-d905-44a2-8eed-e961bb29d127",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794429649254
+      }
+    ],
+    "13.1 Implement the limiter chain, the relaxed budgets, the upper Pad voices and the louder bell in `src/audio`": [
+      {
+        "executionId": "c1254e6b-2379-4766-b0e3-110a7f706bb4",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794439474079
+      },
+      {
+        "executionId": "c1254e6b-2379-4766-b0e3-110a7f706bb4",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794439477761
+      },
+      {
+        "executionId": "c1254e6b-2379-4766-b0e3-110a7f706bb4",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794439557796
+      }
+    ],
+    "13.2 Update the tests for the limiter and the relaxed budgets": [
+      {
+        "executionId": "c1254e6b-2379-4766-b0e3-110a7f706bb4",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794439474158
+      },
+      {
+        "executionId": "c1254e6b-2379-4766-b0e3-110a7f706bb4",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794439558602
+      },
+      {
+        "executionId": "c1254e6b-2379-4766-b0e3-110a7f706bb4",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794440710999
+      }
+    ],
+    "13.3 Run the suite and measure in Chrome, tuning until the targets are met": [
+      {
+        "executionId": "c1254e6b-2379-4766-b0e3-110a7f706bb4",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794439474229
+      },
+      {
+        "executionId": "c1254e6b-2379-4766-b0e3-110a7f706bb4",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794440711762
+      },
+      {
+        "executionId": "c1254e6b-2379-4766-b0e3-110a7f706bb4",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794442363613
+      }
+    ],
+    "13.4 Confirm nothing is committed": [
+      {
+        "executionId": "c1254e6b-2379-4766-b0e3-110a7f706bb4",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794439474294
+      },
+      {
+        "executionId": "c1254e6b-2379-4766-b0e3-110a7f706bb4",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794442364323
+      },
+      {
+        "executionId": "c1254e6b-2379-4766-b0e3-110a7f706bb4",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794442400246
+      }
+    ],
+    "13. Add a master limiter and lift the ambience": [
+      {
+        "executionId": "c1254e6b-2379-4766-b0e3-110a7f706bb4",
+        "chatSessionId": "sess_9e441853-b1c0-4b43-a8a1-25a9ca8edf75",
+        "timestamp": 1794442400308
+      }
+    ]
+  }
+}

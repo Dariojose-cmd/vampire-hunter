@@ -23,8 +23,16 @@ import { StakeModal } from './StakeModal';
 import { Summoning } from './Summoning';
 import { Cleansed } from './Cleansed';
 import { downloadGarlicIcs } from './garlicDownload';
-import { playStakeThud } from './sound';
+import { GarlicToast } from './GarlicToast';
+import { GARLIC_REMINDER_DAYS } from '@engine/icsGenerator';
+import type { SoundEngine } from '@audio/index';
 import styles from './Crypt.module.css';
+
+interface GarlicToastState {
+  kind: 'success' | 'error';
+  vampireId: string;
+  message: string;
+}
 
 type SortKey = 'threat' | 'amount' | 'name';
 type FilterKey = 'all' | 'staked' | 'spared' | 'garlic';
@@ -37,7 +45,7 @@ export interface CryptProps {
   language: Language;
   currency: string;
   result: DetectionResult;
-  soundEnabled: boolean;
+  sound: SoundEngine;
   /** Persisted decisions keyed by vampire id (controlled by the parent). */
   decisions: Record<string, DecisionType>;
   /** Record or clear a decision; the parent persists it to localStorage. */
@@ -49,7 +57,7 @@ export function Crypt({
   language,
   currency,
   result,
-  soundEnabled,
+  sound,
   decisions,
   onDecision,
   onUploadAnother,
@@ -61,6 +69,8 @@ export function Crypt({
   const [filter, setFilter] = useState<FilterKey>('all');
   const [showPossible, setShowPossible] = useState(false);
   const [garlicFailed, setGarlicFailed] = useState<Record<string, boolean>>({});
+  // One toast at a time; a new garlic action replaces the previous one.
+  const [garlicToast, setGarlicToast] = useState<GarlicToastState | null>(null);
 
   // Summoning ritual: show for ~1s on mount, then reveal the crypt.
   const [summoning, setSummoning] = useState(true);
@@ -82,7 +92,7 @@ export function Crypt({
 
   function confirmStake(v: Vampire) {
     // Play the crumble, then record the decision once it finishes.
-    if (soundEnabled) playStakeThud();
+    sound.playStake();
     setStakingId(v.id);
     const settle = () => {
       onDecision(v.id, 'staked');
@@ -104,8 +114,22 @@ export function Crypt({
     const ok = downloadGarlicIcs(v, language);
     if (!ok) {
       setGarlicFailed((prev) => ({ ...prev, [v.id]: true }));
+      setGarlicToast({
+        kind: 'error',
+        vampireId: v.id,
+        message: t('garlic.downloadError', { name: v.displayName }),
+      });
       return;
     }
+    setGarlicToast({
+      kind: 'success',
+      vampireId: v.id,
+      message: t('garlic.downloadSuccess', {
+        name: v.displayName,
+        days: String(GARLIC_REMINDER_DAYS),
+      }),
+    });
+    sound.playChime();
     onDecision(v.id, decisions[v.id] === 'garlic' ? null : 'garlic');
   }
 
@@ -289,6 +313,16 @@ export function Crypt({
           {t('crypt.uploadAnother')}
         </button>
       </div>
+
+      {garlicToast && (
+        <GarlicToast
+          key={`${garlicToast.vampireId}-${garlicToast.kind}-${garlicToast.message}`}
+          kind={garlicToast.kind}
+          message={garlicToast.message}
+          closeLabel={t('garlic.toastDismissAriaLabel')}
+          onDismiss={() => setGarlicToast(null)}
+        />
+      )}
 
       <AnimatePresence>
         {modalVampire && (

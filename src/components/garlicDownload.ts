@@ -5,13 +5,16 @@
  * disable the button gracefully.
  */
 
-import { generateIcs } from '@engine/icsGenerator';
+import { GARLIC_REMINDER_DAYS, generateIcs } from '@engine/icsGenerator';
 import type { Vampire } from '@engine/types';
 import { translate, type Language } from '@i18n/index';
 
 export function downloadGarlicIcs(vampire: Vampire, language: Language): boolean {
   const i18nStrings = {
-    icsEventSummary: translate(language, 'garlic.icsEventSummary', { name: vampire.displayName }),
+    icsEventSummary: translate(language, 'garlic.icsEventSummary', {
+      name: vampire.displayName,
+      days: GARLIC_REMINDER_DAYS,
+    }),
     icsEventDescription: translate(language, 'garlic.icsEventDescription', {
       name: vampire.displayName,
     }),

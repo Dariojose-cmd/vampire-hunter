@@ -19,7 +19,7 @@ export const CRYPT_STORAGE_KEY = 'vampire-hunter:crypt';
 
 /** A fresh, empty storage object. */
 export function emptyCryptStorage(): CryptStorage {
-  return { decisions: {}, language: 'en', currency: 'USD' };
+  return { decisions: {}, language: 'en', currency: 'USD', soundEnabled: false };
 }
 
 /** Narrowing guard: is the parsed value a plausible CryptStorage shape? */
@@ -48,6 +48,7 @@ export function loadCryptStorage(): CryptStorage | null {
       decisions: parsed.decisions,
       language: parsed.language,
       currency: parsed.currency,
+      soundEnabled: parsed.soundEnabled === true,
     };
   } catch {
     return null;
@@ -58,7 +59,8 @@ export function loadCryptStorage(): CryptStorage | null {
  * Persist crypt storage. Returns `{ ok: true }` on success or a
  * `STORAGE_UNAVAILABLE` error Result when the write fails. Never throws.
  *
- * Only `decisions`, `language`, and `currency` are written — no transactions.
+ * Only `decisions`, `language`, `currency`, and the `soundEnabled` boolean are
+ * written — no transactions.
  */
 export function saveCryptStorage(storage: CryptStorage): Result<true> {
   try {
@@ -66,6 +68,7 @@ export function saveCryptStorage(storage: CryptStorage): Result<true> {
       decisions: storage.decisions,
       language: storage.language,
       currency: storage.currency,
+      soundEnabled: storage.soundEnabled === true,
     };
     localStorage.setItem(CRYPT_STORAGE_KEY, JSON.stringify(safe));
     return { ok: true, value: true };

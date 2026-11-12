@@ -16,7 +16,9 @@ import { useMemo, useRef } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import type { Vampire, ThreatLevel, Cadence, DecisionType } from '@engine/types';
 import { useTranslation, type Language, type TranslationKey } from '@i18n/index';
-import { formatMoney, formatDate } from './format';
+import { GARLIC_REMINDER_DAYS } from '@engine/icsGenerator';
+import { formatMoney, formatDate, garlicHintId } from './format';
+import { GarlicHint } from './GarlicHint';
 import { Icon } from './Icon';
 import styles from './VampireCard.module.css';
 
@@ -101,6 +103,9 @@ export function VampireCard({
   );
   const annualLoss = formatMoney(vampire.annualBloodLossCents, currency, language);
   const threatLabel = t(`threatLevel.${vampire.threatLevel}` as TranslationKey);
+
+  const days = String(GARLIC_REMINDER_DAYS);
+  const hintId = garlicHintId(vampire.id);
 
   const ariaLabel = t('vampireCard.ariaLabel', {
     name: vampire.displayName,
@@ -266,6 +271,8 @@ export function VampireCard({
             onClick={() => onGarlic?.(vampire)}
             disabled={garlicDisabled}
             aria-pressed={decision === 'garlic'}
+            title={t('vampireCard.garlicTitle', { days })}
+            aria-describedby={hintId}
             aria-label={t('vampireCard.garlicAriaLabel', {
               name: vampire.displayName,
               nextDate: formatDate(vampire.nextBiteDate, language),
@@ -274,6 +281,9 @@ export function VampireCard({
             {t('vampireCard.garlicButton')}
           </button>
         </div>
+      )}
+      {decision !== 'staked' && (
+        <GarlicHint id={hintId} text={t('vampireCard.garlicHint', { days })} />
       )}
     </motion.article>
   );

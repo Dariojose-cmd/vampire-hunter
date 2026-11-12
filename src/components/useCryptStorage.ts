@@ -24,11 +24,15 @@ export interface UseCryptStorage {
   decisions: Record<string, DecisionType>;
   language: Language;
   currency: string;
+  /** Persisted sound preference (default false). */
+  soundEnabled: boolean;
   /** True if a previous write failed (storage disabled / full). */
   storageUnavailable: boolean;
   setDecision: (vampireId: string, decision: DecisionType) => void;
   setLanguage: (language: Language) => void;
   setCurrency: (currency: string) => void;
+  /** Toggle/persist the sound preference. */
+  setSoundEnabled: (enabled: boolean) => void;
   /** Wipe everything: clear localStorage and reset React state. */
   burn: () => void;
 }
@@ -39,6 +43,9 @@ export function useCryptStorage(): UseCryptStorage {
     () => loadCryptStorage() ?? emptyCryptStorage(),
   );
   const [storageUnavailable, setStorageUnavailable] = useState(false);
+  // In-memory session choice: survives burn (the stored value is wiped, but the
+  // user's current toggle is kept until their next toggle).
+  const [soundEnabled, setSoundEnabledState] = useState<boolean>(storage.soundEnabled === true);
 
   // Skip the write-through on the very first effect run (nothing changed yet).
   const firstRun = useRef(true);
@@ -75,6 +82,11 @@ export function useCryptStorage(): UseCryptStorage {
     setStorage((prev) => ({ ...prev, currency }));
   }, []);
 
+  const setSoundEnabled = useCallback((enabled: boolean) => {
+    setSoundEnabledState(enabled);
+    setStorage((prev) => ({ ...prev, soundEnabled: enabled }));
+  }, []);
+
   const burn = useCallback(() => {
     burnCryptStorage();
     setStorage(emptyCryptStorage());
@@ -92,10 +104,12 @@ export function useCryptStorage(): UseCryptStorage {
     decisions,
     language: storage.language,
     currency: storage.currency,
+    soundEnabled,
     storageUnavailable,
     setDecision,
     setLanguage,
     setCurrency,
+    setSoundEnabled,
     burn,
   };
 }

@@ -97,6 +97,8 @@
     "spareAriaLabel": "Spare {{name}} – keep this subscription",
     "garlicButton": "Garlic",
     "garlicAriaLabel": "Set garlic reminder for {{name}} – next charge on {{nextDate}}",
+    "garlicTitle": "Downloads a calendar file. Open it in Google Calendar, Apple Calendar or Outlook to get a reminder {{days}} days before the next charge.",
+    "garlicHint": "Downloads a calendar file (.ics). Open it in Google Calendar, Apple Calendar or Outlook to add a reminder {{days}} days before the next charge. Nothing is added automatically.",
     "stakedState": "Staked",
     "stakedStateDetail": "Marked for cancellation",
     "undoButton": "Undo",
@@ -152,11 +154,12 @@
   },
 
   "garlic": {
-    "icsEventSummary": "{{name}} charge in 3 days",
+    "icsEventSummary": "{{name}} charge in {{days}} days",
     "icsEventDescription": "Your {{name}} subscription is about to charge {{amount}}. Decide now: cancel or keep it.\n\nOpened with Vampire Hunter – your bank data never left your device.",
     "icsFilename": "vampire-reminder-{{name}}.ics",
-    "downloadSuccess": "Reminder added to your calendar.",
-    "downloadError": "Could not generate the reminder. Try again."
+    "downloadSuccess": "Calendar file for {{name}} downloaded. Open it in Google Calendar, Apple Calendar or Outlook to add a reminder {{days}} days before the next charge.",
+    "downloadError": "Could not create the calendar file for {{name}}. Try again.",
+    "toastDismissAriaLabel": "Dismiss message"
   },
 
   "burn": {

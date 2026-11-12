@@ -45,3 +45,19 @@ export function formatDate(iso: string, lang: 'en' | 'es'): string {
     return iso;
   }
 }
+
+/**
+ * Build a DOM-safe, unique id for the garlic hint of a vampire.
+ * Characters outside [A-Za-z0-9_-] become '_'. When sanitizing changed the id
+ * (so two different ids could collide, e.g. "a b" and "a_b"), a deterministic
+ * hash of the ORIGINAL id is appended to keep the result unique.
+ */
+export function garlicHintId(id: string): string {
+  const safe = id.replace(/[^A-Za-z0-9_-]/g, '_');
+  if (safe === id) return `garlic-hint-${safe}`;
+  let h = 5381;
+  for (let i = 0; i < id.length; i++) {
+    h = ((h * 33) ^ id.charCodeAt(i)) >>> 0;
+  }
+  return `garlic-hint-${safe}-${h.toString(36)}`;
+}

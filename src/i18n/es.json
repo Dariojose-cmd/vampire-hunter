@@ -97,6 +97,8 @@
     "spareAriaLabel": "Perdona a {{name}} – mantener esta suscripción",
     "garlicButton": "Ajo",
     "garlicAriaLabel": "Poner recordatorio de ajo para {{name}} – próximo cargo el {{nextDate}}",
+    "garlicTitle": "Descarga un archivo de calendario. Ábrelo en Google Calendar, Apple Calendar u Outlook para tener un recordatorio {{days}} días antes del próximo cobro.",
+    "garlicHint": "Descarga un archivo de calendario (.ics). Ábrelo en Google Calendar, Apple Calendar u Outlook para añadir un recordatorio {{days}} días antes del próximo cobro. No se añade nada automáticamente.",
     "stakedState": "Estacado",
         "stakedStateDetail": "Marcado para cancelar",
     "undoButton": "Deshacer",
@@ -152,11 +154,12 @@
   },
 
   "garlic": {
-    "icsEventSummary": "Cargo de {{name}} en 3 días",
+    "icsEventSummary": "Cargo de {{name}} en {{days}} días",
     "icsEventDescription": "Tu suscripción de {{name}} está a punto de cargarte {{amount}}. Decide ahora: cancela o consérvala.\n\nGenerado con Vampire Hunter – tus datos bancarios nunca salieron de tu dispositivo.",
     "icsFilename": "recordatorio-vampiro-{{name}}.ics",
-    "downloadSuccess": "Recordatorio agregado a tu calendario.",
-    "downloadError": "No se pudo generar el recordatorio. Inténtalo de nuevo."
+    "downloadSuccess": "Archivo de calendario de {{name}} descargado. Ábrelo en Google Calendar, Apple Calendar u Outlook para añadir un recordatorio {{days}} días antes del próximo cobro.",
+    "downloadError": "No se pudo crear el archivo de calendario de {{name}}. Inténtalo de nuevo.",
+    "toastDismissAriaLabel": "Cerrar mensaje"
   },
 
   "burn": {

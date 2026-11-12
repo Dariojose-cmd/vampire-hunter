@@ -9,6 +9,9 @@
 
 import type { AppError, IcsI18n, Result, Vampire } from './types';
 
+/** Number of days before the predicted next bite that the garlic reminder fires. */
+export const GARLIC_REMINDER_DAYS = 3;
+
 // ---------------------------------------------------------------------------
 // Internal helpers
 // ---------------------------------------------------------------------------
@@ -111,7 +114,7 @@ export function generateIcs(
   void language;
 
   try {
-    const eventDate = isoMinusDaysToIcsDate(vampire.nextBiteDate, 3);
+    const eventDate = isoMinusDaysToIcsDate(vampire.nextBiteDate, GARLIC_REMINDER_DAYS);
 
     const amount = formatAmount(vampire.medianAmountCents, vampire.currency);
     const name = vampire.displayName;

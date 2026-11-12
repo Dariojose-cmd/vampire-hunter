@@ -1,9 +1,11 @@
 /* Burn Sequence overlay: flames rise, the region chars, embers drift away.
-   Positioned over the crypt region inside <main> (a positioned parent), below
-   the Top Bar. Never traps input: pointer-events are off throughout. */
+   Fixed to the viewport (covers the whole screen, above the crypt and Top Bar
+   via --z-overlay), so it is independent of any positioned parent. Applies to
+   both the full-motion and reduced-motion (scrim) branches, which share this
+   class. Never traps input: pointer-events are off throughout. */
 
 .overlay {
-  position: absolute;
+  position: fixed;
   inset: 0;
   z-index: var(--z-overlay);
   pointer-events: none;

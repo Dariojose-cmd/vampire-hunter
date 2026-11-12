@@ -11,7 +11,8 @@
  * The whole pipeline runs client-side; no transaction data leaves the device.
  */
 
-import { useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useReducedMotion } from 'framer-motion';
 import {
   parseStatement,
   parseWithLayout,
@@ -26,8 +27,9 @@ import type {
 import { useTranslation, type TranslationKey } from '@i18n/index';
 import { parseCsvText } from './csvUtils';
 import { useCryptStorage } from './useCryptStorage';
+import { useSoundEngine } from './useSoundEngine';
 import { CryptAtmosphere } from './CryptAtmosphere';
-import { Uploader } from './Uploader';
+import { Uploader, UPLOAD_HEADING_ID } from './Uploader';
 import { ColumnMapper } from './ColumnMapper';
 import { Crypt } from './Crypt';
 import { LanguageSwitch } from './LanguageSwitch';
@@ -57,6 +59,8 @@ export function App() {
     decisions,
     language,
     currency,
+    soundEnabled,
+    setSoundEnabled,
     setDecision,
     setLanguage,
     setCurrency,
@@ -66,7 +70,6 @@ export function App() {
   const [view, setView] = useState<View>('upload');
   const [burnPhase, setBurnPhase] = useState<'idle' | 'burning'>('idle');
   const [errorKey, setErrorKey] = useState<TranslationKey | null>(null);
-  const [soundEnabled, setSoundEnabled] = useState(false);
   const [result, setResult] = useState<DetectionResult | null>(null);
 
   // Held while the user is in the ColumnMapper, so we can re-parse on confirm.
@@ -74,6 +77,27 @@ export function App() {
   const [dateAmbiguous, setDateAmbiguous] = useState(false);
 
   const { t } = useTranslation(language);
+  const sound = useSoundEngine(soundEnabled);
+  const reducedMotion = useReducedMotion() ?? false;
+
+  // Fire crackle while the burn sequence runs.
+  useEffect(() => {
+    if (burnPhase === 'burning') sound.startCrackle({ reducedMotion });
+  }, [burnPhase, sound, reducedMotion]);
+
+  // Whenever the Upload View renders, ensure scroll is at top and focus its
+  // heading. Skip focus on the very first mount (don't steal focus on load).
+  const firstUploadRun = useRef(true);
+  useLayoutEffect(() => {
+    if (view !== 'upload') return;
+    // 'instant' (not 'auto'): 'auto' inherits html { scroll-behavior: smooth }.
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    if (firstUploadRun.current) {
+      firstUploadRun.current = false;
+      return;
+    }
+    document.getElementById(UPLOAD_HEADING_ID)?.focus({ preventScroll: true });
+  }, [view]);
 
   function reset() {
     setResult(null);
@@ -96,8 +120,10 @@ export function App() {
 
   /** Burn sequence finished: switch to the Upload View (empty altar), then idle. */
   function onBurnComplete() {
+    sound.stopCrackle();
     reset();
     setBurnPhase('idle');
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }
 
   /** Entry point from Uploader / SamplePicker: raw CSV text. */
@@ -163,7 +189,12 @@ export function App() {
           <button
             type="button"
             className={styles.iconBtn}
-            onClick={() => setSoundEnabled((v) => !v)}
+            onClick={() => {
+              // enable() must run inside the click (user gesture).
+              if (soundEnabled) sound.disable();
+              else sound.enable();
+              setSoundEnabled(!soundEnabled);
+            }}
             aria-pressed={soundEnabled}
             aria-label={t('nav.soundToggleAriaLabel')}
             title={soundEnabled ? t('nav.soundOn') : t('nav.soundOff')}
@@ -203,17 +234,16 @@ export function App() {
             language={language}
             currency={currency}
             result={result}
-            soundEnabled={soundEnabled}
+            sound={sound}
             decisions={decisions}
             onDecision={setDecision}
             onUploadAnother={reset}
           />
         )}
 
-        {view === 'results' && burnPhase === 'burning' && (
-          <BurnOverlay onComplete={onBurnComplete} />
-        )}
       </main>
+
+      {burnPhase === 'burning' && <BurnOverlay onComplete={onBurnComplete} />}
     </div>
   );
 }

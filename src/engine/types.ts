@@ -192,6 +192,8 @@ export interface CryptStorage {
   language: 'en' | 'es';
   /** ISO 4217 currency override selected by the user. */
   currency: string;
+  /** Sound preference. Optional; defaults to false when absent or invalid. */
+  soundEnabled?: boolean;
 }
 
 // ---------------------------------------------------------------------------

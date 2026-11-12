@@ -3,8 +3,8 @@
  *
  * A presentational overlay that plays a brief flame-and-ash sequence over the
  * crypt region, then calls `onComplete` so the parent can switch back to the
- * Upload View (empty altar). It is positioned `absolute` over its positioned
- * parent (the crypt region inside <main>), sits at `--z-overlay`, and uses
+ * Upload View (empty altar). It is positioned `fixed` over the whole
+ * viewport (above the crypt and Top Bar), sits at `--z-overlay`, and uses
  * `pointer-events: none` so it never traps keyboard/mouse input (Req 1.3).
  *
  * Full motion (≤ 1.4s, hard cap 1.5s):

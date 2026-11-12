@@ -16,6 +16,9 @@ import { SamplePicker } from './SamplePicker';
 import { Icon } from './Icon';
 import styles from './Uploader.module.css';
 
+/** Id of the Upload View heading (focused by App after a burn). */
+export const UPLOAD_HEADING_ID = 'upload-heading';
+
 export interface UploaderProps {
   language: Language;
   /** Error message key to display (e.g. a parse/column error), or null. */
@@ -69,7 +72,7 @@ export function Uploader({ language, errorKey, onDismissError, onCsv }: Uploader
   return (
     <section className={styles.screen}>
       <header className={styles.header}>
-        <h1 className={`${styles.title} font-display`}>{t('upload.title')}</h1>
+        <h1 id={UPLOAD_HEADING_ID} tabIndex={-1} className={`${styles.title} font-display`}>{t('upload.title')}</h1>
         <p className={styles.subtitle}>{t('upload.subtitle')}</p>
       </header>
 
