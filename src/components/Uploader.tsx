@@ -11,7 +11,7 @@
 import { useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useTranslation, type Language, type TranslationKey } from '@i18n/index';
-import { isCsvFile } from './csvUtils';
+import { decodeCsvBytes, isCsvFile } from './csvUtils';
 import { SamplePicker } from './SamplePicker';
 import { Icon } from './Icon';
 import styles from './Uploader.module.css';
@@ -37,8 +37,11 @@ export function Uploader({ language, errorKey, onDismissError, onCsv }: Uploader
 
   function readFile(file: File) {
     const reader = new FileReader();
-    reader.onload = () => onCsv(file.name, String(reader.result ?? ''));
-    reader.readAsText(file);
+    reader.onload = () => {
+      const buf = reader.result;
+      onCsv(file.name, buf instanceof ArrayBuffer ? decodeCsvBytes(buf) : '');
+    };
+    reader.readAsArrayBuffer(file);
   }
 
   function handleFiles(files: FileList | null) {
@@ -115,6 +118,7 @@ export function Uploader({ language, errorKey, onDismissError, onCsv }: Uploader
           className={styles.hiddenInput}
           onChange={(e) => handleFiles(e.target.files)}
           tabIndex={-1}
+          aria-label={t('upload.fileInputLabel')}
         />
         <div className={styles.tome}>
           <svg className={styles.tomeIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden="true">

@@ -47,7 +47,12 @@ import exchangeRatesJson from '../data/exchangeRates.json';
 
 // Typed views over the bundled JSON data.
 const CATALOG = catalogJson as CatalogEntry[];
-const EXCHANGE_RATES = exchangeRatesJson as ExchangeRates;
+// The JSON also carries an `asOf` date string; keep only the numeric rates.
+const EXCHANGE_RATES: ExchangeRates = Object.fromEntries(
+  Object.entries(exchangeRatesJson).filter(
+    (entry): entry is [string, number] => typeof entry[1] === 'number',
+  ),
+);
 
 /**
  * Card/loan payments received ("PAGAMENTO RECEBIDO", "PAYMENT THANK YOU",
