@@ -328,6 +328,11 @@ function isMostlyNumeric(values: string[]): boolean {
   return numeric.length / nonEmpty.length >= 0.7;
 }
 
+/** Headers that denote a date column. */
+const DATE_HEADER_RE = /date|fecha|data\b|^dat$|[^a-z]dat[^a-z]/;
+/** Headers that denote a running balance column. */
+const BALANCE_HEADER_RE = /balance|saldo/;
+
 /**
  * Auto-detects the column indices for date, description, and amount(s) from
  * CSV headers and a sample of row data. Returns a `ColumnLayout` on success,
@@ -352,18 +357,31 @@ export function detectColumns(
   // -----------------------------------------------------------------------
   // Pass 1: header-keyword heuristics (high confidence)
   // -----------------------------------------------------------------------
+  let weakDescCol = -1;
   for (let i = 0; i < lc.length; i++) {
     const h = lc[i];
+    const isDateHeader = DATE_HEADER_RE.test(h);
 
     // Date keywords
-    if (dateCol === -1 && /date|fecha|data\b|^dat$|[^a-z]dat[^a-z]/.test(h)) {
+    if (dateCol === -1 && isDateHeader) {
       dateCol = i;
       continue;
     }
 
-    // Description keywords
-    if (descCol === -1 && /desc|concept|narrat|detail|concepto|descripcion/.test(h)) {
+    // A second date-like column ("Fecha valor") is never description/amount.
+    if (isDateHeader) continue;
+
+    // Running balance columns are never the amount (or anything else we need).
+    if (BALANCE_HEADER_RE.test(h)) continue;
+
+    // Description keywords. "detail(s)" is a weak match: Chase uses it for the
+    // DEBIT/CREDIT flag, so a real description column always wins over it.
+    if (descCol === -1 && /desc|concept|narrat|descripcion|title|titulo|título|merchant|payee/.test(h)) {
       descCol = i;
+      continue;
+    }
+    if (weakDescCol === -1 && /detail/.test(h)) {
+      weakDescCol = i;
       continue;
     }
 
@@ -380,11 +398,15 @@ export function detectColumns(
     }
 
     // Single amount keywords
-    if (amountCol === -1 && /amount|monto|importe|valor|saldo|total/.test(h)) {
+    if (amountCol === -1 && /amount|monto|importe|valor|total/.test(h)) {
       amountCol = i;
       continue;
     }
   }
+  if (descCol === -1) descCol = weakDescCol;
+
+  // Split debit/credit layouts win over a stray single-amount match.
+  if (debitCol !== -1 && creditCol !== -1) amountCol = -1;
 
   // Also check for "dat" as a standalone or contained match more liberally
   if (dateCol === -1) {
@@ -422,6 +444,8 @@ export function detectColumns(
       for (let i = 0; i < headers.length; i++) {
         // Skip already-assigned columns
         if (i === dateCol || i === descCol) continue;
+        const hl = lc[i] ?? '';
+        if (DATE_HEADER_RE.test(hl) || BALANCE_HEADER_RE.test(hl)) continue;
         const colValues = nonBlankRows.map((r) => (r[i] ?? '').trim());
         if (isMostlyNumeric(colValues)) {
           amountCol = i;

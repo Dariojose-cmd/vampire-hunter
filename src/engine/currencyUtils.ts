@@ -42,12 +42,66 @@ function isoCodeRegex(code: string): RegExp {
   return new RegExp(`\\b${code}\\b`, 'i');
 }
 
+const PORTUGUESE_HEADER_RE = /descri[cç][aã]o|lan[cç]amento|estabelecimento/i;
+const PORTUGUESE_TEXT_RE = /\bpagamento\s+recebido\b|\bestorno\b|\bparcela\b/i;
+const SPANISH_HEADER_RE =
+  /fecha|descripci[oó]n|concepto|importe|monto|d[eé]bito|cr[eé]dito|saldo|cargo|abono|sucursal|movimiento|divisa/i;
+
+/** Plain amount with dot thousands and no decimals, e.g. "44.900" or "1.250.000". */
+const DOT_THOUSANDS_INT_RE = /^\d{1,3}(?:\.\d{3})+$/;
+/** Amount with comma decimals, e.g. "54,90" or "2.145,10". */
+const COMMA_DECIMAL_RE = /^(?:\d{1,3}(?:\.\d{3})*|\d+),\d{1,2}$/;
+
+/**
+ * Infer a currency from locale signals when the statement carries no explicit
+ * ISO code or symbol:
+ *   - Portuguese headers or text (BRL)
+ *   - Spanish headers + large integers with dot thousands (COP)
+ *   - Spanish headers + comma-decimal amounts (EUR)
+ * Returns null when there is no confident signal.
+ */
+export function inferCurrencyFromLocale(
+  amountColumn: string[],
+  headerRow: string[],
+  textSamples: string[] = [],
+): string | null {
+  const headers = (Array.isArray(headerRow) ? headerRow : []).filter(
+    (h): h is string => typeof h === 'string',
+  );
+  const portugueseHeader = headers.some((h) => PORTUGUESE_HEADER_RE.test(h));
+  const portugueseText = textSamples.some(
+    (t) => typeof t === 'string' && PORTUGUESE_TEXT_RE.test(t),
+  );
+  if (portugueseHeader || portugueseText) return 'BRL';
+
+  if (!headers.some((h) => SPANISH_HEADER_RE.test(h))) return null;
+
+  let dotInt = 0;
+  let commaDec = 0;
+  let numeric = 0;
+  for (const v of Array.isArray(amountColumn) ? amountColumn : []) {
+    if (typeof v !== 'string') continue;
+    const clean = v
+      .replace(/[\s$€()+-]/g, '')
+      .replace(/^-/, '');
+    if (!/^[\d.,]+$/.test(clean)) continue;
+    numeric++;
+    if (DOT_THOUSANDS_INT_RE.test(clean)) dotInt++;
+    else if (COMMA_DECIMAL_RE.test(clean)) commaDec++;
+  }
+  if (numeric === 0) return null;
+  if (dotInt > 0 && commaDec === 0 && dotInt / numeric >= 0.5) return 'COP';
+  if (commaDec > 0 && commaDec / numeric >= 0.5) return 'EUR';
+  return null;
+}
+
 /**
  * Infer the statement currency from the amount column values and the header row.
  *
  * Matching priority:
  *   1. An explicit ISO 4217 code found in any header or value.
  *   2. A locale-specific symbol (R$, S/, €, £, ¥, ₩).
+ *   2b. Locale signals (see {@link inferCurrencyFromLocale}).
  *   3. A bare `$` with no other signal → 'USD'.
  *   4. Nothing detected → 'USD'.
  *
@@ -55,7 +109,11 @@ function isoCodeRegex(code: string): RegExp {
  * @param headerRow    - Raw CSV header cells.
  * @returns A valid ISO 4217 currency code. Defaults to 'USD'.
  */
-export function inferCurrency(amountColumn: string[], headerRow: string[]): string {
+export function inferCurrency(
+  amountColumn: string[],
+  headerRow: string[],
+  textSamples: string[] = [],
+): string {
   // Defensive: tolerate null/undefined entries without throwing.
   const haystacks: string[] = [];
   if (Array.isArray(headerRow)) {
@@ -87,6 +145,11 @@ export function inferCurrency(amountColumn: string[], headerRow: string[]): stri
       }
     }
   }
+
+  // Priority 2b: locale signals (no explicit code or symbol). Strict enough
+  // that US-style statements never trigger them.
+  const locale = inferCurrencyFromLocale(amountColumn, headerRow, textSamples);
+  if (locale) return locale;
 
   // Priority 3: bare `$` with no other locale signal → USD.
   for (const text of haystacks) {

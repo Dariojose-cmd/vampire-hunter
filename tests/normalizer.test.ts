@@ -131,3 +131,12 @@ describe('embedded dates and accents', () => {
     expect(normalizeForDisplay('suscripción x 2026-01-05')).toBe('SUSCRIPCIÓN X');
   });
 });
+
+describe('normalize: reference codes anywhere in the string', () => {
+  it('strips an embedded mixed ref code', () => {
+    expect(normalize('AMAZON PRIME*RT4GH7ZK0 AMZN.COM/BILL WA')).not.toContain('RT4GH7ZK0');
+  });
+  it.each(['OFFICE365', 'XBOX360', 'PLAYSTATION5'])('keeps product token %s', (tok) => {
+    expect(normalize(`MICROSOFT ${tok} MONTHLY`)).toContain(tok);
+  });
+});
