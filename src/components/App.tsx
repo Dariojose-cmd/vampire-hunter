@@ -75,6 +75,7 @@ export function App() {
   // Held while the user is in the ColumnMapper, so we can re-parse on confirm.
   const [pendingCsv, setPendingCsv] = useState<{ headers: string[]; rows: string[][] } | null>(null);
   const [dateAmbiguous, setDateAmbiguous] = useState(false);
+  const [currencyNotDetected, setCurrencyNotDetected] = useState(false);
 
   const { t } = useTranslation(language);
   const sound = useSoundEngine(soundEnabled);
@@ -104,6 +105,7 @@ export function App() {
     setPendingCsv(null);
     setDateAmbiguous(false);
     setErrorKey(null);
+    setCurrencyNotDetected(false);
     setView('upload');
   }
 
@@ -146,7 +148,7 @@ export function App() {
       return;
     }
 
-    finishDetection(parsed.value.transactions, parsed.value.currency);
+    finishDetection(parsed.value.transactions, parsed.value.currency, !parsed.value.currencyDetected);
   }
 
   function handleMapperConfirm(
@@ -163,10 +165,15 @@ export function App() {
       setPendingCsv(null);
       return;
     }
-    finishDetection(parsed.value.transactions, parsed.value.currency);
+    finishDetection(parsed.value.transactions, parsed.value.currency, !parsed.value.currencyDetected);
   }
 
-  function finishDetection(transactions: Transaction[], detectedCurrency: string) {
+  function finishDetection(
+    transactions: Transaction[],
+    detectedCurrency: string,
+    notDetected = false,
+  ) {
+    setCurrencyNotDetected(notDetected);
     // Only adopt the auto-detected currency if the user has not already chosen
     // one this session (currency is persisted; don't stomp a saved preference
     // on every upload — but a fresh install starts at USD and should follow the
@@ -206,7 +213,25 @@ export function App() {
             <Icon name={soundEnabled ? 'sound-on' : 'sound-off'} />
           </button>
           <LanguageSwitch language={language} onChange={setLanguage} />
-          <CurrencySelector language={language} currency={currency} onChange={setCurrency} />
+          <CurrencySelector
+            language={language}
+            currency={currency}
+            onChange={(c) => {
+              setCurrencyNotDetected(false);
+              setCurrency(c);
+            }}
+          />
+          {view === 'results' && currencyNotDetected && (
+            <p role="status" className={styles.currencyNotice}>
+              <button
+                type="button"
+                className={styles.currencyNoticeBtn}
+                onClick={() => document.getElementById('currency')?.focus()}
+              >
+                {t('currencySelector.notDetected')}
+              </button>
+            </p>
+          )}
           {view === 'results' && (
             <BurnButton language={language} onConfirm={onBurnConfirmed} />
           )}

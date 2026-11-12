@@ -199,7 +199,8 @@
   "currencySelector": {
     "label": "Currency",
     "ariaLabel": "Select display currency",
-    "autoDetected": "Auto-detected: {{currency}}"
+    "autoDetected": "Auto-detected: {{currency}}",
+    "notDetected": "Currency not detected — showing USD. Change it here."
   },
 
   "common": {

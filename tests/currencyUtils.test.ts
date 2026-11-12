@@ -18,7 +18,7 @@
  */
 
 import { describe, expect, it } from 'vitest';
-import { inferCurrency } from '../src/engine/currencyUtils';
+import { inferCurrency, inferCurrencyDetailed } from '../src/engine/currencyUtils';
 
 describe('inferCurrency', () => {
   it('detects USD from a bare `$` value', () => {
@@ -100,5 +100,28 @@ describe('inferCurrency locale heuristics', () => {
   });
   it('lets an explicit symbol outrank Portuguese signals', () => {
     expect(inferCurrency(['€12,50'], ['Descrição'])).toBe('EUR');
+  });
+});
+
+describe('inferCurrencyDetailed', () => {
+  it('reports detected=false only for the no-signal USD fallback', () => {
+    expect(inferCurrencyDetailed(['12.99'], ['Date', 'Description', 'Amount'])).toEqual({
+      currency: 'USD',
+      detected: false,
+    });
+  });
+
+  it('treats a bare $ as detected USD', () => {
+    expect(inferCurrencyDetailed(['$12.99'], ['Date', 'Amount'])).toEqual({
+      currency: 'USD',
+      detected: true,
+    });
+  });
+
+  it('reports detected=true for an explicit ISO code', () => {
+    expect(inferCurrencyDetailed(['GBP'], ['Currency'])).toEqual({
+      currency: 'GBP',
+      detected: true,
+    });
   });
 });

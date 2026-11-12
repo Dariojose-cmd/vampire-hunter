@@ -45,6 +45,25 @@
   color: var(--color-text-muted);
 }
 
+.currencyNotice {
+  margin: 0;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+.currencyNoticeBtn {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline dotted;
+}
+.currencyNoticeBtn:hover,
+.currencyNoticeBtn:focus-visible {
+  color: var(--color-accent-text);
+}
+
 .langBtn {
   font-family: var(--font-heading);
   font-size: var(--font-size-sm);

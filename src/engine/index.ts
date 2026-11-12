@@ -39,7 +39,7 @@ import {
   inferNumberFormat,
   parseRows,
 } from './parser';
-import { inferCurrency } from './currencyUtils';
+import { inferCurrencyDetailed } from './currencyUtils';
 
 import catalogJson from '../data/catalog.json';
 import exchangeRatesJson from '../data/exchangeRates.json';
@@ -222,6 +222,8 @@ export interface ParsedStatement {
    * header row combined. Defaults to 'USD' when no signal is found.
    */
   currency: string;
+  /** False when no currency signal was found and `currency` is the USD fallback. */
+  currencyDetected: boolean;
 }
 
 /** Text cells of a statement (for locale inference). Numeric-only cells are skipped. */
@@ -346,7 +348,7 @@ export function parseStatement(
       layout.type === 'single'
         ? columnValues(layout.amountCol)
         : [...columnValues(layout.debitCol), ...columnValues(layout.creditCol)];
-    const currency = inferCurrency(
+    const { currency, detected: currencyDetected } = inferCurrencyDetailed(
       [...currencyColumnValues, ...amountColumnValues],
       headers,
       textSamples(rows, new Set<number>()),
@@ -368,7 +370,7 @@ export function parseStatement(
       );
     }
 
-    return { ok: true, value: { transactions, skipped, layout, currency } };
+    return { ok: true, value: { transactions, skipped, layout, currency, currencyDetected } };
   } catch {
     // Safety net — never throw.
     return fail('PARSE_FAILED', 'Unexpected error while parsing the statement.');
@@ -434,7 +436,7 @@ export function parseWithLayout(
         break;
       }
     }
-    const currency = inferCurrency(
+    const { currency, detected: currencyDetected } = inferCurrencyDetailed(
       [...columnValues(currencyColIndex), ...amountColumnValues],
       headers,
       textSamples(rows, new Set<number>()),
@@ -450,7 +452,7 @@ export function parseWithLayout(
     if (transactions.length === 0) {
       return fail('NO_VALID_ROWS', 'The file was parsed but contained no usable transactions.');
     }
-    return { ok: true, value: { transactions, skipped, layout, currency } };
+    return { ok: true, value: { transactions, skipped, layout, currency, currencyDetected } };
   } catch {
     return fail('PARSE_FAILED', 'Unexpected error while parsing the statement.');
   }
