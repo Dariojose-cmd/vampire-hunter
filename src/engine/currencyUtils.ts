@@ -42,8 +42,8 @@ function isoCodeRegex(code: string): RegExp {
   return new RegExp(`\\b${code}\\b`, 'i');
 }
 
-const PORTUGUESE_HEADER_RE = /descri[cç][aã]o|lan[cç]amento|estabelecimento|\bdata\b|categoria|\bt[ií]tulo\b|\bvalor\b.*\bdata\b/i;
-const PORTUGUESE_TEXT_RE = /[ãõ]|\bpagamento\s+recebido\b|\bestorno\b|\bparcela\b/i;
+const PORTUGUESE_HEADER_RE = /descri[cç][aã]o|lan[cç]amento|estabelecimento/i;
+const PORTUGUESE_TEXT_RE = /\bpagamento\s+recebido\b|\bestorno\b|\bparcela\b/i;
 const SPANISH_HEADER_RE =
   /fecha|descripci[oó]n|concepto|importe|monto|d[eé]bito|cr[eé]dito|saldo|cargo|abono|sucursal|movimiento|divisa/i;
 

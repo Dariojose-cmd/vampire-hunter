@@ -41,9 +41,11 @@ const REF_CODE_END_RE = /\s*[A-Z0-9]*\d[A-Z0-9]{5,}$/;
 /**
  * Reference codes anywhere in the string: a whole alphanumeric token of 6+
  * characters containing at least one digit (e.g. the RT4GH7ZK0 in
- * "AMAZON PRIME*RT4GH7ZK0 AMZN.COM/BILL WA"). Purely alphabetic words are kept.
+ * "AMAZON PRIME*RT4GH7ZK0 AMZN.COM/BILL WA"). Purely alphabetic words are kept, as are product names of the shape
+ * LETTERS(4+) + 1-3 digits (OFFICE365, XBOX360, PLAYSTATION5).
  */
-const REF_CODE_ANYWHERE_RE = /(?<![A-Z0-9])(?=[A-Z0-9]*\d)[A-Z0-9]{6,}(?![A-Z0-9])/g;
+const REF_CODE_ANYWHERE_RE =
+  /(?<![A-Z0-9])(?![A-Z]{4,}\d{1,3}(?![A-Z0-9]))(?=[A-Z0-9]*\d)[A-Z0-9]{6,}(?![A-Z0-9])/g;
 
 /**
  * Phone numbers: optional country code, optional parenthesised area code,

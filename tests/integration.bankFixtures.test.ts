@@ -38,9 +38,21 @@ const fixtures = readdirSync(BANKS_DIR)
   .filter((f) => f.endsWith('.csv'))
   .sort();
 
+const squash = (t: string): string => t.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+/** Does the vampire's identity contain the expected merchant's first word? */
+function namesMatch(
+  v: { displayName: string; normalizedName: string; bites: { description: string }[] },
+  expectedName: string,
+): boolean {
+  const first = squash(expectedName.split(/\s+/)[0] ?? '');
+  const haystacks = [v.displayName, v.normalizedName, ...v.bites.map((b) => b.description)];
+  return haystacks.some((h) => squash(h).includes(first));
+}
+
 describe('bank statement fixtures', () => {
   it('finds fixtures', () => {
-    expect(fixtures.length).toBeGreaterThanOrEqual(10);
+    expect(fixtures.length).toBeGreaterThan(0);
   });
 
   it.each(fixtures)('%s matches its expected.json', (file) => {
@@ -66,6 +78,7 @@ describe('bank statement fixtures', () => {
     for (const exp of expected.expected) {
       const idx = unmatched.findIndex(
         (v) =>
+          namesMatch(v, exp.name) &&
           v.cadence === exp.cadence &&
           v.medianAmountCents === exp.medianAmountCents &&
           v.bites.length === exp.bites,

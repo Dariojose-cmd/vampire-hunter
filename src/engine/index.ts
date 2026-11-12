@@ -53,8 +53,11 @@ const EXCHANGE_RATES = exchangeRatesJson as ExchangeRates;
  * "PAGO RECIBIDO"). They are money moving into the account, never a subscription,
  * regardless of the statement's sign convention.
  */
+/** Minimum confidence score for the vampire tier; below it (but > 0) is "possible". */
+export const VAMPIRE_THRESHOLD = 60;
+
 const PAYMENT_RECEIVED_RE =
-  /pagamento\s+recebido|pago\s+recibido|thank\s*you/i;
+  /pagamento\s+recebido|pago\s+recibido|\bpayment\b.*\bthank\s*you\b|^\s*payment\s+received\b/i;
 
 // ---------------------------------------------------------------------------
 // runDetection
@@ -139,7 +142,7 @@ export function runDetection(input: DetectionInput): DetectionResult {
         candidate.hasPriceIncrease &&
         match === undefined
       ) {
-        confidenceScore = Math.min(confidenceScore, 59);
+        confidenceScore = Math.min(confidenceScore, VAMPIRE_THRESHOLD - 1);
       }
 
       // Score 0 → excluded from both lists.
@@ -188,7 +191,7 @@ export function runDetection(input: DetectionInput): DetectionResult {
       };
 
       // Step 5: split by confidence threshold.
-      if (confidenceScore >= 60) {
+      if (confidenceScore >= VAMPIRE_THRESHOLD) {
         vampires.push(vampire);
       } else {
         possibleVampires.push(vampire);

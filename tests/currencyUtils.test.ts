@@ -84,3 +84,21 @@ describe('inferCurrency', () => {
     expect(inferCurrency([], [])).toBe('USD');
   });
 });
+
+describe('inferCurrency locale heuristics', () => {
+  it('does not flip a US statement with a Sao Paulo merchant to BRL', () => {
+    expect(inferCurrency(['12.50', '8.00'], ['Date', 'Description', 'Amount'], ['SÃO PAULO CAFE'])).toBe('USD');
+  });
+  it('does not treat generic "Data"/"Categoria" headers as Portuguese', () => {
+    expect(inferCurrency(['12.50'], ['Data', 'Categoria', 'Amount'])).toBe('USD');
+  });
+  it('detects BRL from unambiguous Portuguese headers', () => {
+    expect(inferCurrency(['12,50'], ['Data', 'Descrição', 'Valor'])).toBe('BRL');
+  });
+  it('detects BRL from "pagamento recebido" text', () => {
+    expect(inferCurrency(['12,50'], ['a', 'b'], ['Pagamento recebido'])).toBe('BRL');
+  });
+  it('lets an explicit symbol outrank Portuguese signals', () => {
+    expect(inferCurrency(['€12,50'], ['Descrição'])).toBe('EUR');
+  });
+});
