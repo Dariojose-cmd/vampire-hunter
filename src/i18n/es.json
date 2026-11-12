@@ -25,6 +25,7 @@
       "us": "Banco de EE.UU. (USD, punto decimal)",
       "mxn": "Banco mexicano (MXN, coma decimal)",
       "cop": "Banco colombiano (COP, punto de miles)",
+      "amex": "Tarjeta de EE.UU. (USD, cargos positivos)",
       "messy": "Estado desordenado (prueba de robustez)",
       "close": "Cerrar selector de ejemplos"
     }
@@ -38,6 +39,8 @@
     "amountColumn": "Columna de monto",
     "debitColumn": "Columna de débito",
     "creditColumn": "Columna de crédito",
+    "positiveCharges": "Los cargos aparecen como números positivos",
+    "positiveChargesHint": "Márcalo si las compras son positivas y los pagos o reembolsos son negativos (común en extractos de tarjeta de crédito).",
     "dateFormat": "Formato de fecha",
     "dateFormatDdMmYyyy": "DD/MM/AAAA (ej. 31/12/2024)",
     "dateFormatMmDdYyyy": "MM/DD/AAAA (ej. 12/31/2024)",

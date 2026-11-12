@@ -1,5 +1,5 @@
 /**
- * SamplePicker — a small modal offering the four bundled sample statements.
+ * SamplePicker — a small modal offering the bundled sample statements.
  *
  * Selecting a sample fetches the CSV *from the app's own bundled assets* (a
  * same-origin static file served by Vite / the static host — no third-party
@@ -23,6 +23,7 @@ interface SampleDef {
     | 'upload.samplePicker.us'
     | 'upload.samplePicker.mxn'
     | 'upload.samplePicker.cop'
+    | 'upload.samplePicker.amex'
     | 'upload.samplePicker.messy';
   icon: IconName;
   country?: string;
@@ -32,6 +33,7 @@ const SAMPLES: SampleDef[] = [
   { file: 'us-bank-usd.csv', labelKey: 'upload.samplePicker.us', icon: 'marker-us', country: 'US' },
   { file: 'latam-bank-mxn.csv', labelKey: 'upload.samplePicker.mxn', icon: 'marker-mx', country: 'MX' },
   { file: 'latam-bank-cop.csv', labelKey: 'upload.samplePicker.cop', icon: 'marker-co', country: 'CO' },
+  { file: 'amex-positive-charges.csv', labelKey: 'upload.samplePicker.amex', icon: 'marker-us', country: 'US' },
   { file: 'messy-statement.csv', labelKey: 'upload.samplePicker.messy', icon: 'web' },
 ];
 

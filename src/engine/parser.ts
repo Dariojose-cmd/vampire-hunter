@@ -462,6 +462,47 @@ export function detectColumns(
 }
 
 // ---------------------------------------------------------------------------
+// Sign convention detection
+// ---------------------------------------------------------------------------
+
+/** True when a raw amount string carries a leading minus or accounting parentheses. */
+export function isNegativeAmount(rawAmount: string): boolean {
+  const cleaned = rawAmount.replace(CURRENCY_RE, '').replace(/\s+/g, '');
+  return cleaned.startsWith('-') || /^\(.*\)$/.test(cleaned);
+}
+
+/** Descriptions typical of payments/refunds on a statement that lists charges as positive. */
+const PAYMENT_LIKE_RE =
+  /payment|thank\s*you|refund|reversal|credit\s+adjust|pago|gracias|abono|reembolso|devoluci[oó]n|pagamento|obrigado|estorno/i;
+
+/**
+ * Detects whether a single-amount statement lists charges as POSITIVE numbers
+ * (typical of credit-card exports such as Amex). Returns true when most
+ * non-zero rows are positive and the negative rows (if any) look like
+ * payments or refunds. Split layouts always return false.
+ */
+export function detectPositiveIsCharge(rows: string[][], layout: ColumnLayout): boolean {
+  if (layout.type !== 'single') return false;
+  let positives = 0;
+  let negatives = 0;
+  let paymentLikeNegatives = 0;
+  for (const row of rows) {
+    if (!row) continue;
+    const raw = (row[layout.amountCol] ?? '').trim();
+    if (raw === '' || !/\d/.test(raw)) continue;
+    if (isNegativeAmount(raw)) {
+      negatives++;
+      if (PAYMENT_LIKE_RE.test(row[layout.descCol] ?? '')) paymentLikeNegatives++;
+    } else if (/[1-9]/.test(raw)) {
+      positives++;
+    }
+  }
+  if (positives <= negatives) return false;
+  if (negatives === 0) return true;
+  return paymentLikeNegatives * 2 >= negatives;
+}
+
+// ---------------------------------------------------------------------------
 // parseRows
 // ---------------------------------------------------------------------------
 
@@ -489,6 +530,7 @@ export function parseRows(
   layout: ColumnLayout,
   dateFormat: DateFormat,
   numberFormat: NumberFormat,
+  positiveIsCharge = false,
 ): { transactions: Transaction[]; skipped: number } {
   const transactions: Transaction[] = [];
   let skipped = 0;
@@ -521,11 +563,11 @@ export function parseRows(
         amountCents = parseCents(rawAmount, numberFormat);
 
         // Determine type: strip currency/whitespace, check for leading minus
-        const cleanedForSign = rawAmount.replace(CURRENCY_RE, '').replace(/\s+/g, '');
         if (amountCents === 0) {
           // Requirement 1.18: zero-amount → debit (free trial)
           type = 'debit';
-        } else if (cleanedForSign.startsWith('-') || /^\(.*\)$/.test(cleanedForSign)) {
+        } else if (isNegativeAmount(rawAmount) !== positiveIsCharge) {
+          // Default convention: negative = charge. Inverted when positiveIsCharge.
           type = 'debit';
         } else {
           type = 'credit';

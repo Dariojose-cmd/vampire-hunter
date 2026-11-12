@@ -149,10 +149,14 @@ export function App() {
     finishDetection(parsed.value.transactions, parsed.value.currency);
   }
 
-  function handleMapperConfirm(layout: ColumnLayout, dateFormat: DateFormat | null) {
+  function handleMapperConfirm(
+    layout: ColumnLayout,
+    dateFormat: DateFormat | null,
+    positiveIsCharge?: boolean,
+  ) {
     if (!pendingCsv) { reset(); return; }
     const chosenFormat: DateFormat = dateFormat ?? 'YYYY-MM-DD';
-    const parsed = parseWithLayout(pendingCsv.headers, pendingCsv.rows, layout, chosenFormat);
+    const parsed = parseWithLayout(pendingCsv.headers, pendingCsv.rows, layout, chosenFormat, positiveIsCharge);
     if (!parsed.ok) {
       setErrorKey(errorKeyForCode(parsed.error.code));
       setView('upload');

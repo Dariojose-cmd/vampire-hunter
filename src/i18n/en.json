@@ -25,6 +25,7 @@
       "us": "US Bank (USD, dot decimal)",
       "mxn": "Mexican Bank (MXN, comma decimal)",
       "cop": "Colombian Bank (COP, dot thousands)",
+      "amex": "US Credit Card (USD, charges as positive)",
       "messy": "Messy Statement (stress test)",
       "close": "Close sample picker"
     }
@@ -38,6 +39,8 @@
     "amountColumn": "Amount column",
     "debitColumn": "Debit column",
     "creditColumn": "Credit column",
+    "positiveCharges": "Charges appear as positive numbers",
+    "positiveChargesHint": "Check this if purchases are positive and payments or refunds are negative (common in credit card exports).",
     "dateFormat": "Date format",
     "dateFormatDdMmYyyy": "DD/MM/YYYY (e.g. 31/12/2024)",
     "dateFormatMmDdYyyy": "MM/DD/YYYY (e.g. 12/31/2024)",

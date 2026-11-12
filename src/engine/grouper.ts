@@ -11,7 +11,7 @@
  *          cluster's median, entirely before that cluster, last bite ≤ 45 days
  *          before the other cluster's first bite → absorbed as leading bites.
  *   2b-ii Price-increase merge: non-overlapping clusters from the same merchant
- *          merged when the price step is ≤ 50% and the trend is upward.
+ *          merged when the trend is upward and step-like (≤ 2 steps, each ≤ 40%).
  */
 
 import type { Transaction } from './types';
@@ -271,11 +271,43 @@ function mergeTrialRound(
 // Step 2b-ii: Price-increase merge
 // ---------------------------------------------------------------------------
 
+/** Maximum number of distinct price steps a price-increase merge may contain. */
+export const MAX_PRICE_STEPS = 2;
+/** Maximum size of any single step (40%). Compared in integer math. */
+export const MAX_STEP_PERCENT = 40;
+/** Changes of at most 2% between consecutive bites are jitter, not a step. */
+const STEP_JITTER_PERCENT = 2;
+
+/**
+ * True when a chronologically-ordered series of amounts (integer cents) looks
+ * like a genuine subscription price increase: at most {@link MAX_PRICE_STEPS}
+ * distinct upward steps over the whole history, each ≤ {@link MAX_STEP_PERCENT}%,
+ * and no decreases beyond jitter. A steady climb (e.g. grocery spend rising
+ * every month) has too many steps and is rejected.
+ */
+export function isStepLikeIncrease(amounts: number[]): boolean {
+  let steps = 0;
+  for (let i = 1; i < amounts.length; i++) {
+    const prev = amounts[i - 1];
+    const cur = amounts[i];
+    if (cur * 100 <= prev * (100 + STEP_JITTER_PERCENT) && cur * 100 >= prev * (100 - STEP_JITTER_PERCENT)) {
+      continue; // jitter
+    }
+    if (cur < prev) return false; // price drop: not an increase-only history
+    if (cur * 100 > prev * (100 + MAX_STEP_PERCENT)) return false;
+    steps++;
+    if (steps > MAX_PRICE_STEPS) return false;
+  }
+  return true;
+}
+
 /**
  * Attempts one price-increase merge across all ordered pairs (A before B):
  *   1. Non-overlapping.
  *   2. B's first bite amount ≤ A's last bite amount × 1.5 (≤ 50% higher).
  *   3. B's median > A's median (upward trend).
+ *   4. The merchant's sequential history including the merge is step-like
+ *      (see {@link isStepLikeIncrease}): at most 2 steps, each ≤ 40%.
  */
 function mergePriceIncreaseRound(
   clusters: Transaction[][],
@@ -296,6 +328,23 @@ function mergePriceIncreaseRound(
       const medA = computeMedian(a.map((t) => t.amountCents));
       const medB = computeMedian(b.map((t) => t.amountCents));
       if (medB <= medA) continue;
+
+      // The history judged is the merged pair plus every other cluster that
+      // sits wholly before or after both (the sequential chain). A steady
+      // climb therefore cannot sneak through as a series of small pair merges.
+      const chain = [...a, ...b];
+      clusters.forEach((c, idx) => {
+        if (idx === i || idx === j) return;
+        const seq =
+          (isNonOverlapping(c, a) && isNonOverlapping(c, b)) ||
+          (isNonOverlapping(a, c) && isNonOverlapping(b, c));
+        if (seq) chain.push(...c);
+      });
+      const amounts = chain
+        .sort((x, y) => x.date.localeCompare(y.date))
+        .map((t) => t.amountCents)
+        .filter((c) => c > 0);
+      if (!isStepLikeIncrease(amounts)) continue;
 
       const merged = [...a, ...b];
       const rest = clusters.filter((_, idx) => idx !== i && idx !== j);
