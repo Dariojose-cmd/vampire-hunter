@@ -14,7 +14,14 @@
  * - `split`:  separate debit and credit columns
  */
 export type ColumnLayout =
-  | { type: 'single'; amountCol: number; dateCol: number; descCol: number }
+  | {
+      type: 'single';
+      amountCol: number;
+      dateCol: number;
+      descCol: number;
+      /** Optional debit/credit indicator column (e.g. "Af Bij", "D/C"). */
+      indicatorCol?: number;
+    }
   | {
       type: 'split';
       debitCol: number;

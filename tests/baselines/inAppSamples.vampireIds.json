@@ -1,0 +1,52 @@
+{
+  "us-bank-usd.csv": {
+    "vampireIds": [
+      "AMAZON PRIME MEMBERSHIP FEE_0",
+      "APPLE.COM/BILL_0",
+      "APPLE.COM/BILL_1",
+      "AT&T WIRELESS MOBILE PLAN_0",
+      "COSTCO ANNUAL MEMBERSHIP_0",
+      "GREEN CHEF WEEKLY MEAL BOX_0",
+      "MEALBOX HELLOFRESH SUBSCRIPTION_0",
+      "NETFLIX STREAMING SERVICE_0",
+      "PLANET FITNESS GYM MEMBERSHIP_0",
+      "SPOTIFY USA MUSIC SUBSCRIPTION_0"
+    ],
+    "possibleIds": []
+  },
+  "latam-bank-mxn.csv": {
+    "vampireIds": [
+      "BLIM TV STREAMING LOCAL_0",
+      "DISNEY PLUS STREAMING_0",
+      "NETFLIX ENTRETENIMIENTO MENSUAL_0",
+      "SMART FIT GIMNASIO MENSUAL_0",
+      "SPOTIFY MUSIC SUSCRIPCION_0"
+    ],
+    "possibleIds": []
+  },
+  "latam-bank-cop.csv": {
+    "vampireIds": [
+      "CLARO PLAN MOVIL_0",
+      "NETFLIX ENTRETENIMIENTO MENSUAL_0",
+      "SMARTFIT GIMNASIO MENSUAL_0",
+      "SPOTIFY MUSIC SUSCRIPCION_0"
+    ],
+    "possibleIds": []
+  },
+  "amex-positive-charges.csv": {
+    "vampireIds": [
+      "AMAZON PRIME*MEMBERSHIP_0",
+      "NETFLIX.COM_0",
+      "SPOTIFY USA_0"
+    ],
+    "possibleIds": []
+  },
+  "messy-statement.csv": {
+    "vampireIds": [
+      "GYM MEMBERSHIP FIT CLUB_0",
+      "NETFLIX MONTHLY SUBSCRIPTION_0",
+      "SPOTIFY PREMIUM MUSIC_0"
+    ],
+    "possibleIds": []
+  }
+}

@@ -49,6 +49,9 @@ function stripTimePart(s: string): string {
   return trimmed.replace(TIME_SUFFIX_RE, '').trim();
 }
 
+/** Compact YYYYMMDD date (e.g. 20251231), with plausible year/month/day ranges. */
+const COMPACT_DATE_RE = /^(?:19|20)\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])$/;
+
 /**
  * Parses a date string in one of the three supported formats and returns an
  * ISO 8601 date string (YYYY-MM-DD) wrapped in a Result.
@@ -66,6 +69,19 @@ export function parseDate(
 
     if (trimmed === '') {
       return parseFailed(`Empty date string`);
+    }
+
+    // Compact YYYYMMDD is unambiguous regardless of the requested format.
+    if (COMPACT_DATE_RE.test(trimmed)) {
+      const year = parseInt(trimmed.slice(0, 4), 10);
+      const month = parseInt(trimmed.slice(4, 6), 10);
+      const day = parseInt(trimmed.slice(6, 8), 10);
+      if (!isValidDate(year, month, day)) {
+        return parseFailed(
+          `"${trimmed}" is not a real calendar date (year=${year}, month=${month}, day=${day})`,
+        );
+      }
+      return { ok: true, value: `${year}-${pad2(month)}-${pad2(day)}` };
     }
 
     if (format === 'YYYY-MM-DD') {
@@ -169,7 +185,7 @@ export function inferDateFormat(column: string[]): DateFormat | 'ambiguous' {
     // Hyphen-separated values follow YYYY-MM-DD where the first segment is a
     // 4-digit year (always > 12), so we skip them to avoid a false positive.
     if (!value.includes('/')) {
-      if (/^\d{4}-\d{2}-\d{2}$/.test(value)) sawIso = true;
+      if (/^\d{4}-\d{2}-\d{2}$/.test(value) || COMPACT_DATE_RE.test(value)) sawIso = true;
       continue;
     }
     sawSlash = true;
@@ -337,6 +353,37 @@ function isMostlyNumeric(values: string[]): boolean {
   return numeric.length / nonEmpty.length >= 0.7;
 }
 
+/** True when every value looks like a compact YYYYMMDD date. */
+function isCompactDateColumn(values: string[]): boolean {
+  return (
+    values.length > 0 &&
+    values.every((v) => COMPACT_DATE_RE.test(v))
+  );
+}
+
+const DEBIT_INDICATORS = new Set(['af', 'd', 'db', 'deb', 'dr', 'debit', 'debito', 'cargo']);
+const CREDIT_INDICATORS = new Set(['bij', 'c', 'cr', 'cred', 'credit', 'credito', 'abono']);
+
+/** Lowercases, trims and strips accents. */
+function foldText(s: string): string {
+  return (s ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toLowerCase();
+}
+
+/**
+ * Classifies a debit/credit indicator cell (e.g. "Af", "Bij", "D", "CR",
+ * "Débito"). Case and accent insensitive. Returns null for empty/unknown values.
+ */
+export function classifyIndicator(value: string): 'debit' | 'credit' | null {
+  const v = foldText(value);
+  if (DEBIT_INDICATORS.has(v)) return 'debit';
+  if (CREDIT_INDICATORS.has(v)) return 'credit';
+  return null;
+}
+
+/** Headers that denote a debit/credit indicator column (after accent folding). */
+const INDICATOR_HEADER_RE =
+  /^(?:af\s*\/?\s*bij|d\s*\/\s*c|db\s*\/\s*cr|cr\s*\/\s*db|debito\s*\/\s*credito|debit\s*\/\s*credit|cargo\s*\/\s*abono)$/;
+
 /** Headers that denote a date column. */
 const DATE_HEADER_RE = /date|fecha|data\b|^dat$|[^a-z]dat[^a-z]/;
 /** Headers that denote a running balance column. */
@@ -367,12 +414,29 @@ export function detectColumns(
   // Pass 1: header-keyword heuristics (high confidence)
   // -----------------------------------------------------------------------
   let weakDescCol = -1;
+
+  // Indicator column (checked before debit/credit keywords so "Débito/Crédito"
+  // never becomes a split debit column). Needs a matching header AND at least
+  // one non-empty value, all within the debit/credit vocabulary.
+  let indicatorCol = -1;
+  for (let i = 0; i < headers.length; i++) {
+    if (!INDICATOR_HEADER_RE.test(foldText(headers[i] ?? ''))) continue;
+    const values = rows
+      .map((r) => (r?.[i] ?? '').trim())
+      .filter((v) => v !== '');
+    if (values.length > 0 && values.every((v) => classifyIndicator(v) !== null)) {
+      indicatorCol = i;
+      break;
+    }
+  }
+
   // Revolut-style exports have "Started Date" and "Completed Date": prefer the
   // completed one (the settled date); otherwise the first date-like header wins.
   const completedDateCol = lc.findIndex(
     (h) => DATE_HEADER_RE.test(h) && /completed|completad/.test(h),
   );
   for (let i = 0; i < lc.length; i++) {
+    if (i === indicatorCol) continue;
     const h = lc[i];
     const isDateHeader = DATE_HEADER_RE.test(h);
 
@@ -390,7 +454,7 @@ export function detectColumns(
 
     // Description keywords. "detail(s)" is a weak match: Chase uses it for the
     // DEBIT/CREDIT flag, so a real description column always wins over it.
-    if (descCol === -1 && /desc|concept|narrat|descripcion|title|titulo|título|merchant|payee/.test(h)) {
+    if (descCol === -1 && /desc|concept|narrat|descripcion|title|titulo|título|merchant|payee|lan[cç]amento|hist[oó]rico|omschrijving|\bnaam\b/.test(h)) {
       descCol = i;
       continue;
     }
@@ -412,7 +476,7 @@ export function detectColumns(
     }
 
     // Single amount keywords
-    if (amountCol === -1 && /amount|monto|importe|valor|total/.test(h)) {
+    if (amountCol === -1 && /amount|monto|importe|valor|total|bedrag/.test(h)) {
       amountCol = i;
       continue;
     }
@@ -446,9 +510,36 @@ export function detectColumns(
       for (let i = 0; i < headers.length; i++) {
         const colValues = nonBlankRows.map((r) => (r[i] ?? '').trim());
         const nonEmpty = colValues.filter((v) => v !== '');
-        if (nonEmpty.length > 0 && nonEmpty.every((v) => DATE_VALUE_RE.test(v))) {
+        if (
+          nonEmpty.length > 0 &&
+          (nonEmpty.every((v) => DATE_VALUE_RE.test(v)) || isCompactDateColumn(nonEmpty))
+        ) {
           dateCol = i;
           break;
+        }
+      }
+    }
+
+    // Description fallback: widest text column among the unassigned ones.
+    // Keyword matches (including the weak "detail") always win over this.
+    if (descCol === -1) {
+      let bestLen = 0;
+      for (let i = 0; i < headers.length; i++) {
+        if (
+          i === dateCol || i === amountCol || i === debitCol ||
+          i === creditCol || i === indicatorCol
+        ) continue;
+        const hl = lc[i] ?? '';
+        if (DATE_HEADER_RE.test(hl) || BALANCE_HEADER_RE.test(hl)) continue;
+        const nonEmpty = nonBlankRows
+          .map((r) => (r[i] ?? '').trim())
+          .filter((v) => v !== '');
+        if (nonEmpty.length === 0) continue;
+        if (isMostlyNumeric(nonEmpty) || isCompactDateColumn(nonEmpty)) continue;
+        const mean = nonEmpty.reduce((a, v) => a + v.length, 0) / nonEmpty.length;
+        if (mean > bestLen) {
+          bestLen = mean;
+          descCol = i;
         }
       }
     }
@@ -457,11 +548,11 @@ export function detectColumns(
     if (amountCol === -1 && debitCol === -1) {
       for (let i = 0; i < headers.length; i++) {
         // Skip already-assigned columns
-        if (i === dateCol || i === descCol) continue;
+        if (i === dateCol || i === descCol || i === indicatorCol) continue;
         const hl = lc[i] ?? '';
         if (DATE_HEADER_RE.test(hl) || BALANCE_HEADER_RE.test(hl)) continue;
         const colValues = nonBlankRows.map((r) => (r[i] ?? '').trim());
-        if (isMostlyNumeric(colValues)) {
+        if (isMostlyNumeric(colValues) && !isCompactDateColumn(colValues.filter((v) => v !== ''))) {
           amountCol = i;
           break;
         }
@@ -475,7 +566,9 @@ export function detectColumns(
 
   // Single-column layout: dateCol + descCol + amountCol
   if (dateCol !== -1 && descCol !== -1 && amountCol !== -1) {
-    return { type: 'single', amountCol, dateCol, descCol };
+    return indicatorCol !== -1
+      ? { type: 'single', amountCol, dateCol, descCol, indicatorCol }
+      : { type: 'single', amountCol, dateCol, descCol };
   }
 
   // Split-column layout: dateCol + descCol + debitCol (creditCol optional)
@@ -521,6 +614,7 @@ const PAYMENT_LIKE_RE =
  */
 export function detectPositiveIsCharge(rows: string[][], layout: ColumnLayout): boolean {
   if (layout.type !== 'single') return false;
+  if (layout.indicatorCol !== undefined) return false;
   let positives = 0;
   let negatives = 0;
   let paymentLikeNegatives = 0;
@@ -601,9 +695,17 @@ export function parseRows(
         amountCents = parseCents(rawAmount, numberFormat);
 
         // Determine type: strip currency/whitespace, check for leading minus
+        const indicator =
+          layout.indicatorCol !== undefined
+            ? classifyIndicator(row[layout.indicatorCol] ?? '')
+            : null;
+
         if (amountCents === 0) {
           // Requirement 1.18: zero-amount → debit (free trial)
           type = 'debit';
+        } else if (indicator !== null) {
+          // Indicator column wins over the amount sign.
+          type = indicator;
         } else if (isNegativeAmount(rawAmount) !== positiveIsCharge) {
           // Default convention: negative = charge. Inverted when positiveIsCharge.
           type = 'debit';

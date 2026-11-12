@@ -24,7 +24,7 @@ interface ExpectedSubscription {
   name: string;
   cadence: string;
   medianAmountCents: number;
-  bites: number;
+  bites?: number;
 }
 
 interface ExpectedFile {
@@ -81,7 +81,7 @@ describe('bank statement fixtures', () => {
           namesMatch(v, exp.name) &&
           v.cadence === exp.cadence &&
           v.medianAmountCents === exp.medianAmountCents &&
-          v.bites.length === exp.bites,
+          (exp.bites === undefined || v.bites.length === exp.bites),
       );
       expect(idx, `${file}: "${exp.name}" should be detected as a vampire`).toBeGreaterThanOrEqual(0);
       unmatched.splice(idx, 1);

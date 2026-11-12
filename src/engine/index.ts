@@ -26,6 +26,7 @@ import { buildCandidates } from './grouper';
 import { detectCadence, detectFreeTrial } from './cadenceDetector';
 import { matchCatalog } from './catalogMatcher';
 import { computeScore } from './scorer';
+import { findCreepingSplitIds } from './creepingSplit';
 import {
   annualBloodLossCents,
   generateAvatar,
@@ -102,11 +103,29 @@ export function runDetection(input: DetectionInput): DetectionResult {
     // Step 3: group + cluster (Steps 1 → 2a → 2b applied inside).
     const candidates = buildCandidates(normalized);
 
+    // Pre-compute cadence + catalog match per candidate, then find merchants
+    // whose creeping amounts were split into several clusters (clustering is
+    // per normalizedName, so that is the grouping key).
+    const analysed = candidates.map(({ id, candidate }) => ({
+      id,
+      candidate,
+      cadence: detectCadence(candidate.bites.map((b) => b.date)),
+      match: matchCatalog(candidate.normalizedName, CATALOG),
+    }));
+    const creepingIds = findCreepingSplitIds(
+      analysed.map((a) => ({
+        id: a.id,
+        normalizedName: a.candidate.normalizedName,
+        cadence: a.cadence,
+        hasCatalogMatch: a.match !== undefined,
+        bites: a.candidate.bites,
+      })),
+    );
+
     // Step 4: build a Vampire for each recurring candidate.
-    for (const { id, candidate } of candidates) {
+    for (const { id, candidate, cadence, match } of analysed) {
       // 4a. Cadence — null means non-recurring (incl. single-transaction
       // groups), so the candidate is excluded entirely.
-      const cadence = detectCadence(candidate.bites.map((b) => b.date));
       if (cadence === null) continue;
 
       // 4b. Free-trial detection.
@@ -129,19 +148,19 @@ export function runDetection(input: DetectionInput): DetectionResult {
         amountHistory: candidate.amountHistory,
       };
 
-      // 4d. Catalog pre-match.
-      const match = matchCatalog(candidate.normalizedName, CATALOG);
+      // 4d. Catalog pre-match: computed up front (see `analysed`).
 
       // 4e. Confidence score.
       let confidenceScore = computeScore(recurrence, match !== undefined);
-      // A 2-bite series that exists only because the second amount is higher
-      // (price-increase merge) is too thin evidence for a vampire unless the
-      // catalog backs it (e.g. a yearly membership): keep it "possible" at most.
-      if (
-        candidate.bites.length === 2 &&
-        candidate.hasPriceIncrease &&
-        match === undefined
-      ) {
+      // Any 2-bite series (price-increase merge or plain pair) is too thin
+      // evidence for a vampire unless the catalog backs it (e.g. a yearly
+      // membership): keep it "possible" at most.
+      if (candidate.bites.length === 2 && match === undefined) {
+        confidenceScore = Math.min(confidenceScore, VAMPIRE_THRESHOLD - 1);
+      }
+      // Creeping amounts split across clusters (e.g. a bakery whose total
+      // rises every month) are not a subscription: possible at most.
+      if (creepingIds.has(id)) {
         confidenceScore = Math.min(confidenceScore, VAMPIRE_THRESHOLD - 1);
       }
 

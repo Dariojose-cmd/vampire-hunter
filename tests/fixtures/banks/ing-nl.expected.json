@@ -1,0 +1,54 @@
+{
+  "bank": "ING NL",
+  "currency": "EUR",
+  "expected": [
+    {
+      "name": "Netflix",
+      "cadence": "monthly",
+      "medianAmountCents": 1399,
+      "note": "price rises to 1549 in month 6"
+    },
+    {
+      "name": "Spotify",
+      "cadence": "monthly",
+      "medianAmountCents": 1099
+    },
+    {
+      "name": "Basic-Fit",
+      "cadence": "monthly",
+      "medianAmountCents": 2499
+    },
+    {
+      "name": "Ziggo",
+      "cadence": "monthly",
+      "medianAmountCents": 5450
+    },
+    {
+      "name": "Videoland",
+      "cadence": "monthly",
+      "medianAmountCents": 799,
+      "note": "plan 1"
+    },
+    {
+      "name": "Videoland Extra Kids",
+      "cadence": "monthly",
+      "medianAmountCents": 499,
+      "note": "plan 2, same merchant"
+    }
+  ],
+  "mustNotDetect": [
+    "Albert Heijn",
+    "NS Groep",
+    "Thuisbezorgd",
+    "Shell",
+    "Bol.com",
+    "Tikkie",
+    "Salaris",
+    "Belastingdienst",
+    "Disney Plus"
+  ],
+  "notes": [
+    "Disney Plus: 0,00 row in Jan plus two paid charges Mar and Aug irregular (near-miss, not a subscription)",
+    "YYYYMMDD dates, Af/Bij indicator with unsigned amounts, comma decimals"
+  ]
+}

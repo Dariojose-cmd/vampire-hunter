@@ -1,0 +1,56 @@
+{
+  "bank": "Itaú BR",
+  "currency": "BRL",
+  "expected": [
+    {
+      "name": "Netflix",
+      "cadence": "monthly",
+      "medianAmountCents": 5590,
+      "note": "price rises to 5990 in month 7"
+    },
+    {
+      "name": "Spotify",
+      "cadence": "monthly",
+      "medianAmountCents": 2190
+    },
+    {
+      "name": "Smart Fit",
+      "cadence": "monthly",
+      "medianAmountCents": 11990
+    },
+    {
+      "name": "Globoplay",
+      "cadence": "monthly",
+      "medianAmountCents": 2490,
+      "note": "month 1 is a R$0,00 free trial"
+    },
+    {
+      "name": "YouTube Premium",
+      "cadence": "monthly",
+      "medianAmountCents": 2490,
+      "note": "same merchant GOOGLE, plan 1"
+    },
+    {
+      "name": "Google One",
+      "cadence": "monthly",
+      "medianAmountCents": 999,
+      "note": "same merchant GOOGLE, plan 2"
+    }
+  ],
+  "mustNotDetect": [
+    "PAO DE ACUCAR",
+    "UBER",
+    "POSTO IPIRANGA",
+    "PIX ENVIADO",
+    "PADARIA",
+    "AMAZON MARKETPLACE",
+    "IFOOD",
+    "SAQUE",
+    "TARIFA"
+  ],
+  "notes": [
+    "Semicolon delimiter, DD/MM/YYYY, 1.234,56 thousands, negative debits, extra agency/balance columns",
+    "NETFLIX PRESENTE CARTAO is a one-off gift card from a subscription merchant (trap)",
+    "Salary credits must be ignored"
+  ]
+}

@@ -1,0 +1,226 @@
+{
+  "pbtResults": {
+    "1. Write bug condition exploration test": {
+      "status": "passed",
+      "failingExample": "Naam/Omschrijving & lançamento+bedrag -> COLUMN_MAPPING_NEEDED; 20000101 -> 'ambiguous'; 2-bite weekly [\"Zorzor Zorzor\", gap 5, 1.00] scores 60",
+      "lastRunTimestamp": 1794454777661
+    },
+    "3.7 Verify bug condition exploration test now passes": {
+      "status": "passed",
+      "lastRunTimestamp": 1794457580076
+    }
+  },
+  "executionHistory": {
+    "1. Write bug condition exploration test": [
+      {
+        "executionId": "a6211598-a71f-4353-b380-05b5db3d67ed",
+        "chatSessionId": "sess_ecea3af4-ccda-4af0-b3d7-720b62b5f3f6",
+        "timestamp": 1794454658052
+      },
+      {
+        "executionId": "a6211598-a71f-4353-b380-05b5db3d67ed",
+        "chatSessionId": "sess_ecea3af4-ccda-4af0-b3d7-720b62b5f3f6",
+        "timestamp": 1794454663923
+      },
+      {
+        "executionId": "a6211598-a71f-4353-b380-05b5db3d67ed",
+        "chatSessionId": "sess_ecea3af4-ccda-4af0-b3d7-720b62b5f3f6",
+        "timestamp": 1794454794815
+      }
+    ],
+    "2. Write preservation property tests (BEFORE implementing fix)": [
+      {
+        "executionId": "a6211598-a71f-4353-b380-05b5db3d67ed",
+        "chatSessionId": "sess_ecea3af4-ccda-4af0-b3d7-720b62b5f3f6",
+        "timestamp": 1794454658121
+      },
+      {
+        "executionId": "a6211598-a71f-4353-b380-05b5db3d67ed",
+        "chatSessionId": "sess_ecea3af4-ccda-4af0-b3d7-720b62b5f3f6",
+        "timestamp": 1794454797260
+      },
+      {
+        "executionId": "a6211598-a71f-4353-b380-05b5db3d67ed",
+        "chatSessionId": "sess_ecea3af4-ccda-4af0-b3d7-720b62b5f3f6",
+        "timestamp": 1794456092117
+      }
+    ],
+    "3.1 Add indicator column support": [
+      {
+        "executionId": "a6211598-a71f-4353-b380-05b5db3d67ed",
+        "chatSessionId": "sess_ecea3af4-ccda-4af0-b3d7-720b62b5f3f6",
+        "timestamp": 1794454658169
+      },
+      {
+        "executionId": "a6211598-a71f-4353-b380-05b5db3d67ed",
+        "chatSessionId": "sess_ecea3af4-ccda-4af0-b3d7-720b62b5f3f6",
+        "timestamp": 1794456094635
+      },
+      {
+        "executionId": "a6211598-a71f-4353-b380-05b5db3d67ed",
+        "chatSessionId": "sess_ecea3af4-ccda-4af0-b3d7-720b62b5f3f6",
+        "timestamp": 1794456212976
+      }
+    ],
+    "3.2 Add header synonyms and description fallback": [
+      {
+        "executionId": "a6211598-a71f-4353-b380-05b5db3d67ed",
+        "chatSessionId": "sess_ecea3af4-ccda-4af0-b3d7-720b62b5f3f6",
+        "timestamp": 1794454658290
+      },
+      {
+        "executionId": "a6211598-a71f-4353-b380-05b5db3d67ed",
+        "chatSessionId": "sess_ecea3af4-ccda-4af0-b3d7-720b62b5f3f6",
+        "timestamp": 1794456215653
+      },
+      {
+        "executionId": "a6211598-a71f-4353-b380-05b5db3d67ed",
+        "chatSessionId": "sess_ecea3af4-ccda-4af0-b3d7-720b62b5f3f6",
+        "timestamp": 1794456401486
+      }
+    ],
+    "3.3 Add compact YYYYMMDD dates": [
+      {
+        "executionId": "a6211598-a71f-4353-b380-05b5db3d67ed",
+        "chatSessionId": "sess_ecea3af4-ccda-4af0-b3d7-720b62b5f3f6",
+        "timestamp": 1794454658353
+      },
+      {
+        "executionId": "a6211598-a71f-4353-b380-05b5db3d67ed",
+        "chatSessionId": "sess_ecea3af4-ccda-4af0-b3d7-720b62b5f3f6",
+        "timestamp": 1794456405997
+      },
+      {
+        "executionId": "a6211598-a71f-4353-b380-05b5db3d67ed",
+        "chatSessionId": "sess_ecea3af4-ccda-4af0-b3d7-720b62b5f3f6",
+        "timestamp": 1794456616128
+      }
+    ],
+    "3.4 Cap every 2-bite uncatalogued candidate below vampire level": [
+      {
+        "executionId": "a6211598-a71f-4353-b380-05b5db3d67ed",
+        "chatSessionId": "sess_ecea3af4-ccda-4af0-b3d7-720b62b5f3f6",
+        "timestamp": 1794454658421
+      },
+      {
+        "executionId": "a6211598-a71f-4353-b380-05b5db3d67ed",
+        "chatSessionId": "sess_ecea3af4-ccda-4af0-b3d7-720b62b5f3f6",
+        "timestamp": 1794456619314
+      },
+      {
+        "executionId": "a6211598-a71f-4353-b380-05b5db3d67ed",
+        "chatSessionId": "sess_ecea3af4-ccda-4af0-b3d7-720b62b5f3f6",
+        "timestamp": 1794456809226
+      }
+    ],
+    "3.5 Make the fixtures test tolerate an omitted `bites`": [
+      {
+        "executionId": "a6211598-a71f-4353-b380-05b5db3d67ed",
+        "chatSessionId": "sess_ecea3af4-ccda-4af0-b3d7-720b62b5f3f6",
+        "timestamp": 1794454658549
+      },
+      {
+        "executionId": "a6211598-a71f-4353-b380-05b5db3d67ed",
+        "chatSessionId": "sess_ecea3af4-ccda-4af0-b3d7-720b62b5f3f6",
+        "timestamp": 1794456812552
+      },
+      {
+        "executionId": "a6211598-a71f-4353-b380-05b5db3d67ed",
+        "chatSessionId": "sess_ecea3af4-ccda-4af0-b3d7-720b62b5f3f6",
+        "timestamp": 1794456922217
+      }
+    ],
+    "3.6 Add unit and property tests for the new behavior": [
+      {
+        "executionId": "a6211598-a71f-4353-b380-05b5db3d67ed",
+        "chatSessionId": "sess_ecea3af4-ccda-4af0-b3d7-720b62b5f3f6",
+        "timestamp": 1794454658643
+      },
+      {
+        "executionId": "a6211598-a71f-4353-b380-05b5db3d67ed",
+        "chatSessionId": "sess_ecea3af4-ccda-4af0-b3d7-720b62b5f3f6",
+        "timestamp": 1794457461152
+      },
+      {
+        "executionId": "a6211598-a71f-4353-b380-05b5db3d67ed",
+        "chatSessionId": "sess_ecea3af4-ccda-4af0-b3d7-720b62b5f3f6",
+        "timestamp": 1794457551679
+      }
+    ],
+    "3.7 Verify bug condition exploration test now passes": [
+      {
+        "executionId": "a6211598-a71f-4353-b380-05b5db3d67ed",
+        "chatSessionId": "sess_ecea3af4-ccda-4af0-b3d7-720b62b5f3f6",
+        "timestamp": 1794454658705
+      },
+      {
+        "executionId": "a6211598-a71f-4353-b380-05b5db3d67ed",
+        "chatSessionId": "sess_ecea3af4-ccda-4af0-b3d7-720b62b5f3f6",
+        "timestamp": 1794457555283
+      },
+      {
+        "executionId": "a6211598-a71f-4353-b380-05b5db3d67ed",
+        "chatSessionId": "sess_ecea3af4-ccda-4af0-b3d7-720b62b5f3f6",
+        "timestamp": 1794457591704
+      }
+    ],
+    "3.8 Verify preservation tests still pass": [
+      {
+        "executionId": "a6211598-a71f-4353-b380-05b5db3d67ed",
+        "chatSessionId": "sess_ecea3af4-ccda-4af0-b3d7-720b62b5f3f6",
+        "timestamp": 1794454658753
+      },
+      {
+        "executionId": "a6211598-a71f-4353-b380-05b5db3d67ed",
+        "chatSessionId": "sess_ecea3af4-ccda-4af0-b3d7-720b62b5f3f6",
+        "timestamp": 1794457596221
+      },
+      {
+        "executionId": "a6211598-a71f-4353-b380-05b5db3d67ed",
+        "chatSessionId": "sess_ecea3af4-ccda-4af0-b3d7-720b62b5f3f6",
+        "timestamp": 1794457665771
+      }
+    ],
+    "4. Checkpoint - Run the full test suite": [
+      {
+        "executionId": "a6211598-a71f-4353-b380-05b5db3d67ed",
+        "chatSessionId": "sess_ecea3af4-ccda-4af0-b3d7-720b62b5f3f6",
+        "timestamp": 1794454658799
+      },
+      {
+        "executionId": "a6211598-a71f-4353-b380-05b5db3d67ed",
+        "chatSessionId": "sess_ecea3af4-ccda-4af0-b3d7-720b62b5f3f6",
+        "timestamp": 1794457669427
+      },
+      {
+        "executionId": "a6211598-a71f-4353-b380-05b5db3d67ed",
+        "chatSessionId": "sess_ecea3af4-ccda-4af0-b3d7-720b62b5f3f6",
+        "timestamp": 1794457863330
+      }
+    ],
+    "3.4b Cap creeping-amount split clusters below vampire level": [
+      {
+        "executionId": "a6211598-a71f-4353-b380-05b5db3d67ed",
+        "chatSessionId": "sess_ecea3af4-ccda-4af0-b3d7-720b62b5f3f6",
+        "timestamp": 1794457052656
+      },
+      {
+        "executionId": "a6211598-a71f-4353-b380-05b5db3d67ed",
+        "chatSessionId": "sess_ecea3af4-ccda-4af0-b3d7-720b62b5f3f6",
+        "timestamp": 1794457062258
+      },
+      {
+        "executionId": "a6211598-a71f-4353-b380-05b5db3d67ed",
+        "chatSessionId": "sess_ecea3af4-ccda-4af0-b3d7-720b62b5f3f6",
+        "timestamp": 1794457456989
+      }
+    ],
+    "3. Fix for Itaú and ING bank formats (indicator columns, header synonyms, compact dates, 2-bite cap)": [
+      {
+        "executionId": "a6211598-a71f-4353-b380-05b5db3d67ed",
+        "chatSessionId": "sess_ecea3af4-ccda-4af0-b3d7-720b62b5f3f6",
+        "timestamp": 1794457867391
+      }
+    ]
+  }
+}
