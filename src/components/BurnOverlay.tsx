@@ -110,6 +110,14 @@ export function BurnOverlay({ onComplete }: BurnOverlayProps) {
     fire.current();
   }, []);
 
+  // Mark the document while the overlay is mounted so the Garlic toast hides.
+  useEffect(() => {
+    document.body.dataset.burning = 'true';
+    return () => {
+      delete document.body.dataset.burning;
+    };
+  }, []);
+
   // Safety fallback: always resolve even if the animation event is missed.
   useEffect(() => {
     const ms = reduce ? BURN_FADE_MS : BURN_MS;

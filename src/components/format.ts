@@ -61,3 +61,13 @@ export function garlicHintId(id: string): string {
   }
   return `garlic-hint-${safe}-${h.toString(36)}`;
 }
+
+/** Format the rates' `asOf` ISO date for the given language. */
+export function formatRatesDate(iso: string, language: 'en' | 'es'): string {
+  const [y, m, d] = iso.split('-').map(Number);
+  if (!y || !m || !d) return iso;
+  return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString(
+    language === 'es' ? 'es-CO' : 'en-US',
+    { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' },
+  );
+}

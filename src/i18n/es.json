@@ -12,6 +12,7 @@
   "upload": {
     "title": "Encuentra Tus Vampiros",
     "subtitle": "Sube tu estado de cuenta y cazaremos cada cargo recurrente que se esconde en las sombras.",
+    "fileInputLabel": "Elegir un archivo CSV",
     "dropZoneLabel": "Suelta tu CSV aquí o haz clic para buscar",
     "dropZoneActive": "Suéltalo para comenzar la cacería…",
     "browseButton": "Elegir archivo",
@@ -198,6 +199,7 @@
   },
 
   "currencySelector": {
+    "ratesNote": "Tasas aproximadas al {{date}}. Solo se usan para estimar los niveles de amenaza.",
     "label": "Moneda",
     "ariaLabel": "Seleccionar moneda de visualización",
     "autoDetected": "Detectada automáticamente: {{currency}}",

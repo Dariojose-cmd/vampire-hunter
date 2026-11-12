@@ -42,3 +42,6 @@
 }
 .close:hover { color: var(--color-text); }
 .close:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
+
+/* Hidden while the BurnOverlay flames are on screen. */
+:global(body[data-burning]) .toast { display: none; }

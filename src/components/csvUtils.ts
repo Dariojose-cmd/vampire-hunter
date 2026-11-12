@@ -7,6 +7,19 @@
 
 import Papa from 'papaparse';
 
+/**
+ * Decode raw file bytes to text, entirely in the browser. Tries strict UTF-8
+ * first; if the bytes are not valid UTF-8 (typical of Latin-1 / Windows-1252
+ * bank exports), falls back to windows-1252. A leading UTF-8 BOM is removed.
+ */
+export function decodeCsvBytes(buf: ArrayBuffer | Uint8Array): string {
+  try {
+    return new TextDecoder('utf-8', { fatal: true, ignoreBOM: false }).decode(buf);
+  } catch {
+    return new TextDecoder('windows-1252').decode(buf);
+  }
+}
+
 export interface RawCsv {
   /** First non-ignored row — the header cells. */
   headers: string[];
