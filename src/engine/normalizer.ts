@@ -39,6 +39,13 @@ const REF_CODE_START_RE = /^[A-Z0-9]*\d[A-Z0-9]{5,}\s*/;
 const REF_CODE_END_RE = /\s*[A-Z0-9]*\d[A-Z0-9]{5,}$/;
 
 /**
+ * Reference codes anywhere in the string: a whole alphanumeric token of 6+
+ * characters containing at least one digit (e.g. the RT4GH7ZK0 in
+ * "AMAZON PRIME*RT4GH7ZK0 AMZN.COM/BILL WA"). Purely alphabetic words are kept.
+ */
+const REF_CODE_ANYWHERE_RE = /(?<![A-Z0-9])(?=[A-Z0-9]*\d)[A-Z0-9]{6,}(?![A-Z0-9])/g;
+
+/**
  * Phone numbers: optional country code, optional parenthesised area code,
  * 3-3-4 digits with optional space/dot/dash separators (800-555-1234,
  * (800) 555 1234, 1-800-555-1234, 8885551234).
@@ -138,6 +145,8 @@ function normalizeCore(s: string, removeAccents: boolean): string {
     // Doing this before digit removal preserves the full alphanumeric token so the
     // regex can match (e.g. "TXN20241101" → removed; otherwise digits are stripped
     // first leaving "TXN" which is < 6 chars and would not match).
+    result = result.replace(REF_CODE_ANYWHERE_RE, ' ');
+    result = result.replace(/\s+/g, ' ').trim();
     result = result.replace(REF_CODE_START_RE, '');
     result = result.replace(REF_CODE_END_RE, '');
 

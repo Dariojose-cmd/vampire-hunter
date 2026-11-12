@@ -48,6 +48,14 @@ import exchangeRatesJson from '../data/exchangeRates.json';
 const CATALOG = catalogJson as CatalogEntry[];
 const EXCHANGE_RATES = exchangeRatesJson as ExchangeRates;
 
+/**
+ * Card/loan payments received ("PAGAMENTO RECEBIDO", "PAYMENT THANK YOU",
+ * "PAGO RECIBIDO"). They are money moving into the account, never a subscription,
+ * regardless of the statement's sign convention.
+ */
+const PAYMENT_RECEIVED_RE =
+  /pagamento\s+recebido|pago\s+recibido|thank\s*you/i;
+
 // ---------------------------------------------------------------------------
 // runDetection
 // ---------------------------------------------------------------------------
@@ -78,7 +86,9 @@ export function runDetection(input: DetectionInput): DetectionResult {
 
   try {
     // Step 1: exclude credits before anything else.
-    const debits = input.transactions.filter((t) => t.type !== 'credit');
+    const debits = input.transactions.filter(
+      (t) => t.type !== 'credit' && !PAYMENT_RECEIVED_RE.test(t.description),
+    );
 
     // Step 2: normalize each surviving transaction's merchant name.
     const normalized: Transaction[] = debits.map((t) => ({
@@ -120,7 +130,17 @@ export function runDetection(input: DetectionInput): DetectionResult {
       const match = matchCatalog(candidate.normalizedName, CATALOG);
 
       // 4e. Confidence score.
-      const confidenceScore = computeScore(recurrence, match !== undefined);
+      let confidenceScore = computeScore(recurrence, match !== undefined);
+      // A 2-bite series that exists only because the second amount is higher
+      // (price-increase merge) is too thin evidence for a vampire unless the
+      // catalog backs it (e.g. a yearly membership): keep it "possible" at most.
+      if (
+        candidate.bites.length === 2 &&
+        candidate.hasPriceIncrease &&
+        match === undefined
+      ) {
+        confidenceScore = Math.min(confidenceScore, 59);
+      }
 
       // Score 0 → excluded from both lists.
       if (confidenceScore <= 0) continue;
@@ -199,6 +219,19 @@ export interface ParsedStatement {
    * header row combined. Defaults to 'USD' when no signal is found.
    */
   currency: string;
+}
+
+/** Text cells of a statement (for locale inference). Numeric-only cells are skipped. */
+function textSamples(rows: string[][], skipCols: Set<number>): string[] {
+  const out: string[] = [];
+  for (const row of rows) {
+    if (!row) continue;
+    row.forEach((cell, i) => {
+      const c = (cell ?? '').trim();
+      if (c !== '' && !skipCols.has(i) && /[a-zA-Z\u00C0-\u017F]/.test(c)) out.push(c);
+    });
+  }
+  return out;
 }
 
 /** Returns a typed AppError wrapped in a failed Result. */
@@ -313,6 +346,7 @@ export function parseStatement(
     const currency = inferCurrency(
       [...currencyColumnValues, ...amountColumnValues],
       headers,
+      textSamples(rows, new Set<number>()),
     );
 
     // Step 4: parse the rows.
@@ -400,6 +434,7 @@ export function parseWithLayout(
     const currency = inferCurrency(
       [...columnValues(currencyColIndex), ...amountColumnValues],
       headers,
+      textSamples(rows, new Set<number>()),
     );
 
     const { transactions, skipped } = parseRows(
