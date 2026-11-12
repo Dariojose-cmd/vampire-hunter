@@ -1,0 +1,19 @@
+{
+  "bank": "DKB (Germany)",
+  "currency": "EUR",
+  "window": "2024-08-01 .. 2025-07-31",
+  "signConvention": "amounts UNSIGNED, Soll/Haben column (S = debit, H = credit) gives the direction",
+  "expected": [
+    { "name": "Netflix International", "cadence": "monthly", "medianAmountCents": 1399, "bites": 12 },
+    { "name": "McFit", "cadence": "monthly", "medianAmountCents": 2490, "bites": 12 }
+  ],
+  "mustNotDetect": [
+    "Acme Software GmbH",
+    "REWE Markt GmbH"
+  ],
+  "notes": [
+    "Monthly salary (2845,50) is marked H (Haben = credit) and must not be detected as a charge.",
+    "Header uses German names: Buchungstag, Soll/Haben, Auftraggeber / Begünstigter, Verwendungszweck, Betrag (€).",
+    "Dates are DD.MM.YYYY, amounts use comma decimals."
+  ]
+}

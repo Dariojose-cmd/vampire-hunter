@@ -67,6 +67,8 @@ export interface ColumnMapperProps {
   headers: string[];
   /** True when the date format could not be inferred and must be chosen. */
   dateFormatAmbiguous: boolean;
+  /** Index of an auto-detected debit/credit indicator column, if any. */
+  detectedIndicatorCol?: number;
   onCancel: () => void;
   onConfirm: (
     layout: ColumnLayout,
@@ -79,6 +81,7 @@ export function ColumnMapper({
   language,
   headers,
   dateFormatAmbiguous,
+  detectedIndicatorCol,
   onCancel,
   onConfirm,
 }: ColumnMapperProps) {
@@ -90,6 +93,11 @@ export function ColumnMapper({
   const [amountCol, setAmountCol] = useState<number>(UNSET);
   const [debitCol, setDebitCol] = useState<number>(UNSET);
   const [creditCol, setCreditCol] = useState<number>(UNSET);
+  const [indicatorCol, setIndicatorCol] = useState<number>(
+    detectedIndicatorCol !== undefined && detectedIndicatorCol >= 0 && detectedIndicatorCol < headers.length
+      ? detectedIndicatorCol
+      : UNSET,
+  );
   const [positiveIsCharge, setPositiveIsCharge] = useState(false);
   const [dateFormat, setDateFormat] = useState<DateFormat | ''>('');
 
@@ -116,7 +124,9 @@ export function ColumnMapper({
     if (!canConfirm) return;
     const layout: ColumnLayout =
       amountCol !== UNSET
-        ? { type: 'single', amountCol, dateCol, descCol }
+        ? indicatorCol !== UNSET
+          ? { type: 'single', amountCol, dateCol, descCol, indicatorCol }
+          : { type: 'single', amountCol, dateCol, descCol }
         : {
             type: 'split',
             debitCol,
@@ -183,6 +193,16 @@ export function ColumnMapper({
           onChange={setCreditCol}
         />
 
+        {amountCol !== UNSET && (
+          <ColumnSelect
+            id="map-indicator"
+            label={t('columnMapper.indicatorColumn')}
+            placeholder={placeholder}
+            value={indicatorCol}
+            options={options}
+            onChange={setIndicatorCol}
+          />
+        )}
         {amountCol !== UNSET && (
           <div className={styles.field}>
             <label htmlFor="map-positive-charges">

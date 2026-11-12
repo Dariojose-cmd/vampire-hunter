@@ -49,6 +49,9 @@ function stripTimePart(s: string): string {
   return trimmed.replace(TIME_SUFFIX_RE, '').trim();
 }
 
+/** German-style dotted date (DD.MM.YYYY); always day-first. */
+const DOTTED_DATE_RE = /^(\d{1,2})\.(\d{1,2})\.(\d{4})$/;
+
 /** Compact YYYYMMDD date (e.g. 20251231), with plausible year/month/day ranges. */
 const COMPACT_DATE_RE = /^(?:19|20)\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])$/;
 
@@ -76,6 +79,20 @@ export function parseDate(
       const year = parseInt(trimmed.slice(0, 4), 10);
       const month = parseInt(trimmed.slice(4, 6), 10);
       const day = parseInt(trimmed.slice(6, 8), 10);
+      if (!isValidDate(year, month, day)) {
+        return parseFailed(
+          `"${trimmed}" is not a real calendar date (year=${year}, month=${month}, day=${day})`,
+        );
+      }
+      return { ok: true, value: `${year}-${pad2(month)}-${pad2(day)}` };
+    }
+
+    // Dotted DD.MM.YYYY (German/Central European) is unambiguously day-first.
+    const dotted = DOTTED_DATE_RE.exec(trimmed);
+    if (dotted) {
+      const day = parseInt(dotted[1], 10);
+      const month = parseInt(dotted[2], 10);
+      const year = parseInt(dotted[3], 10);
       if (!isValidDate(year, month, day)) {
         return parseFailed(
           `"${trimmed}" is not a real calendar date (year=${year}, month=${month}, day=${day})`,
@@ -180,6 +197,9 @@ export function inferDateFormat(column: string[]): DateFormat | 'ambiguous' {
     if (raw == null) continue;
     const value = stripTimePart(raw);
     if (value === '') continue;
+
+    // Dotted DD.MM.YYYY is always day-first.
+    if (DOTTED_DATE_RE.test(value)) return 'DD/MM/YYYY';
 
     // The DD/MM vs MM/DD ambiguity only applies to slash-separated dates.
     // Hyphen-separated values follow YYYY-MM-DD where the first segment is a
@@ -361,8 +381,8 @@ function isCompactDateColumn(values: string[]): boolean {
   );
 }
 
-const DEBIT_INDICATORS = new Set(['af', 'd', 'db', 'deb', 'dr', 'debit', 'debito', 'cargo']);
-const CREDIT_INDICATORS = new Set(['bij', 'c', 'cr', 'cred', 'credit', 'credito', 'abono']);
+const DEBIT_INDICATORS = new Set(['af', 'd', 'db', 'deb', 'dr', 'debit', 'debito', 'cargo', 's', 'soll']);
+const CREDIT_INDICATORS = new Set(['bij', 'c', 'cr', 'cred', 'credit', 'credito', 'abono', 'h', 'haben']);
 
 /** Lowercases, trims and strips accents. */
 function foldText(s: string): string {
@@ -382,10 +402,28 @@ export function classifyIndicator(value: string): 'debit' | 'credit' | null {
 
 /** Headers that denote a debit/credit indicator column (after accent folding). */
 const INDICATOR_HEADER_RE =
-  /^(?:af\s*\/?\s*bij|d\s*\/\s*c|db\s*\/\s*cr|cr\s*\/\s*db|debito\s*\/\s*credito|debit\s*\/\s*credit|cargo\s*\/\s*abono)$/;
+  /^(?:af\s*\/?\s*bij|d\s*\/\s*c|db\s*\/\s*cr|cr\s*\/\s*db|debito\s*\/\s*credito|debit\s*\/\s*credit|cargo\s*\/\s*abono|soll\s*\/?\s*haben|s\s*\/\s*h)$/;
+
+/**
+ * Finds a debit/credit indicator column: the header must match
+ * INDICATOR_HEADER_RE and every non-empty value must be in the indicator
+ * vocabulary. Returns -1 when none is found.
+ */
+export function detectIndicatorCol(headers: string[], rows: string[][]): number {
+  for (let i = 0; i < headers.length; i++) {
+    if (!INDICATOR_HEADER_RE.test(foldText(headers[i] ?? ''))) continue;
+    const values = rows
+      .map((r) => (r?.[i] ?? '').trim())
+      .filter((v) => v !== '');
+    if (values.length > 0 && values.every((v) => classifyIndicator(v) !== null)) {
+      return i;
+    }
+  }
+  return -1;
+}
 
 /** Headers that denote a date column. */
-const DATE_HEADER_RE = /date|fecha|data\b|^dat$|[^a-z]dat[^a-z]/;
+const DATE_HEADER_RE = /date|buchungstag|buchungsdatum|fecha|data\b|^dat$|[^a-z]dat[^a-z]/;
 /** Headers that denote a running balance column. */
 const BALANCE_HEADER_RE = /balance|saldo/;
 
@@ -418,17 +456,7 @@ export function detectColumns(
   // Indicator column (checked before debit/credit keywords so "Débito/Crédito"
   // never becomes a split debit column). Needs a matching header AND at least
   // one non-empty value, all within the debit/credit vocabulary.
-  let indicatorCol = -1;
-  for (let i = 0; i < headers.length; i++) {
-    if (!INDICATOR_HEADER_RE.test(foldText(headers[i] ?? ''))) continue;
-    const values = rows
-      .map((r) => (r?.[i] ?? '').trim())
-      .filter((v) => v !== '');
-    if (values.length > 0 && values.every((v) => classifyIndicator(v) !== null)) {
-      indicatorCol = i;
-      break;
-    }
-  }
+  const indicatorCol = detectIndicatorCol(headers, rows);
 
   // Revolut-style exports have "Started Date" and "Completed Date": prefer the
   // completed one (the settled date); otherwise the first date-like header wins.
@@ -454,7 +482,7 @@ export function detectColumns(
 
     // Description keywords. "detail(s)" is a weak match: Chase uses it for the
     // DEBIT/CREDIT flag, so a real description column always wins over it.
-    if (descCol === -1 && /desc|concept|narrat|descripcion|title|titulo|título|merchant|payee|lan[cç]amento|hist[oó]rico|omschrijving|\bnaam\b/.test(h)) {
+    if (descCol === -1 && /desc|concept|narrat|descripcion|title|titulo|título|merchant|payee|lan[cç]amento|hist[oó]rico|omschrijving|\bnaam\b|verwendungszweck|auftraggeber|beg[uü]nstigter|libell[eé]/.test(h)) {
       descCol = i;
       continue;
     }
@@ -476,7 +504,7 @@ export function detectColumns(
     }
 
     // Single amount keywords
-    if (amountCol === -1 && /amount|monto|importe|valor|total|bedrag/.test(h)) {
+    if (amountCol === -1 && /amount|monto|importe|valor|total|bedrag|betrag|montant/.test(h)) {
       amountCol = i;
       continue;
     }

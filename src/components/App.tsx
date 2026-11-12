@@ -13,6 +13,7 @@
 
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useReducedMotion } from 'framer-motion';
+import { detectIndicatorCol } from '@engine/parser';
 import {
   parseStatement,
   parseWithLayout,
@@ -253,6 +254,7 @@ export function App() {
             language={language}
             headers={pendingCsv.headers}
             dateFormatAmbiguous={dateAmbiguous}
+            detectedIndicatorCol={detectIndicatorCol(pendingCsv.headers, pendingCsv.rows)}
             onCancel={reset}
             onConfirm={handleMapperConfirm}
           />

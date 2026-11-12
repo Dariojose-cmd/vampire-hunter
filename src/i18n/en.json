@@ -39,6 +39,7 @@
     "amountColumn": "Amount column",
     "debitColumn": "Debit column",
     "creditColumn": "Credit column",
+    "indicatorColumn": "Debit/credit indicator column (optional)",
     "positiveCharges": "Charges appear as positive numbers",
     "positiveChargesHint": "Check this if purchases are positive and payments or refunds are negative (common in credit card exports).",
     "dateFormat": "Date format",
