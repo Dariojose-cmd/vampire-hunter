@@ -25,6 +25,7 @@
       "us": "US Bank (USD, dot decimal)",
       "mxn": "Mexican Bank (MXN, comma decimal)",
       "cop": "Colombian Bank (COP, dot thousands)",
+      "amex": "US Credit Card (USD, charges as positive)",
       "messy": "Messy Statement (stress test)",
       "close": "Close sample picker"
     }

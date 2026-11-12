@@ -96,10 +96,12 @@ describe('Amex-style positive-charge statement (end to end)', () => {
       transactions: parsed.value.transactions,
       currency: parsed.value.currency,
     });
+    expect(vampires.map((v) => v.id).sort()).toEqual(
+      ['AMAZON PRIME*MEMBERSHIP_0', 'NETFLIX.COM_0', 'SPOTIFY USA_0'],
+    );
     const names = vampires.map((v) => v.displayName.toLowerCase()).join('|');
-    expect(vampires.length).toBeGreaterThanOrEqual(3);
-    expect(names).toContain('netflix');
     expect(names).not.toContain('payment');
+    expect(names).not.toContain('whole foods');
   });
 
   it('explicit override works through parseWithLayout', () => {
@@ -108,7 +110,7 @@ describe('Amex-style positive-charge statement (end to end)', () => {
     expect(parsed.ok).toBe(true);
     if (!parsed.ok) return;
     expect(runDetection({ transactions: parsed.value.transactions, currency: 'USD' }).vampires.length)
-      .toBeGreaterThanOrEqual(3);
+      .toBe(3);
   });
 });
 

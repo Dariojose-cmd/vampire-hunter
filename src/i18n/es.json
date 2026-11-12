@@ -25,6 +25,7 @@
       "us": "Banco de EE.UU. (USD, punto decimal)",
       "mxn": "Banco mexicano (MXN, coma decimal)",
       "cop": "Banco colombiano (COP, punto de miles)",
+      "amex": "Tarjeta de EE.UU. (USD, cargos positivos)",
       "messy": "Estado desordenado (prueba de robustez)",
       "close": "Cerrar selector de ejemplos"
     }

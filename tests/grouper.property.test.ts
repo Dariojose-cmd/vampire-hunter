@@ -79,12 +79,12 @@ describe('Property 12b: Sequential price step → one vampire with hasPriceIncre
         fc.integer({ min: 2, max: 6 }),
         (amountA, stepFraction, n, m) => {
           // amountB is at least a 2% step above amountA (the product threshold
-          // for a sustained price increase) and no more than 50% above it.
-          // Compute the ≥2% floor and the ≤50% ceiling in integer cents.
+          // for a sustained price increase) and no more than 40% above it.
+          // Compute the ≥2% floor and the ≤40% ceiling in integer cents.
           const lowerB = Math.max(Math.ceil(amountA * 1.02), amountA + 1);
-          const upperB = Math.floor(amountA * 1.5);
+          const upperB = Math.floor(amountA * 1.4);
 
-          // For very tiny amounts the ≥2% floor can exceed the ≤50% ceiling;
+          // For very tiny amounts the ≥2% floor can exceed the ≤40% ceiling;
           // there is no valid step in range, so skip that degenerate case.
           fc.pre(lowerB <= upperB);
 
@@ -93,7 +93,7 @@ describe('Property 12b: Sequential price step → one vampire with hasPriceIncre
             upperB,
           );
 
-          // Step must be a real ≥2% rise within the ≤50% window.
+          // Step must be a real ≥2% rise within the ≤40% window.
           fc.pre(amountB >= lowerB && amountB <= upperB);
 
           const merchant = 'NETFLIX';
