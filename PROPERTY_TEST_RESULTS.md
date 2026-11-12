@@ -1,16 +1,18 @@
 # Property-Based Test Results
 
-Fast-check property tests for the detection engine, each running `{ numRuns: 1000 }`.
+Fast-check property tests for the detection engine. Run counts are listed per property (the original properties run `{ numRuns: 1000 }`).
 Command: `npm test` (`vitest run`).
 
 This document is a **before/after record**: it captures what each property revealed
 *before* the fix (the verbatim fast-check counterexample), and what changed to make it
 pass.
 
-## Summary (after review-feedback fixes)
+## Summary
 
-- **Test files:** 12 passed (12 total)
-- **Tests:** 206 passed (206 total)
+Verified with `npx vitest run`:
+
+- **Test files:** 40 passed (40 total)
+- **Tests:** 580 passed (580 total)
 - Two real engine behaviors were surfaced by the properties and fixed in `src/`:
   - **Property 1** (normalizer idempotence) — once the generator was made
     bank-like it exposed that a single cleanup pass is not a fixpoint. Fixed by
@@ -33,6 +35,17 @@ pass.
 | 11 — Thousands-Separator Detection | `tests/parser.property.test.ts` | PASS (1000 runs) |
 | 12a — Interleaved series → two vampires | `tests/grouper.property.test.ts` | PASS (1000 runs) |
 | 12b — Sequential price step → one vampire w/ hasPriceIncrease | `tests/grouper.property.test.ts` | PASS (1000 runs) |
+| Audible band (Property 13, spec `ux-burn-garlic-sound-fixes`): nothing below 100 Hz, no LFO, wind Q/centre, chord set, bell partials, delay and feedback | `tests/soundEngine.test.ts` | PASS (100 runs) |
+| Income is never a vampire | `tests/bankFormatParser.test.ts` | PASS (25 runs) |
+| Indicator column wins over the amount sign | `tests/bankFormatParser.test.ts` | PASS (fast-check default, 100 runs) |
+| Compact date (YYYYMMDD) round trip | `tests/bankFormatParser.test.ts` | PASS (fast-check default, 100 runs) |
+| 2-bite uncatalogued series is never a vampire | `tests/bankFormatParser.test.ts` | PASS (50 runs) |
+| Description fallback picks the widest text column | `tests/bankFormatParser.test.ts` | PASS (fast-check default, 100 runs) |
+| Creeping amounts: a strictly rising uncatalogued monthly series never yields a vampire | `tests/bankFormatParser.test.ts` | PASS (50 runs) |
+
+The last six come from the Bug Fix spec `bank-format-parser-fixes`. The same file also has
+two related properties: a keyword header wins over a wider text column, and flat multi-plan
+merchants keep their vampires (50 runs; the header property uses the fast-check default).
 
 ---
 
@@ -283,7 +296,7 @@ cluster-index convention, and Step 2b merge logic plus the
 Result: Property 3b now **passes at 1000 runs** — identical sorted vampire ids
 and identical per-cluster bite memberships across every random permutation —
 Properties 3/4/5/8 still pass (Property 3's and 5's ≥ 80% coverage guards still
-hold), and the full suite is green: **16 test files / 243 tests passed**, with
+hold), and the full suite was green at that time: **16 test files / 243 tests passed** (historical figure; see Summary for the current totals), with
 `npx tsc -b` clean.
 
 ---
