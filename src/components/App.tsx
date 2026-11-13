@@ -35,6 +35,7 @@ import { ColumnMapper } from './ColumnMapper';
 import { Crypt } from './Crypt';
 import { LanguageSwitch } from './LanguageSwitch';
 import { CurrencySelector } from './CurrencySelector';
+import { RatesNote } from './RatesNote';
 import { BurnButton } from './BurnButton';
 import { BurnOverlay } from './BurnOverlay';
 import { Icon } from './Icon';
@@ -285,6 +286,7 @@ export function App() {
 
       <footer className={styles.footer}>
         <PrivacySeal language={language} state={sealState} />
+        <RatesNote language={language} />
       </footer>
 
       {burnPhase === 'burning' && <BurnOverlay onComplete={onBurnComplete} />}

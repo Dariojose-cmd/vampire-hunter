@@ -6,8 +6,6 @@
  */
 
 import { useTranslation, type Language } from '@i18n/index';
-import { formatRatesDate } from './format';
-import exchangeRates from '../data/exchangeRates.json';
 import styles from './App.module.css';
 
 /** Supported display currencies (mirror of exchangeRates.json keys). */
@@ -35,9 +33,6 @@ export function CurrencySelector({ language, currency, onChange }: CurrencySelec
       >
         {CURRENCIES.map((c) => <option key={c} value={c}>{c}</option>)}
       </select>
-      <small className={styles.ratesNote}>
-        {t('currencySelector.ratesNote', { date: formatRatesDate(exchangeRates.asOf, language) })}
-      </small>
     </div>
   );
 }

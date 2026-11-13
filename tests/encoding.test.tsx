@@ -7,7 +7,7 @@ import { describe, it, expect, afterEach } from 'vitest';
 import { cleanup, render, screen } from '@testing-library/react';
 import { decodeCsvBytes, parseCsvText } from '@components/csvUtils';
 import { parseStatement } from '../src/engine/index';
-import { CurrencySelector } from '@components/CurrencySelector';
+import { RatesNote } from '@components/RatesNote';
 import { formatRatesDate } from '@components/format';
 import { BurnOverlay } from '@components/BurnOverlay';
 import exchangeRates from '../src/data/exchangeRates.json';
@@ -57,10 +57,10 @@ describe('CurrencySelector rates note', () => {
 
   it('shows the approximate-rates note in EN and ES', () => {
     expect(exchangeRates.asOf).toMatch(/^\d{4}-\d{2}-\d{2}$/);
-    render(<CurrencySelector language="en" currency="USD" onChange={() => {}} />);
+    render(<RatesNote language="en" />);
     expect(screen.getByText(`Approximate rates as of ${formatRatesDate(exchangeRates.asOf, 'en')}`, { exact: false })).toBeTruthy();
     cleanup();
-    render(<CurrencySelector language="es" currency="USD" onChange={() => {}} />);
+    render(<RatesNote language="es" />);
     expect(screen.getByText(`Tasas aproximadas al ${formatRatesDate(exchangeRates.asOf, 'es')}`, { exact: false })).toBeTruthy();
   });
 });
