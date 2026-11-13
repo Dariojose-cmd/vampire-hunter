@@ -9,9 +9,9 @@
  * Focus is trapped lightly: Escape closes, the first option auto-focuses.
  */
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, type ReactNode } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { useTranslation, type Language } from '@i18n/index';
+import { useTranslation, type Language, type TranslationKey } from '@i18n/index';
 import { Icon, type IconName } from './Icon';
 import styles from './SamplePicker.module.css';
 
@@ -42,9 +42,13 @@ export interface SamplePickerProps {
   /** Called with the selected sample's filename and its raw CSV text. */
   onPick: (fileName: string, csvText: string) => void;
   onClose: () => void;
+  /** Called with an i18n key when a sample fails to load (offline, non-OK). */
+  onError?: (errorKey: TranslationKey) => void;
+  /** Rendered at the bottom of the dialog panel (e.g. the privacy seal). */
+  sealSlot?: ReactNode;
 }
 
-export function SamplePicker({ language, onPick, onClose }: SamplePickerProps) {
+export function SamplePicker({ language, onPick, onClose, onError, sealSlot }: SamplePickerProps) {
   const { t } = useTranslation(language);
   const reduce = useReducedMotion();
   const firstBtnRef = useRef<HTMLButtonElement>(null);
@@ -62,8 +66,15 @@ export function SamplePicker({ language, onPick, onClose }: SamplePickerProps) {
     // Samples live under /samples served as static, same-origin assets.
     // This is a bundled-asset read, not a data upload; no user data leaves
     // the device and no third party is contacted.
-    const res = await fetch(`${import.meta.env.BASE_URL}samples/${file}`);
-    const text = await res.text();
+    let text: string;
+    try {
+      const res = await fetch(`${import.meta.env.BASE_URL}samples/${file}`);
+      if (!res.ok) throw new Error(`Sample load failed: ${res.status}`);
+      text = await res.text();
+    } catch {
+      onError?.('errors.assetUnavailableOffline');
+      return;
+    }
     onPick(file, text);
   }
 
@@ -111,6 +122,8 @@ export function SamplePicker({ language, onPick, onClose }: SamplePickerProps) {
           <button type="button" className={styles.close} onClick={onClose}>
             {t('upload.samplePicker.close')}
           </button>
+
+          {sealSlot}
         </motion.div>
       </motion.div>
     </AnimatePresence>

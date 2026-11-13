@@ -116,7 +116,7 @@ describe('Burn flow in the real App (Req 8.1, 8.2, 12.6, 12.9, 12.10)', () => {
     );
     vi.stubGlobal(
       'fetch',
-      vi.fn(async () => ({ text: async () => csv }) as unknown as Response),
+      vi.fn(async () => ({ ok: true, status: 200, text: async () => csv }) as unknown as Response),
     );
 
     const { App } = await import('@components/App');

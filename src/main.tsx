@@ -3,6 +3,9 @@ import { createRoot } from 'react-dom/client'
 import '@styles/global.css'
 import './index.css'
 import App from '@components/App'
+import { raiseResourceTimingBuffer } from '@components/resourceTiming'
+
+raiseResourceTimingBuffer()
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

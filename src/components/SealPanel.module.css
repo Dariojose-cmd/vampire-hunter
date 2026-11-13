@@ -1,0 +1,52 @@
+.panel {
+  margin-top: 0.5rem;
+  padding: 0.75rem 1rem;
+  max-width: 36rem;
+  background: var(--seal-panel-bg);
+  color: var(--seal-panel-text);
+  border: 1px solid currentColor;
+  border-radius: 8px;
+  line-height: var(--seal-line-height);
+  text-align: left;
+}
+
+.panel[hidden] {
+  display: none;
+}
+
+.title {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  color: inherit;
+}
+
+.status {
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+}
+
+.text {
+  margin: 0 0 0.5rem;
+}
+
+.close {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.5rem 1rem;
+  font: inherit;
+  color: var(--seal-text);
+  background: var(--seal-bg);
+  border: 1px solid currentColor;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color var(--seal-transition);
+}
+
+.close:hover {
+  background: var(--seal-bg-hover);
+}
+
+.close:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}

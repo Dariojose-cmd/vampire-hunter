@@ -8,7 +8,7 @@
  * `onCsv` and never leaves the device.
  */
 
-import { useRef, useState } from 'react';
+import { useRef, useState, type ReactNode } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useTranslation, type Language, type TranslationKey } from '@i18n/index';
 import { decodeCsvBytes, isCsvFile } from './csvUtils';
@@ -26,9 +26,13 @@ export interface UploaderProps {
   onDismissError?: () => void;
   /** Receives the source name and raw CSV text for in-browser parsing. */
   onCsv: (sourceName: string, csvText: string) => void;
+  /** Called with an i18n key when a bundled sample fails to load. */
+  onSampleError?: (errorKey: TranslationKey) => void;
+  /** Forwarded to the sample picker dialog (e.g. the privacy seal). */
+  sealSlot?: ReactNode;
 }
 
-export function Uploader({ language, errorKey, onDismissError, onCsv }: UploaderProps) {
+export function Uploader({ language, errorKey, onDismissError, onCsv, onSampleError, sealSlot }: UploaderProps) {
   const { t } = useTranslation(language);
   const reduce = useReducedMotion();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -158,6 +162,8 @@ export function Uploader({ language, errorKey, onDismissError, onCsv }: Uploader
           language={language}
           onPick={(file, text) => { setShowSamples(false); onCsv(file, text); }}
           onClose={() => setShowSamples(false)}
+          onError={(key) => { setShowSamples(false); onSampleError?.(key); }}
+          sealSlot={sealSlot}
         />
       )}
     </section>

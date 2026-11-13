@@ -1,5 +1,5 @@
 import { resolve } from 'node:path'
-import { defineConfig } from 'vitest/config'
+import { configDefaults, defineConfig } from 'vitest/config'
 
 export default defineConfig({
   test: {
@@ -7,6 +7,7 @@ export default defineConfig({
     globals: true,
     // Property tests run 1000+ cases; 5s default is too tight on a busy laptop.
     testTimeout: 30000,
+    exclude: [...configDefaults.exclude, 'e2e/**', 'tests/build/**'],
     include: ['src/**/*.{test,spec}.{ts,tsx}', 'tests/**/*.{test,spec}.{ts,tsx}'],
   },
   resolve: {

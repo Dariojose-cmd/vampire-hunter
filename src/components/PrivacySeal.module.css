@@ -1,0 +1,65 @@
+.seal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 100%;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 44px;
+  min-height: 44px;
+  max-width: 100%;
+  padding: 0.5rem 0.875rem;
+  font: inherit;
+  font-size: 0.875rem;
+  line-height: var(--seal-line-height);
+  text-align: left;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  color: var(--seal-text);
+  background: var(--seal-bg);
+  border: 1px solid currentColor;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color var(--seal-transition);
+}
+
+.button:hover {
+  background: var(--seal-bg-hover);
+}
+
+.button[aria-expanded='true'] {
+  background: var(--seal-bg-expanded);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.offline {
+  color: var(--seal-offline-text);
+}
+
+.icon {
+  flex: none;
+}
+
+.label {
+  min-width: 0;
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

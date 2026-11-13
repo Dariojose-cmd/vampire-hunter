@@ -116,6 +116,13 @@
   position: relative;
 }
 
+.footer {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-3) var(--space-5);
+  border-top: 1px solid var(--color-stone-line);
+}
+
 @media (max-width: 480px) {
   .topBar { flex-direction: column; align-items: stretch; gap: var(--space-2); }
   .controls { justify-content: space-between; gap: var(--space-2); min-width: 0; }

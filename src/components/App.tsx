@@ -38,6 +38,8 @@ import { CurrencySelector } from './CurrencySelector';
 import { BurnButton } from './BurnButton';
 import { BurnOverlay } from './BurnOverlay';
 import { Icon } from './Icon';
+import { PrivacySeal } from './PrivacySeal';
+import { usePrivacySeal } from './usePrivacySeal';
 import styles from './App.module.css';
 
 type View = 'upload' | 'mapper' | 'results';
@@ -77,6 +79,11 @@ export function App() {
   const [pendingCsv, setPendingCsv] = useState<{ headers: string[]; rows: string[][] } | null>(null);
   const [dateAmbiguous, setDateAmbiguous] = useState(false);
   const [currencyNotDetected, setCurrencyNotDetected] = useState(false);
+
+  // Mapper view counts as "statement loaded" for the offline-status logic.
+  const viewRef = useRef<View>(view);
+  useLayoutEffect(() => { viewRef.current = view; }, [view]);
+  const sealState = usePrivacySeal(() => viewRef.current !== 'upload');
 
   const { t } = useTranslation(language);
   const sound = useSoundEngine(soundEnabled);
@@ -246,6 +253,8 @@ export function App() {
             errorKey={errorKey}
             onDismissError={() => setErrorKey(null)}
             onCsv={handleCsv}
+            onSampleError={(key) => setErrorKey(key)}
+            sealSlot={<PrivacySeal language={language} state={sealState} announce={false} />}
           />
         )}
 
@@ -273,6 +282,10 @@ export function App() {
         )}
 
       </main>
+
+      <footer className={styles.footer}>
+        <PrivacySeal language={language} state={sealState} />
+      </footer>
 
       {burnPhase === 'burning' && <BurnOverlay onComplete={onBurnComplete} />}
     </div>

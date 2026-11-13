@@ -187,7 +187,33 @@
     "tip": "Tip: los vampiros se esconden en cargos recurrentes como streaming, almacenamiento en la nube y membresías de gimnasios."
   },
 
+  "seal": {
+    "full": {
+      "connections": "Conexiones a otros servidores: {{count}}",
+      "connectionsNotMeasurable": "Conexiones a otros servidores: no medible en este navegador",
+      "offlineReady": "Funciona sin conexión: listo",
+      "offlinePreparing": "Funciona sin conexión: preparando",
+      "offlineNow": "Sin conexión — sigue funcionando",
+      "offlineUnavailable": "Funciona sin conexión: no disponible"
+    },
+    "compact": {
+      "connections": "{{count}} conexiones externas",
+      "connectionsNotMeasurable": "conexiones no medibles en este navegador",
+      "offlineReady": "listo sin conexión",
+      "offlinePreparing": "preparando sin conexión",
+      "offlineNow": "sin conexión · sigue funcionando",
+      "offlineUnavailable": "sin conexión no disponible"
+    },
+    "panelTitle": "¿Cómo lo sabemos?",
+    "panelClose": "Cerrar",
+    "panelCsp": "Esta página le indica a tu navegador que solo se conecte a su propia dirección (política CSP).",
+    "panelMeasured": "La página mide la cuenta con la lista de tiempos de recursos del navegador.",
+    "panelBlocked": "El navegador bloquea lo que la política prohíbe; esas solicitudes pueden no aparecer.",
+    "panelHowTo": "Para comprobarlo: abre las herramientas de desarrollo, pestaña Red (Network), recarga, elige una solicitud y busca el encabezado Content-Security-Policy."
+  },
+
   "errors": {
+    "assetUnavailableOffline": "Este archivo aún no está disponible sin conexión. Conéctate una vez e inténtalo de nuevo.",
     "fileNotCsv": "Ese archivo no parece un CSV. Por favor sube un archivo .csv.",
     "parseFailed": "No pudimos leer tu archivo. Asegúrate de que sea un CSV válido e inténtalo de nuevo.",
     "columnMappingNeeded": "No pudimos determinar el diseño de columnas. Por favor asígnalas manualmente.",

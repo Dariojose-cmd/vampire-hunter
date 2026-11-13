@@ -1,29 +1,24 @@
 import react from '@vitejs/plugin-react'
-import { readFileSync } from 'node:fs'
 import { resolve } from 'path'
-import { defineConfig } from 'vite'
+import { defineConfig, type Plugin } from 'vite'
+import { previewHeaders } from './build/previewHeaders.ts'
 
-/**
- * Read the response headers from customHttp.yml (the file Amplify serves) so
- * `vite preview` sends exactly the same CSP and security headers.
- * Line-based on purpose: each header is `- key: X` followed by `value: "Y"`.
- */
-function readAmplifyHeaders(): Record<string, string> {
-  const text = readFileSync(resolve(import.meta.dirname, 'customHttp.yml'), 'utf8')
-  const headers: Record<string, string> = {}
-  for (const m of text.matchAll(/^\s*-\s*key:\s*(\S+)\s*\n\s*value:\s*"(.*)"\s*$/gm)) {
-    headers[m[1]] = m[2]
+// Test-only: emits marker.txt when VH_E2E_MARKER is set (update-path e2e). Never in a normal build.
+function e2eMarker(): Plugin | null {
+  const marker = process.env.VH_E2E_MARKER
+  if (!marker) return null
+  return {
+    name: 'vh-e2e-marker',
+    generateBundle() {
+      this.emitFile({ type: 'asset', fileName: 'marker.txt', source: marker })
+    },
   }
-  return headers
 }
 
 // https://vite.dev/config/
 export default defineConfig({
   base: '/',
-  plugins: [react()],
-  // Only the production-like preview server gets the strict CSP. The dev
-  // server needs inline scripts / eval for HMR, so it is left alone.
-  preview: { headers: readAmplifyHeaders() },
+  plugins: [react(), previewHeaders(), e2eMarker()],
   resolve: {
     alias: {
       '@engine': resolve(import.meta.dirname, 'src/engine'),

@@ -100,4 +100,23 @@
   --color-altar:         #15131f;   /* darker stone of the altar/tome surface */
   --color-altar-edge:    #2a2338;   /* lit stone edge */
   --color-stone-line:    rgba(192, 57, 43, 0.35); /* blood-red hairline borders */
+
+  /* ── Privacy seal ────────────────────────────
+     Aliases of opaque colors only, so contrast can be measured.
+     Every text/background pair must be >= 4.5:1 (see tests/sealTokens.contrast.test.ts). */
+  --seal-bg:            var(--color-surface);      /* default, focus, online, offline */
+  --seal-text:          var(--color-text);
+  --seal-bg-hover:      var(--color-altar-edge);
+  --seal-bg-expanded:   var(--color-altar);
+  --seal-offline-text:  var(--color-candle);
+  --seal-panel-bg:      var(--color-altar);
+  --seal-panel-text:    var(--color-text);
+  --seal-line-height:   1.4;                       /* explicit label line-height (2 lines at 360px) */
+  --seal-transition:    var(--transition-fast);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --seal-transition: 0ms;
+  }
 }

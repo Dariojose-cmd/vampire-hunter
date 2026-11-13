@@ -187,7 +187,33 @@
     "tip": "Tip: vampires hide in recurring charges like streaming, cloud storage, and gym memberships."
   },
 
+  "seal": {
+    "full": {
+      "connections": "Connections to other servers: {{count}}",
+      "connectionsNotMeasurable": "Connections to other servers: not measurable in this browser",
+      "offlineReady": "Works offline: ready",
+      "offlinePreparing": "Works offline: preparing",
+      "offlineNow": "You're offline — still working",
+      "offlineUnavailable": "Works offline: not available"
+    },
+    "compact": {
+      "connections": "{{count}} external connections",
+      "connectionsNotMeasurable": "connections not measurable in this browser",
+      "offlineReady": "offline ready",
+      "offlinePreparing": "offline preparing",
+      "offlineNow": "offline · still working",
+      "offlineUnavailable": "offline not available"
+    },
+    "panelTitle": "How do we know?",
+    "panelClose": "Close",
+    "panelCsp": "This page's Content-Security-Policy tells your browser to connect only to this site's own address.",
+    "panelMeasured": "The count is measured by the page itself, from the browser's resource timing list for this page.",
+    "panelBlocked": "The browser blocks requests the policy forbids, so blocked ones may not appear.",
+    "panelHowTo": "To check: open developer tools, choose the Network tab, reload, click the first request, and read the Content-Security-Policy response header."
+  },
+
   "errors": {
+    "assetUnavailableOffline": "This file isn't available offline yet. Reconnect once and try again.",
     "fileNotCsv": "That file doesn't look like a CSV. Please upload a .csv file.",
     "parseFailed": "We couldn't read your file. Make sure it's a valid CSV and try again.",
     "columnMappingNeeded": "We couldn't figure out your column layout. Please assign the columns manually.",
