@@ -19,7 +19,7 @@ Every task and every test in this plan is required, including all property tests
     - If any advisory names `xlsx` or a package SheetJS added, report the advisory to the user before this task is marked complete
     - _Requirements: 8.3, 8.4_
 
-- [ ] 2. Implement headerKeywords and Header_Locator
+- [x] 2. Implement headerKeywords and Header_Locator
   - [x] 2.1 Extract shared header keywords
     - Create `src/engine/headerKeywords.ts` exporting the date, description and amount keyword regexes currently inside `src/engine/parser.ts`
     - Update `parser.ts` (`detectColumns`) to import them, with no change in behavior

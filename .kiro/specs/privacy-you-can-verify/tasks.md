@@ -330,7 +330,7 @@ All code is TypeScript (strict). Engine modules have no React imports. No task e
 - [x] 14. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 15. Post-deploy verification checklist (MANUAL, cannot be automated before deploy)
+- [x] 15. Post-deploy verification checklist (MANUAL, cannot be automated before deploy)
   - [x] 15.1 MANUAL: verify headers on the live Amplify site with `curl -sI`
     - **Done 2026-11-12 after deploy of e04e634** (reviewer, Claude Code). All five paths: HTTP 200; CSP present and byte-equal to `tests/baselines/csp.txt`; nosniff, Referrer-Policy and Permissions-Policy present. `Cache-Control: no-cache` on `/`, `/index.html`, `/sw.js`, `/manifest.webmanifest`; `public, max-age=31536000, immutable` on `/assets/index-DOD8gklk.js`. `/sw.js` is `text/javascript`. So Amplify merges overlapping patterns (`**` + per-path); the fallback was not needed.
     - Live offline check (Chrome, playwright-core): seal ready → `setOffline(true)` → reload served `fromServiceWorker: true` (200) → seal "0 external connections · offline · still working" → sample loaded, 10 vampires; only the app's own host contacted; 0 console errors. Playwright's `waitForFunction` was itself blocked by the live CSP (no `unsafe-eval`).
