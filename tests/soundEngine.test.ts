@@ -3,6 +3,11 @@ import * as fc from 'fast-check'
 import { SOUND_CONFIG } from '../src/audio/soundConfig'
 import { createSoundEngine, type AudioContextLike, type SoundEngine } from '../src/audio/soundEngine'
 
+// These property tests are CPU-bound (Property 6 takes ~23 s on its own). Under
+// load (e.g. screen recording) they exceeded the global 30 s timeout although
+// they pass; give this file more headroom instead of fewer runs.
+vi.setConfig({ testTimeout: 120_000 })
+
 // ---------------------------------------------------------------------------
 // Reusable fake Web Audio implementation.
 //
