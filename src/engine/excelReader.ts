@@ -6,7 +6,7 @@
 
 import type * as XLSXNamespace from 'xlsx';
 import { DATE_HEADER_RE } from './headerKeywords';
-import { locateHeader } from './headerLocator';
+import { isHeaderRow, locateHeader } from './headerLocator';
 import type { ExcelReadResult } from './types';
 
 type XLSXModule = typeof XLSXNamespace;
@@ -141,6 +141,85 @@ function hasWorkbookSignature(bytes: ArrayBuffer): boolean {
   return starts(ZIP_MAGIC) || starts(OLE2_MAGIC);
 }
 
+// ---------------------------------------------------------------------------
+// HTML disguised as .xls
+// ---------------------------------------------------------------------------
+// Many banks (common in Latin America) download an HTML page with a .xls
+// extension. Excel opens it, so users believe it is a spreadsheet. We parse it
+// with the browser's inert DOMParser (no scripts run, nothing is fetched) and
+// pick the <table> that holds the statement.
+
+/** Decodes bytes as UTF-8, falling back to Windows-1252 for legacy exports. */
+function decodeText(bytes: ArrayBuffer): string {
+  try {
+    return new TextDecoder('utf-8', { fatal: true }).decode(bytes);
+  } catch {
+    return new TextDecoder('windows-1252').decode(bytes);
+  }
+}
+
+/** True when the bytes start (after a BOM/whitespace) like an HTML document. */
+function looksLikeHtml(bytes: ArrayBuffer): boolean {
+  const head = new TextDecoder('utf-8').decode(new Uint8Array(bytes, 0, Math.min(2048, bytes.byteLength)));
+  const t = head.replace(/^\uFEFF/, '').trimStart().toLowerCase();
+  return t.startsWith('<!doctype html') || t.startsWith('<html') || t.startsWith('<table') ||
+    (t.startsWith('<') && t.includes('<table'));
+}
+
+/** Cell text with whitespace collapsed (nbsp included). */
+function cellText(cell: Element): string {
+  return (cell.textContent ?? '').replace(/[\s\u00a0]+/g, ' ').trim();
+}
+
+/** A table's own rows (nested tables excluded), with colspans expanded. */
+function tableGrid(table: HTMLTableElement): string[][] {
+  const grid: string[][] = [];
+  for (const row of Array.from(table.rows)) {
+    const out: string[] = [];
+    for (const cell of Array.from(row.cells)) {
+      out.push(cellText(cell));
+      const span = Math.min(Math.max(cell.colSpan || 1, 1), 50);
+      for (let i = 1; i < span; i++) out.push('');
+    }
+    grid.push(out);
+  }
+  return grid;
+}
+
+function hasData(grid: string[][]): boolean {
+  return grid.some((r) => r.some((c) => c !== ''));
+}
+
+/**
+ * Picks the statement table: the first one with a recognisable header row in
+ * its first 30 rows; otherwise the table with the most non-empty rows.
+ */
+function pickStatementGrid(grids: string[][][]): string[][] | null {
+  const candidates = grids.filter(hasData);
+  const withHeader = candidates.find((g) => g.slice(0, 30).some((r) => isHeaderRow(r)));
+  if (withHeader) return withHeader;
+  let best: string[][] | null = null;
+  let bestRows = 0;
+  for (const g of candidates) {
+    const n = g.filter((r) => r.some((c) => c !== '')).length;
+    if (n > bestRows) { best = g; bestRows = n; }
+  }
+  return best;
+}
+
+function readHtmlStatement(bytes: ArrayBuffer): ExcelReadResult {
+  if (typeof DOMParser === 'undefined') return fail('HTML statements need a browser.');
+  const doc = new DOMParser().parseFromString(decodeText(bytes), 'text/html');
+  const tables = Array.from(doc.querySelectorAll('table')) as HTMLTableElement[];
+  const grid = pickStatementGrid(tables.map(tableGrid));
+  if (grid === null) return fail('No table found in the HTML statement.');
+  const width = Math.max(...grid.map((r) => r.length));
+  const csvText = grid
+    .map((r) => Array.from({ length: width }, (_, i) => csvField(r[i] ?? '')).join(','))
+    .join('\n');
+  return { ok: true, csvText };
+}
+
 /**
  * Reads an Excel Workbook and returns CSV_Text for the first sheet that has a
  * non-empty cell. Returns a Result for every input and never throws.
@@ -148,7 +227,9 @@ function hasWorkbookSignature(bytes: ArrayBuffer): boolean {
 export async function readWorkbook(bytes: ArrayBuffer): Promise<ExcelReadResult> {
   try {
     const XLSX = await import('xlsx');
-    if (!hasWorkbookSignature(bytes)) return fail('Not a valid Excel workbook.');
+    if (!hasWorkbookSignature(bytes)) {
+      return looksLikeHtml(bytes) ? readHtmlStatement(bytes) : fail('Not a valid Excel workbook.');
+    }
     const workbook = XLSX.read(bytes, { type: 'array', cellDates: true });
     const sheetName = workbook.SheetNames.find((name) => {
       const sheet = workbook.Sheets[name];

@@ -34,7 +34,8 @@ function isEmptyRow(row: string[] | undefined): boolean {
   return !row || row.every((c) => (c ?? '').trim() === '');
 }
 
-function isHeaderRow(row: string[] | undefined): boolean {
+/** True when a row looks like a statement header (date keyword + amount or description keyword). */
+export function isHeaderRow(row: string[] | undefined): boolean {
   if (!row) return false;
   const cells = row.map(fold).filter((c) => c !== '');
   if (cells.length < MIN_HEADER_CELLS) return false;
