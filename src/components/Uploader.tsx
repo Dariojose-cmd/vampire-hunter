@@ -11,7 +11,7 @@
 import { useRef, useState, type ReactNode } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useTranslation, type Language, type TranslationKey } from '@i18n/index';
-import { decodeCsvBytes, isCsvFile } from './csvUtils';
+import { decodeCsvBytes, classifyFile } from './csvUtils';
 import { SamplePicker } from './SamplePicker';
 import { Icon } from './Icon';
 import styles from './Uploader.module.css';
@@ -28,11 +28,13 @@ export interface UploaderProps {
   onCsv: (sourceName: string, csvText: string) => void;
   /** Called with an i18n key when a bundled sample fails to load. */
   onSampleError?: (errorKey: TranslationKey) => void;
+  /** Called with an i18n key when an uploaded file cannot be used. */
+  onParseError?: (errorKey: TranslationKey) => void;
   /** Forwarded to the sample picker dialog (e.g. the privacy seal). */
   sealSlot?: ReactNode;
 }
 
-export function Uploader({ language, errorKey, onDismissError, onCsv, onSampleError, sealSlot }: UploaderProps) {
+export function Uploader({ language, errorKey, onDismissError, onCsv, onSampleError, onParseError, sealSlot }: UploaderProps) {
   const { t } = useTranslation(language);
   const reduce = useReducedMotion();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -48,15 +50,43 @@ export function Uploader({ language, errorKey, onDismissError, onCsv, onSampleEr
     reader.readAsArrayBuffer(file);
   }
 
+  function readExcelFile(file: File) {
+    const reader = new FileReader();
+    reader.onerror = () => onParseError?.('errors.parseFailed');
+    reader.onload = async () => {
+      const buf = reader.result;
+      if (!(buf instanceof ArrayBuffer)) {
+        onParseError?.('errors.parseFailed');
+        return;
+      }
+      try {
+        const { readWorkbook } = await import('../engine/excelReader');
+        const result = await readWorkbook(buf);
+        if (result.ok) onCsv(file.name, result.csvText);
+        else onParseError?.('errors.parseFailed');
+      } catch {
+        onParseError?.('errors.parseFailed');
+      }
+    };
+    reader.readAsArrayBuffer(file);
+  }
+
   function handleFiles(files: FileList | null) {
     if (!files || files.length === 0) return;
     const file = files[0];
-    if (!isCsvFile(file)) {
-      // Surface a friendly error via the same channel the engine uses.
-      onCsv(file.name, ''); // empty text → parent reports a parse error
-      return;
+    switch (classifyFile(file)) {
+      case 'csv':
+        readFile(file);
+        break;
+      case 'excel':
+        readExcelFile(file);
+        break;
+      case 'pdf':
+        onParseError?.('errors.pdfNotSupported');
+        break;
+      default:
+        onParseError?.('errors.fileNotCsv');
     }
-    readFile(file);
   }
 
   function onDrop(e: React.DragEvent) {
@@ -118,9 +148,13 @@ export function Uploader({ language, errorKey, onDismissError, onCsv, onSampleEr
         <input
           ref={inputRef}
           type="file"
-          accept=".csv,text/csv"
+          accept=".csv,.xlsx,.xls,.pdf,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,application/pdf"
           className={styles.hiddenInput}
-          onChange={(e) => handleFiles(e.target.files)}
+          onChange={(e) => {
+            handleFiles(e.target.files);
+            // Allow re-selecting the same file.
+            e.target.value = '';
+          }}
           tabIndex={-1}
           aria-label={t('upload.fileInputLabel')}
         />

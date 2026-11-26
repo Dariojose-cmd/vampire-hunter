@@ -25,6 +25,7 @@ import type {
   DetectionResult,
   Transaction,
 } from '@engine/types';
+import { locateHeader } from '@engine/headerLocator';
 import { useTranslation, type TranslationKey } from '@i18n/index';
 import { parseCsvText } from './csvUtils';
 import { useCryptStorage } from './useCryptStorage';
@@ -142,7 +143,8 @@ export function App() {
     setErrorKey(null);
     if (csvText.trim() === '') { setErrorKey('errors.fileNotCsv'); return; }
 
-    const { headers, rows } = parseCsvText(csvText);
+    const raw = parseCsvText(csvText);
+    const { headers, rows } = locateHeader([raw.headers, ...raw.rows]);
     const parsed = parseStatement(headers, rows);
 
     if (!parsed.ok) {
@@ -255,6 +257,7 @@ export function App() {
             onDismissError={() => setErrorKey(null)}
             onCsv={handleCsv}
             onSampleError={(key) => setErrorKey(key)}
+            onParseError={(key) => setErrorKey(key)}
             sealSlot={<PrivacySeal language={language} state={sealState} announce={false} />}
           />
         )}

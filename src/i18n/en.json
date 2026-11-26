@@ -20,7 +20,7 @@
     "trySampleButton": "Try a sample",
     "privacyNotice": "Your data never leaves your device. Everything runs in your browser.",
     "privacyNoticeDetail": "No accounts. No servers. No analytics. Your bank data stays on your computer.",
-    "supportedFormats": "Supports CSV files from most banks.",
+    "supportedFormats": "Supports CSV and Excel files (.xlsx, .xls) from most banks.",
     "samplePicker": {
       "title": "Choose a sample statement",
       "us": "US Bank (USD, dot decimal)",
@@ -214,8 +214,9 @@
 
   "errors": {
     "assetUnavailableOffline": "This file isn't available offline yet. Reconnect once and try again.",
-    "fileNotCsv": "That file doesn't look like a CSV. Please upload a .csv file.",
-    "parseFailed": "We couldn't read your file. Make sure it's a valid CSV and try again.",
+    "pdfNotSupported": "PDF files aren't supported yet. Please export your statement from your bank as Excel (.xlsx or .xls) and upload that instead.",
+    "fileNotCsv": "That file doesn't look like a supported statement. Please upload a .csv, .xls or .xlsx file.",
+    "parseFailed": "We couldn't read your file. Make sure it's a valid CSV or Excel (.xlsx/.xls) file and try again.",
     "columnMappingNeeded": "We couldn't figure out your column layout. Please assign the columns manually.",
     "dateFormatAmbiguous": "Your date format is ambiguous. Please select it manually.",
     "noValidRows": "No readable transactions found. Your file may be empty or corrupted.",

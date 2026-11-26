@@ -24,7 +24,7 @@ Vampire Hunter reads the statement for you and shows only the charges that repea
 
 ## How it works
 
-1. **Upload a CSV.** Drop in a statement from your bank, or pick one of the five built-in samples (US/USD, Mexico/MXN, Colombia/COP, an Amex-style file where charges are positive, and a messy stress-test file).
+1. **Upload a CSV or Excel file.** CSV, `.xlsx` and `.xls` files are supported. PDF files are not: export the statement from your bank as Excel (or CSV) instead. Drop in a statement from your bank, or pick one of the five built-in samples (US/USD, Mexico/MXN, Colombia/COP, an Amex-style file where charges are positive, and a messy stress-test file).
 2. **Detection.** The engine finds the date, description and amount columns, cleans up merchant names, groups similar charges, and keeps the ones that repeat weekly, monthly, quarterly or yearly.
 3. **The Crypt.** Each recurring charge becomes a vampire card with its price per bite, total blood drained, next predicted bite, and annual blood loss. A blood meter adds it all up per year, month and day.
 4. **Decide.** For every vampire you choose:
@@ -37,6 +37,7 @@ The theme maps directly to money terms: vampire = recurring charge, bite = one c
 ## Privacy
 
 - Everything runs **100% in your browser**. There is no backend, no accounts and no analytics.
+- Excel files are read entirely in the browser too. The Excel reader is loaded lazily, only when you choose an `.xlsx` or `.xls` file.
 - Transaction data is never sent anywhere. The only `fetch` in the app loads the bundled sample CSVs from the same static site (`src/components/SamplePicker.tsx`).
 - The only thing stored is in `localStorage`, under one key (`vampire-hunter:crypt`): your **decisions** (stake / spare / garlic), your **language** and your **currency**. No transactions are written (`src/engine/cryptStorage.ts`).
 - The **Burn the Crypt** button wipes that storage and resets the app.
@@ -91,6 +92,7 @@ Candidates with no detectable cadence (including one-off charges) or a score of 
 - CSS Modules with CSS-variable design tokens (`src/styles/tokens.css`)
 - Framer Motion for animation
 - Papa Parse for CSV parsing
+- SheetJS for `.xlsx` / `.xls` parsing, installed from the official SheetJS CDN tarball (`https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz`), not the outdated npm `xlsx` 0.18.x package
 - Vitest + fast-check + Testing Library (jsdom)
 - Oxlint
 - Static hosting on AWS Amplify (`amplify.yml`)
@@ -105,6 +107,7 @@ npm run dev      # dev server
 npm run build    # type-check + production build into dist/
 npm run preview  # serve the build
 npm run lint
+npm run generate:excel-fixtures  # regenerate the fake .xlsx / .xls test fixtures
 ```
 
 Sample statements for trying the app are in `samples/` (fake data only).

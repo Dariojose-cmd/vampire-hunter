@@ -44,9 +44,34 @@ export function parseCsvText(text: string): RawCsv {
   return { headers, rows };
 }
 
+export type FileKind = 'csv' | 'excel' | 'pdf' | 'unknown';
+
+/**
+ * Classify a File by extension first (case-insensitive), then by MIME type.
+ * `application/vnd.ms-excel` maps to csv only when the extension did not
+ * decide the kind (browsers may report .csv files that way).
+ */
+export function classifyFile(file: File): FileKind {
+  const name = file.name.toLowerCase();
+  if (name.endsWith('.csv')) return 'csv';
+  if (name.endsWith('.xlsx') || name.endsWith('.xls')) return 'excel';
+  if (name.endsWith('.pdf')) return 'pdf';
+
+  switch (file.type) {
+    case 'application/pdf':
+      return 'pdf';
+    case 'text/csv':
+      return 'csv';
+    case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+      return 'excel';
+    case 'application/vnd.ms-excel':
+      return 'csv';
+    default:
+      return 'unknown';
+  }
+}
+
 /** True when a File looks like a CSV (by extension or MIME type). */
 export function isCsvFile(file: File): boolean {
-  const name = file.name.toLowerCase();
-  if (name.endsWith('.csv')) return true;
-  return file.type === 'text/csv' || file.type === 'application/vnd.ms-excel';
+  return classifyFile(file) === 'csv';
 }

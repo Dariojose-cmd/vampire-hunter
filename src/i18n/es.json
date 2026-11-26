@@ -20,7 +20,7 @@
     "trySampleButton": "Probar un ejemplo",
     "privacyNotice": "Tus datos nunca salen de tu dispositivo. Todo ocurre en tu navegador.",
     "privacyNoticeDetail": "Sin cuentas. Sin servidores. Sin analíticas. Tus datos bancarios se quedan en tu computadora.",
-    "supportedFormats": "Compatible con archivos CSV de la mayoría de los bancos.",
+    "supportedFormats": "Compatible con archivos CSV y Excel (.xlsx, .xls) de la mayoría de los bancos.",
     "samplePicker": {
       "title": "Elige un estado de cuenta de muestra",
       "us": "Banco de EE.UU. (USD, punto decimal)",
@@ -214,8 +214,9 @@
 
   "errors": {
     "assetUnavailableOffline": "Este archivo aún no está disponible sin conexión. Conéctate una vez e inténtalo de nuevo.",
-    "fileNotCsv": "Ese archivo no parece un CSV. Por favor sube un archivo .csv.",
-    "parseFailed": "No pudimos leer tu archivo. Asegúrate de que sea un CSV válido e inténtalo de nuevo.",
+    "pdfNotSupported": "Los archivos PDF aún no son compatibles. Exporta tu estado de cuenta desde tu banco como Excel (.xlsx o .xls) y sube ese archivo.",
+    "fileNotCsv": "Ese archivo no parece un estado de cuenta compatible. Por favor sube un archivo .csv, .xls o .xlsx.",
+    "parseFailed": "No pudimos leer tu archivo. Asegúrate de que sea un CSV o Excel (.xlsx/.xls) válido e inténtalo de nuevo.",
     "columnMappingNeeded": "No pudimos determinar el diseño de columnas. Por favor asígnalas manualmente.",
     "dateFormatAmbiguous": "El formato de tu fecha es ambiguo. Por favor selecciónalo manualmente.",
     "noValidRows": "No se encontraron transacciones legibles. Tu archivo puede estar vacío o dañado.",

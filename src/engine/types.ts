@@ -40,6 +40,14 @@ export interface ParsedRow {
   rawCurrency?: string;
 }
 
+/** Result of locating the real header row in a CSV/Excel-derived grid. */
+export interface HeaderLocation {
+  /** 0-based index, within the input grid, of the row selected as the header. */
+  headerRowIndex: number;
+  headers: string[];
+  rows: string[][];
+}
+
 /** How the decimal/thousands separators are used in an amount column. */
 export type NumberFormat = 'dotDecimal' | 'commaDecimal' | 'noDecimal';
 
@@ -294,3 +302,8 @@ export interface IcsI18n {
   /** e.g. "vampire-reminder-{{name}}.ics" */
   icsFilename: string;
 }
+
+/** Result of converting an Excel Workbook's Data_Sheet into CSV_Text. */
+export type ExcelReadResult =
+  | { ok: true; csvText: string }
+  | { ok: false; error: AppError };

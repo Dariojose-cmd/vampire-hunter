@@ -4,6 +4,7 @@
  * All functions return Result<T, AppError> and never throw.
  */
 
+import { AMOUNT_HEADER_RE, DATE_HEADER_RE, DESCRIPTION_HEADER_RE } from './headerKeywords';
 import type { AppError, ColumnLayout, DateFormat, NumberFormat, Result, Transaction } from './types';
 
 // ---------------------------------------------------------------------------
@@ -422,8 +423,6 @@ export function detectIndicatorCol(headers: string[], rows: string[][]): number 
   return -1;
 }
 
-/** Headers that denote a date column. */
-const DATE_HEADER_RE = /date|buchungstag|buchungsdatum|fecha|data\b|^dat$|[^a-z]dat[^a-z]/;
 /** Headers that denote a running balance column. */
 const BALANCE_HEADER_RE = /balance|saldo/;
 
@@ -482,7 +481,7 @@ export function detectColumns(
 
     // Description keywords. "detail(s)" is a weak match: Chase uses it for the
     // DEBIT/CREDIT flag, so a real description column always wins over it.
-    if (descCol === -1 && /desc|concept|narrat|descripcion|title|titulo|título|merchant|payee|lan[cç]amento|hist[oó]rico|omschrijving|\bnaam\b|verwendungszweck|auftraggeber|beg[uü]nstigter|libell[eé]/.test(h)) {
+    if (descCol === -1 && DESCRIPTION_HEADER_RE.test(h)) {
       descCol = i;
       continue;
     }
@@ -504,7 +503,7 @@ export function detectColumns(
     }
 
     // Single amount keywords
-    if (amountCol === -1 && /amount|monto|importe|valor|total|bedrag|betrag|montant/.test(h)) {
+    if (amountCol === -1 && AMOUNT_HEADER_RE.test(h)) {
       amountCol = i;
       continue;
     }
