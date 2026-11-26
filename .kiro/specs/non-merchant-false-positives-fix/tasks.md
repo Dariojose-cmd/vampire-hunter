@@ -1,0 +1,115 @@
+# Implementation Plan
+
+- [x] 1. Write bug condition exploration test
+  - **Property 1: Bug Condition** - Non-merchant movements, edge symbols and thin-series flags
+  - **CRITICAL**: This test MUST FAIL on unfixed code - failure confirms the bug exists
+  - **DO NOT attempt to fix the test or the code when it fails**
+  - **NOTE**: This test encodes the expected behavior - it will validate the fix when it passes after implementation
+  - **GOAL**: Surface counterexamples that demonstrate the bug exists
+  - Create `tests/nonMerchant.bugCondition.test.ts`
+  - Build a synthetic HTML-as-.xls fixture (no real data), following the `cutPage` helper in `tests/excelReader.html.test.ts`: a "Fecha este Corte" summary table, then a movements table with columns FECHA, OFIC., N.DOC., DESCRIPCION, DEBITO, CREDITO, SALDO and dates like `15-oct.`
+  - Fixture content (about 55 movements, no subscriptions): 2 `****RETENCION IVASD DLC* UBER` debits of 0.64 nine days apart; 2 `TRANSFERENCIA INTERNET` debits of 7.55 nine days apart; one `RETIRO CAJERO AUTOMATICO` pair; one `PAGO TARJETA DE CREDITO` pair; assorted one-off purchases; a salary credit
+  - Run the pipeline `readWorkbook` -> `parseCsvText` -> `locateHeader` -> `parseStatement` -> `runDetection`
+  - Test case 1: real-shape statement returns empty `vampires` and `possibleVampires`
+  - Test case 2: table of ES/EN/PT descriptions (`TRANSFERENCIA INTERNET`, `TRANSFER TO SAVINGS`, `TRANSFERÊNCIA ENVIADA`, `RETENCION IVA`, `RETENÇÃO IMPOSTO`, `RETIRO CAJERO`, `ATM WITHDRAWAL`, `SAQUE ATM 24H`, `PAGO TARJETA DE CREDITO`, `PAGAMENTO FATURA CARTAO`, `CREDIT CARD PAYMENT`), each as a 4-charge monthly series; none is listed
+  - Test case 3: a 3-charge merchant `*ACME SHOP*` has `displayName` with no leading or trailing junk characters (`* # _ ~ | \ / = + -` or whitespace; `.` is not trimmed)
+  - Test case 4: a 2-charge monthly series with first charge at 10% of the median has `hasFreeTrial = false`; a 2-charge monthly series with a 20% step has `hasPriceIncrease = false`; the same two checks for a 2-charge weekly series
+  - Test case 4b (guard, passes before and after): a 2-charge yearly series with a 20% step keeps `hasPriceIncrease = true` (COSTCO ANNUAL MEMBERSHIP shape); a 2-charge quarterly series with first charge at 10% of the median keeps `hasFreeTrial = true`
+  - Test case 5 (guard, passes before and after): `COMISION MANTENIMIENTO CUENTA`, 4 monthly charges, is still listed
+  - Test case 6 (guard, passes before and after): `PIX ENVIADO MARIA SILVA`, `TIKKIE JAN`, `TO JOHN SMITH` and a bare `IVA`, each as a 4-charge monthly series, are still listed (these are deliberately not on the exclusion list)
+  - Use fast-check where inputs vary (descriptions, amounts, day gaps); scope deterministic cases to the concrete failing inputs above
+  - Run on UNFIXED code with `npx vitest --run tests/nonMerchant.bugCondition.test.ts`
+  - **EXPECTED OUTCOME**: Test cases 1 to 4 FAIL (this is correct - it proves the bug exists); cases 4b, 5 and 6 pass
+  - Document counterexamples (e.g. `possibleVampires` contains `TRANSFERENCIA INTERNET`; `displayName` is `****RETENCION IVASD DLC* UBER`; a 2-bite weekly or monthly item has `hasFreeTrial` or `hasPriceIncrease` true)
+  - Mark task complete when the test is written, run, and the failure is documented
+  - _Requirements: 1.1, 1.2, 1.3, 1.4, 2.1, 2.2, 2.3, 2.4, 3.1, 3.8, 3.9_
+
+- [x] 2. Write preservation property tests (BEFORE implementing fix)
+  - **Property 2: Preservation** - Everything else is unchanged
+  - **IMPORTANT**: Follow observation-first methodology
+  - Record the golden baseline FIRST, before touching `src/`: write `tests/baselines/detectionOutput.json` containing, for each of the 5 in-app samples and every CSV in `tests/fixtures/banks`, the id, displayName, cadence, median, score and bite count of every vampire and possible vampire (generated from the UNFIXED engine with a one-off dump script, for example by extending `scripts/detect.ts`)
+  - Create `tests/nonMerchant.preservation.test.ts`
+  - Samples and banks golden: assert the full golden list for all 19 CSVs, ignoring only the `hasPriceIncrease` and `hasFreeTrial` values of items with fewer than 3 charges whose cadence is not `quarterly` or `yearly`. Items with a quarterly or yearly cadence (such as `COSTCO ANNUAL MEMBERSHIP` in `amex-us.csv` and `amex-us-probe.csv`: 2 yearly charges, `hasPriceIncrease = true`, score 80) are compared on every field, flags included
+  - Exclusion scan: scan every transaction description in the 19 CSVs, collect those that would match the exclusion list, and assert the set equals exactly the 8 known descriptions (`RETIRO CAJERO AUTOMATICO`, `TRANSFERENCIA RECIBIDA FAMILIAR`, `TRANSFERENCIA ENVIADA ARRIENDO`, `TRANSFERENCIA ENVIADA AMIGO`, `TRANSFERENCIA ENVIADA RENTA`, `TRANSFERENCIA A NEQUI`, `SAQUE ATM 24H`, `ATM Withdrawal`). This test is written against a local copy of the regex from the design until `src/engine/nonMerchant.ts` exists, then switched to `isNonMerchant` in task 3
+  - **ASK THE USER FIRST**: if any proposed or tuned rule would change an existing baseline (a new match in the scan, or a changed id, cadence, median or score), STOP and ask the user via `user_input` before adding or keeping that rule. Do not edit the golden file to make a test pass
+  - Look-alikes that must not match: `COMISION`, `MANTENIMIENTO`, `TARIFA CESTA SERVICOS`, `NETFLIX PRESENTE CARTAO`, `PAGO PSE SMART FIT`, `PAGO CLARO COLOMBIA`, `PIX ENVIADO MARIA SILVA`, `TO JOHN SMITH`, `TIKKIE JAN`, `TRANSFERWISE`, bare `IVA`, bare `IMPUESTO`
+  - Still-detected check: `PIX ENVIADO MARIA SILVA`, `TIKKIE JAN`, `TO JOHN SMITH` and bare `IVA`, each as a 4-charge monthly series, are listed by `runDetection` with the same id, cadence and score as before (observe on unfixed code)
+  - Property-based test (fast-check): merchant names built from letters and digits that do not match the list, monthly series of 3 to 12 charges with constant amounts; assert `runDetection` output equals the output of the pre-fix algorithm (old `displayName` and flag logic kept inside the test as the oracle)
+  - Existing tests `tests/inAppSamples.preservation.test.ts`, `tests/integration.bankFixtures.test.ts`, `tests/integration.sampleStatements.test.ts` and `tests/integration.excelFixtures.test.ts` must also pass
+  - Run on UNFIXED code with `npx vitest --run tests/nonMerchant.preservation.test.ts`
+  - **EXPECTED OUTCOME**: Tests PASS (this confirms baseline behavior to preserve)
+  - Mark task complete when the golden file is committed, the tests are written, run, and passing on unfixed code
+  - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9_
+
+- [x] 3. Fix for non-merchant false positives
+
+  - [x] 3.1 Add `src/engine/nonMerchant.ts`
+    - Pure TypeScript, no React imports
+    - Export `isNonMerchant(description: string): boolean` that tests `NON_MERCHANT_RE` against the accent-stripped description, case-insensitive, with word boundaries
+    - Transfers (ES/EN/PT): `transfer`, `transferencia(s)`, `transferir`, `transf` as whole words (so `transferwise` is not matched)
+    - Withholding: `retencion(es)`, `retencao/retencoes`, `withholding`
+    - Cash withdrawal: `retiro(s)`, `cajero`, `atm`, `saque(s)`, `levantamento`, `withdrawal(s)`
+    - Card bill payment: `pago|pagamento` + optional `de|da|a|con` + optional `la|su` + `tarjeta|cartao|fatura`; `credit card payment`; `payment to/of (your) (credit) card`
+    - Do NOT match bare `iva`, `impuesto`, `tax`, bare `card payment`, `pix` (PIX ENVIADO), Tikkie-style requests, Revolut-style `to <person>` transfers, `tarifa`, `comision`, `mantenimiento`; add no other items to the list
+    - Add unit tests: positive table (ES/EN/PT, with and without accents, upper and lower case) and negative table (merchants, fees, look-alikes, `PIX ENVIADO MARIA SILVA`, `TIKKIE JAN`, `TO JOHN SMITH`, bare `IVA`, bare `IMPUESTO`)
+    - Switch the exclusion scan in `tests/nonMerchant.preservation.test.ts` to use `isNonMerchant`
+    - If the scan finds any description beyond the 8 known ones, STOP and ask the user before keeping the rule
+    - _Bug_Condition: isBugCondition(input) where matchesNonMerchantList(G.description)_
+    - _Expected_Behavior: non-merchant groups absent from vampires and possibleVampires_
+    - _Preservation: bank fees and look-alikes are not matched; all 19 CSV baselines unchanged_
+    - _Requirements: 2.1, 3.1, 3.2, 3.4, 3.5, 3.9_
+
+  - [x] 3.2 Add `trimEdgeSymbols` and apply it to `displayName`
+    - Implement `trimEdgeSymbols(s) = s.replace(/^[*#_~|\\/=+\-\s]+|[*#_~|\\/=+\-\s]+$/g, '')` (export it so it can be unit tested; `.`, `)` and `]` are not trimmed)
+    - Apply it to the non-catalog `displayName` in `src/engine/index.ts`
+    - If the trimmed result is empty, fall back to `trimEdgeSymbols(candidate.normalizedName)`, then to the untrimmed value
+    - Do not change `normalizedName` or ids; catalog canonical names stay untouched
+    - Add unit tests: `****X*` -> `X`, `*A B*` -> `A B`, `A&T` unchanged, all-symbol input -> empty, idempotence
+    - Add property test: output has no leading or trailing junk character and `trimEdgeSymbols(trimEdgeSymbols(s)) === trimEdgeSymbols(s)`
+    - _Bug_Condition: isBugCondition(input) where hasEdgeSymbolRun(displayName(G))_
+    - _Expected_Behavior: displayName has no leading or trailing junk characters_
+    - _Preservation: names already clean are unchanged; catalog names unchanged_
+    - _Requirements: 2.2, 3.6, 3.7_
+
+  - [x] 3.3 Gate flags and the exclusion filter in `runDetection`
+    - In `src/engine/index.ts`, add `&& !isNonMerchant(t.description)` to the Step 1 filter (credits and `PAYMENT_RECEIVED_RE`), so exclusion happens before grouping and surviving ids stay the same
+    - Add constants `MIN_CHARGES_FOR_FLAGS = 3` and `LONG_CADENCES: ReadonlySet<Cadence> = new Set(['quarterly', 'yearly'])`
+    - Inside the Step 4 loop, after the null-cadence `continue`, compute `const flagsAllowed = candidate.bites.length >= MIN_CHARGES_FOR_FLAGS || LONG_CADENCES.has(cadence)` (2 charges are enough for quarterly and yearly series)
+    - Pass the RAW `hasFreeTrial` and `candidate.hasPriceIncrease` to `RecurrenceCandidate` and `computeScore` so scores do not move
+    - Set `Vampire.hasFreeTrial = hasFreeTrial && flagsAllowed` and `Vampire.hasPriceIncrease = candidate.hasPriceIncrease && flagsAllowed`
+    - Do not change `grouper.ts`, `cadenceDetector.ts`, `scorer.ts`, `normalizer.ts` or any component
+    - Add unit tests as a table over cadence and charge count: 2 bites with `weekly` or `monthly` and raw flags true gives `false`; 2 bites with `quarterly` or `yearly` keeps `true` for both flags; 3 or more bites keep `true` for every cadence
+    - Add unit tests for score invariance: a 2-bite yearly catalog series with a price step keeps score 80 and `hasPriceIncrease = true` (Costco shape); a 2-bite monthly series with a price step keeps its pre-fix score while `hasPriceIncrease` is `false`
+    - Add property test: every returned item with fewer than 3 bites and a weekly or monthly cadence has both flags false
+    - Add property test: every returned item with a quarterly or yearly cadence and 2 or more bites, and every item with 3 or more bites, has the same flags as before the fix
+    - Add property test: `confidenceScore` equals the score computed from the raw flags, whether or not the badges are gated
+    - Add property test: for generated transactions, no returned item has a bite description matching `isNonMerchant`
+    - Add render check (component test): a `VampireCard` for a 2-charge monthly vampire shows neither "Started as a free trial" nor "Price history", in English and Spanish
+    - Add render check (component test): a `VampireCard` for a 2-charge yearly vampire with the flags set (Costco shape) still shows "Price history" / "Historial de precios"
+    - **ASK THE USER FIRST** if any change here alters an existing golden id, cadence, median or score
+    - _Bug_Condition: isBugCondition(input) from design_
+    - _Expected_Behavior: expectedBehavior(result) from design_
+    - _Preservation: Preservation Requirements from design_
+    - _Requirements: 2.1, 2.3, 2.4, 3.2, 3.3, 3.4, 3.5, 3.8, 3.9_
+
+  - [x] 3.4 Verify bug condition exploration test now passes
+    - **Property 1: Expected Behavior** - Non-merchant movements, edge symbols and thin-series flags
+    - **IMPORTANT**: Re-run the SAME test from task 1 - do NOT write a new test
+    - Run `npx vitest --run tests/nonMerchant.bugCondition.test.ts`
+    - Also confirm the end-to-end case: the same synthetic statement with a Netflix subscription added (3 or more monthly charges) returns exactly that subscription
+    - Cases 4b, 5 and 6 (long-cadence flags kept, bank fee listed, PIX ENVIADO / Tikkie / "TO person" / bare IVA still listed) must still pass
+    - **EXPECTED OUTCOME**: Test PASSES (confirms bug is fixed)
+    - _Requirements: 2.1, 2.2, 2.3, 2.4, 3.1, 3.8, 3.9_
+
+  - [x] 3.5 Verify preservation tests still pass
+    - **Property 2: Preservation** - Everything else is unchanged
+    - **IMPORTANT**: Re-run the SAME tests from task 2 - do NOT write new tests and do NOT edit the golden file
+    - Run `npx vitest --run tests/nonMerchant.preservation.test.ts tests/inAppSamples.preservation.test.ts tests/integration.bankFixtures.test.ts tests/integration.sampleStatements.test.ts tests/integration.excelFixtures.test.ts`
+    - **EXPECTED OUTCOME**: Tests PASS (confirms no regressions)
+    - If any baseline differs, STOP and ask the user before changing any rule or expectation
+    - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9_
+
+- [x] 4. Checkpoint - Run the full suite
+  - Run `npx vitest --run` (full suite) and confirm everything passes
+  - Run `npx tsc --noEmit` (or the project's type-check script) to confirm strict mode is clean
+  - Ensure all tests pass, ask the user if questions arise.

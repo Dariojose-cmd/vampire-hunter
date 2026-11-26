@@ -1,0 +1,153 @@
+{
+  "pbtResults": {
+    "2. Write preservation property tests (BEFORE implementing fix)": {
+      "status": "passed",
+      "lastRunTimestamp": 1795666240683
+    },
+    "3.4 Verify bug condition exploration test now passes": {
+      "status": "failed",
+      "failingExample": "Counterexample: [\".\",\"*\",500] -> displayName \".ACME SHOP\" does not match /^[\\p{L}\\p{N}].*[\\p{L}\\p{N}]$/u (test generates '.' as a junk symbol, but trimEdgeSymbols only strips * # _ ~ | \\ / = + - and whitespace)",
+      "lastRunTimestamp": 1795667375917
+    }
+  },
+  "executionHistory": {
+    "1. Write bug condition exploration test": [
+      {
+        "executionId": "54332baf-d32a-4b99-ab1e-0c2ed9cc4490",
+        "chatSessionId": "sess_bea6200d-b4a9-47cc-98f9-9cb2ab73a131",
+        "timestamp": 1795665431627
+      },
+      {
+        "executionId": "54332baf-d32a-4b99-ab1e-0c2ed9cc4490",
+        "chatSessionId": "sess_bea6200d-b4a9-47cc-98f9-9cb2ab73a131",
+        "timestamp": 1795666023893
+      }
+    ],
+    "2. Write preservation property tests (BEFORE implementing fix)": [
+      {
+        "executionId": "6bce7fde-8cca-4d9c-bea2-6ce5c42b89f6",
+        "chatSessionId": "sess_1c0b9f4b-61ca-4a35-9ab8-ee7dbafeca3f",
+        "timestamp": 1795666063853
+      },
+      {
+        "executionId": "6bce7fde-8cca-4d9c-bea2-6ce5c42b89f6",
+        "chatSessionId": "sess_1c0b9f4b-61ca-4a35-9ab8-ee7dbafeca3f",
+        "timestamp": 1795666254385
+      }
+    ],
+    "3.1 Add `src/engine/nonMerchant.ts`": [
+      {
+        "executionId": "95a1b1fc-48a6-4428-9848-4fd961f66df3",
+        "chatSessionId": "sess_b91855ca-b33d-4555-8bd1-5f9d1add55bb",
+        "timestamp": 1795666397631
+      },
+      {
+        "executionId": "95a1b1fc-48a6-4428-9848-4fd961f66df3",
+        "chatSessionId": "sess_b91855ca-b33d-4555-8bd1-5f9d1add55bb",
+        "timestamp": 1795666402316
+      },
+      {
+        "executionId": "95a1b1fc-48a6-4428-9848-4fd961f66df3",
+        "chatSessionId": "sess_b91855ca-b33d-4555-8bd1-5f9d1add55bb",
+        "timestamp": 1795666602030
+      }
+    ],
+    "3.2 Add `trimEdgeSymbols` and apply it to `displayName`": [
+      {
+        "executionId": "95a1b1fc-48a6-4428-9848-4fd961f66df3",
+        "chatSessionId": "sess_b91855ca-b33d-4555-8bd1-5f9d1add55bb",
+        "timestamp": 1795666397735
+      },
+      {
+        "executionId": "95a1b1fc-48a6-4428-9848-4fd961f66df3",
+        "chatSessionId": "sess_b91855ca-b33d-4555-8bd1-5f9d1add55bb",
+        "timestamp": 1795666604153
+      },
+      {
+        "executionId": "5b0b819c-c14b-4e10-b25f-299c150e8942",
+        "chatSessionId": "sess_b91855ca-b33d-4555-8bd1-5f9d1add55bb",
+        "timestamp": 1795666845272
+      },
+      {
+        "executionId": "5b0b819c-c14b-4e10-b25f-299c150e8942",
+        "chatSessionId": "sess_b91855ca-b33d-4555-8bd1-5f9d1add55bb",
+        "timestamp": 1795666964513
+      }
+    ],
+    "3.3 Gate flags and the exclusion filter in `runDetection`": [
+      {
+        "executionId": "95a1b1fc-48a6-4428-9848-4fd961f66df3",
+        "chatSessionId": "sess_b91855ca-b33d-4555-8bd1-5f9d1add55bb",
+        "timestamp": 1795666397812
+      },
+      {
+        "executionId": "5b0b819c-c14b-4e10-b25f-299c150e8942",
+        "chatSessionId": "sess_b91855ca-b33d-4555-8bd1-5f9d1add55bb",
+        "timestamp": 1795666967262
+      },
+      {
+        "executionId": "f123d8c3-9cf8-4e1f-8770-86476b3b2bd8",
+        "chatSessionId": "sess_b91855ca-b33d-4555-8bd1-5f9d1add55bb",
+        "timestamp": 1795667351748
+      }
+    ],
+    "3.4 Verify bug condition exploration test now passes": [
+      {
+        "executionId": "95a1b1fc-48a6-4428-9848-4fd961f66df3",
+        "chatSessionId": "sess_b91855ca-b33d-4555-8bd1-5f9d1add55bb",
+        "timestamp": 1795666397953
+      },
+      {
+        "executionId": "f123d8c3-9cf8-4e1f-8770-86476b3b2bd8",
+        "chatSessionId": "sess_b91855ca-b33d-4555-8bd1-5f9d1add55bb",
+        "timestamp": 1795667352455
+      },
+      {
+        "executionId": "f123d8c3-9cf8-4e1f-8770-86476b3b2bd8",
+        "chatSessionId": "sess_b91855ca-b33d-4555-8bd1-5f9d1add55bb",
+        "timestamp": 1795667584227
+      }
+    ],
+    "3.5 Verify preservation tests still pass": [
+      {
+        "executionId": "95a1b1fc-48a6-4428-9848-4fd961f66df3",
+        "chatSessionId": "sess_b91855ca-b33d-4555-8bd1-5f9d1add55bb",
+        "timestamp": 1795666398065
+      },
+      {
+        "executionId": "f123d8c3-9cf8-4e1f-8770-86476b3b2bd8",
+        "chatSessionId": "sess_b91855ca-b33d-4555-8bd1-5f9d1add55bb",
+        "timestamp": 1795667584436
+      },
+      {
+        "executionId": "f123d8c3-9cf8-4e1f-8770-86476b3b2bd8",
+        "chatSessionId": "sess_b91855ca-b33d-4555-8bd1-5f9d1add55bb",
+        "timestamp": 1795667602898
+      }
+    ],
+    "4. Checkpoint - Run the full suite": [
+      {
+        "executionId": "95a1b1fc-48a6-4428-9848-4fd961f66df3",
+        "chatSessionId": "sess_b91855ca-b33d-4555-8bd1-5f9d1add55bb",
+        "timestamp": 1795666398152
+      },
+      {
+        "executionId": "f123d8c3-9cf8-4e1f-8770-86476b3b2bd8",
+        "chatSessionId": "sess_b91855ca-b33d-4555-8bd1-5f9d1add55bb",
+        "timestamp": 1795667603337
+      },
+      {
+        "executionId": "f123d8c3-9cf8-4e1f-8770-86476b3b2bd8",
+        "chatSessionId": "sess_b91855ca-b33d-4555-8bd1-5f9d1add55bb",
+        "timestamp": 1795667757329
+      }
+    ],
+    "3. Fix for non-merchant false positives": [
+      {
+        "executionId": "f123d8c3-9cf8-4e1f-8770-86476b3b2bd8",
+        "chatSessionId": "sess_b91855ca-b33d-4555-8bd1-5f9d1add55bb",
+        "timestamp": 1795667603259
+      }
+    ]
+  }
+}

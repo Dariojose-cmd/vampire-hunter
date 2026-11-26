@@ -1,0 +1,1201 @@
+{
+  "samples/amex-positive-charges.csv": {
+    "vampires": [
+      {
+        "id": "NETFLIX.COM_0",
+        "displayName": "Netflix",
+        "cadence": "monthly",
+        "medianAmountCents": 1549,
+        "confidenceScore": 100,
+        "bites": 6,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "SPOTIFY USA_0",
+        "displayName": "Spotify",
+        "cadence": "monthly",
+        "medianAmountCents": 1099,
+        "confidenceScore": 100,
+        "bites": 6,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "AMAZON PRIME*MEMBERSHIP_0",
+        "displayName": "Amazon Prime",
+        "cadence": "monthly",
+        "medianAmountCents": 1499,
+        "confidenceScore": 100,
+        "bites": 6,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      }
+    ],
+    "possibleVampires": []
+  },
+  "samples/latam-bank-cop.csv": {
+    "vampires": [
+      {
+        "id": "NETFLIX ENTRETENIMIENTO MENSUAL_0",
+        "displayName": "Netflix",
+        "cadence": "monthly",
+        "medianAmountCents": 4490000,
+        "confidenceScore": 100,
+        "bites": 6,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "SPOTIFY MUSIC SUSCRIPCION_0",
+        "displayName": "Spotify",
+        "cadence": "monthly",
+        "medianAmountCents": 1890000,
+        "confidenceScore": 100,
+        "bites": 6,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "SMARTFIT GIMNASIO MENSUAL_0",
+        "displayName": "Smart Fit",
+        "cadence": "monthly",
+        "medianAmountCents": 8990000,
+        "confidenceScore": 100,
+        "bites": 6,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "CLARO PLAN MOVIL_0",
+        "displayName": "Claro",
+        "cadence": "monthly",
+        "medianAmountCents": 4500000,
+        "confidenceScore": 100,
+        "bites": 6,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      }
+    ],
+    "possibleVampires": []
+  },
+  "samples/latam-bank-mxn.csv": {
+    "vampires": [
+      {
+        "id": "NETFLIX ENTRETENIMIENTO MENSUAL_0",
+        "displayName": "Netflix",
+        "cadence": "monthly",
+        "medianAmountCents": 25900,
+        "confidenceScore": 100,
+        "bites": 6,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "SPOTIFY MUSIC SUSCRIPCION_0",
+        "displayName": "Spotify",
+        "cadence": "monthly",
+        "medianAmountCents": 9900,
+        "confidenceScore": 100,
+        "bites": 6,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "DISNEY PLUS STREAMING_0",
+        "displayName": "Disney Plus",
+        "cadence": "monthly",
+        "medianAmountCents": 15900,
+        "confidenceScore": 100,
+        "bites": 6,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "BLIM TV STREAMING LOCAL_0",
+        "displayName": "Blim",
+        "cadence": "monthly",
+        "medianAmountCents": 8900,
+        "confidenceScore": 100,
+        "bites": 6,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "SMART FIT GIMNASIO MENSUAL_0",
+        "displayName": "Smart Fit",
+        "cadence": "monthly",
+        "medianAmountCents": 39900,
+        "confidenceScore": 100,
+        "bites": 6,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      }
+    ],
+    "possibleVampires": []
+  },
+  "samples/messy-statement.csv": {
+    "vampires": [
+      {
+        "id": "NETFLIX MONTHLY SUBSCRIPTION_0",
+        "displayName": "Netflix",
+        "cadence": "monthly",
+        "medianAmountCents": 1549,
+        "confidenceScore": 90,
+        "bites": 5,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "SPOTIFY PREMIUM MUSIC_0",
+        "displayName": "Spotify",
+        "cadence": "monthly",
+        "medianAmountCents": 999,
+        "confidenceScore": 90,
+        "bites": 5,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "GYM MEMBERSHIP FIT CLUB_0",
+        "displayName": "GYM MEMBERSHIP FIT CLUB",
+        "cadence": "monthly",
+        "medianAmountCents": 2999,
+        "confidenceScore": 70,
+        "bites": 5,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      }
+    ],
+    "possibleVampires": []
+  },
+  "samples/us-bank-usd.csv": {
+    "vampires": [
+      {
+        "id": "COSTCO ANNUAL MEMBERSHIP_0",
+        "displayName": "Costco Membership",
+        "cadence": "yearly",
+        "medianAmountCents": 13900,
+        "confidenceScore": 80,
+        "bites": 2,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "NETFLIX STREAMING SERVICE_0",
+        "displayName": "Netflix",
+        "cadence": "monthly",
+        "medianAmountCents": 1799,
+        "confidenceScore": 100,
+        "bites": 6,
+        "hasPriceIncrease": true,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "SPOTIFY USA MUSIC SUBSCRIPTION_0",
+        "displayName": "Spotify",
+        "cadence": "monthly",
+        "medianAmountCents": 999,
+        "confidenceScore": 100,
+        "bites": 6,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "APPLE.COM/BILL_0",
+        "displayName": "Apple subscription (App Store / iCloud / Apple Music)",
+        "cadence": "monthly",
+        "medianAmountCents": 299,
+        "confidenceScore": 100,
+        "bites": 6,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "APPLE.COM/BILL_1",
+        "displayName": "Apple subscription (App Store / iCloud / Apple Music)",
+        "cadence": "monthly",
+        "medianAmountCents": 1099,
+        "confidenceScore": 100,
+        "bites": 6,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "MEALBOX HELLOFRESH SUBSCRIPTION_0",
+        "displayName": "HelloFresh",
+        "cadence": "monthly",
+        "medianAmountCents": 1299,
+        "confidenceScore": 100,
+        "bites": 6,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": true
+      },
+      {
+        "id": "AMAZON PRIME MEMBERSHIP FEE_0",
+        "displayName": "Amazon Prime",
+        "cadence": "monthly",
+        "medianAmountCents": 1499,
+        "confidenceScore": 100,
+        "bites": 6,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "PLANET FITNESS GYM MEMBERSHIP_0",
+        "displayName": "Planet Fitness",
+        "cadence": "monthly",
+        "medianAmountCents": 2499,
+        "confidenceScore": 100,
+        "bites": 6,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "AT&T WIRELESS MOBILE PLAN_0",
+        "displayName": "AT&T",
+        "cadence": "monthly",
+        "medianAmountCents": 7500,
+        "confidenceScore": 100,
+        "bites": 6,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "GREEN CHEF WEEKLY MEAL BOX_0",
+        "displayName": "Green Chef",
+        "cadence": "weekly",
+        "medianAmountCents": 699,
+        "confidenceScore": 100,
+        "bites": 23,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      }
+    ],
+    "possibleVampires": []
+  },
+  "tests/fixtures/banks/amex-us-probe.csv": {
+    "vampires": [
+      {
+        "id": "ADOBE *CREATIVE CLOUD CA_0",
+        "displayName": "Adobe Creative Cloud",
+        "cadence": "monthly",
+        "medianAmountCents": 6249,
+        "confidenceScore": 100,
+        "bites": 14,
+        "hasPriceIncrease": true,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "APPLE.COM/BILL ONE APPLE PARK WAY CA_0",
+        "displayName": "Apple subscription (App Store / iCloud / Apple Music)",
+        "cadence": "monthly",
+        "medianAmountCents": 99,
+        "confidenceScore": 100,
+        "bites": 14,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "APPLE.COM/BILL ONE APPLE PARK WAY CA_1",
+        "displayName": "Apple subscription (App Store / iCloud / Apple Music)",
+        "cadence": "monthly",
+        "medianAmountCents": 1099,
+        "confidenceScore": 100,
+        "bites": 14,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "AMAZON PRIME* AMZN.COM/BILL WA_0",
+        "displayName": "Amazon Prime",
+        "cadence": "monthly",
+        "medianAmountCents": 1499,
+        "confidenceScore": 100,
+        "bites": 14,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "COSTCO ANNUAL MEMBERSHIP WA_0",
+        "displayName": "Costco Membership",
+        "cadence": "yearly",
+        "medianAmountCents": 6250,
+        "confidenceScore": 80,
+        "bites": 2,
+        "hasPriceIncrease": true,
+        "hasFreeTrial": false
+      }
+    ],
+    "possibleVampires": []
+  },
+  "tests/fixtures/banks/amex-us.csv": {
+    "vampires": [
+      {
+        "id": "ADOBE *CREATIVE CLOUD CA_0",
+        "displayName": "Adobe Creative Cloud",
+        "cadence": "monthly",
+        "medianAmountCents": 6249,
+        "confidenceScore": 100,
+        "bites": 14,
+        "hasPriceIncrease": true,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "APPLE.COM/BILL ONE APPLE PARK WAY CA_0",
+        "displayName": "Apple subscription (App Store / iCloud / Apple Music)",
+        "cadence": "monthly",
+        "medianAmountCents": 99,
+        "confidenceScore": 100,
+        "bites": 14,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "APPLE.COM/BILL ONE APPLE PARK WAY CA_1",
+        "displayName": "Apple subscription (App Store / iCloud / Apple Music)",
+        "cadence": "monthly",
+        "medianAmountCents": 1099,
+        "confidenceScore": 100,
+        "bites": 14,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "AMAZON PRIME* AMZN.COM/BILL WA_0",
+        "displayName": "Amazon Prime",
+        "cadence": "monthly",
+        "medianAmountCents": 1499,
+        "confidenceScore": 100,
+        "bites": 14,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "COSTCO ANNUAL MEMBERSHIP WA_0",
+        "displayName": "Costco Membership",
+        "cadence": "yearly",
+        "medianAmountCents": 6250,
+        "confidenceScore": 80,
+        "bites": 2,
+        "hasPriceIncrease": true,
+        "hasFreeTrial": false
+      }
+    ],
+    "possibleVampires": []
+  },
+  "tests/fixtures/banks/bancolombia-co-probe.csv": {
+    "vampires": [
+      {
+        "id": "EN NETFLIX.COM_0",
+        "displayName": "Netflix",
+        "cadence": "monthly",
+        "medianAmountCents": 4490000,
+        "confidenceScore": 100,
+        "bites": 8,
+        "hasPriceIncrease": true,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "PSE SMART FIT_0",
+        "displayName": "Smart Fit",
+        "cadence": "monthly",
+        "medianAmountCents": 9990000,
+        "confidenceScore": 100,
+        "bites": 8,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "EN SPOTIFY_0",
+        "displayName": "Spotify",
+        "cadence": "monthly",
+        "medianAmountCents": 1690000,
+        "confidenceScore": 100,
+        "bites": 8,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "CLARO COLOMBIA_0",
+        "displayName": "Claro",
+        "cadence": "monthly",
+        "medianAmountCents": 5990000,
+        "confidenceScore": 100,
+        "bites": 8,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "RAPPI PRIME_0",
+        "displayName": "Rappi Prime",
+        "cadence": "monthly",
+        "medianAmountCents": 1490000,
+        "confidenceScore": 100,
+        "bites": 8,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      }
+    ],
+    "possibleVampires": []
+  },
+  "tests/fixtures/banks/bancolombia-co.csv": {
+    "vampires": [
+      {
+        "id": "EN NETFLIX.COM_0",
+        "displayName": "Netflix",
+        "cadence": "monthly",
+        "medianAmountCents": 4490000,
+        "confidenceScore": 100,
+        "bites": 8,
+        "hasPriceIncrease": true,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "PSE SMART FIT_0",
+        "displayName": "Smart Fit",
+        "cadence": "monthly",
+        "medianAmountCents": 9990000,
+        "confidenceScore": 100,
+        "bites": 8,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "EN SPOTIFY_0",
+        "displayName": "Spotify",
+        "cadence": "monthly",
+        "medianAmountCents": 1690000,
+        "confidenceScore": 100,
+        "bites": 8,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "CLARO COLOMBIA_0",
+        "displayName": "Claro",
+        "cadence": "monthly",
+        "medianAmountCents": 5990000,
+        "confidenceScore": 100,
+        "bites": 8,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "RAPPI PRIME_0",
+        "displayName": "Rappi Prime",
+        "cadence": "monthly",
+        "medianAmountCents": 1490000,
+        "confidenceScore": 100,
+        "bites": 8,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      }
+    ],
+    "possibleVampires": []
+  },
+  "tests/fixtures/banks/chase-us-probe.csv": {
+    "vampires": [
+      {
+        "id": "NETFLIX.COM CA_0",
+        "displayName": "Netflix",
+        "cadence": "monthly",
+        "medianAmountCents": 1549,
+        "confidenceScore": 100,
+        "bites": 9,
+        "hasPriceIncrease": true,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "PAYPAL *SPOTIFY USA_0",
+        "displayName": "Spotify",
+        "cadence": "monthly",
+        "medianAmountCents": 1199,
+        "confidenceScore": 100,
+        "bites": 9,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "PF*PLANET FITNESS NH_0",
+        "displayName": "Planet Fitness",
+        "cadence": "monthly",
+        "medianAmountCents": 1000,
+        "confidenceScore": 100,
+        "bites": 9,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "HULU CA_0",
+        "displayName": "Hulu",
+        "cadence": "monthly",
+        "medianAmountCents": 999,
+        "confidenceScore": 100,
+        "bites": 8,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": true
+      },
+      {
+        "id": "HELLOFRESH US NY_0",
+        "displayName": "HelloFresh",
+        "cadence": "weekly",
+        "medianAmountCents": 7194,
+        "confidenceScore": 100,
+        "bites": 10,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      }
+    ],
+    "possibleVampires": []
+  },
+  "tests/fixtures/banks/chase-us.csv": {
+    "vampires": [
+      {
+        "id": "NETFLIX.COM CA_0",
+        "displayName": "Netflix",
+        "cadence": "monthly",
+        "medianAmountCents": 1549,
+        "confidenceScore": 100,
+        "bites": 9,
+        "hasPriceIncrease": true,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "PAYPAL *SPOTIFY USA_0",
+        "displayName": "Spotify",
+        "cadence": "monthly",
+        "medianAmountCents": 1199,
+        "confidenceScore": 100,
+        "bites": 9,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "PF*PLANET FITNESS NH_0",
+        "displayName": "Planet Fitness",
+        "cadence": "monthly",
+        "medianAmountCents": 1000,
+        "confidenceScore": 100,
+        "bites": 9,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "HULU CA_0",
+        "displayName": "Hulu",
+        "cadence": "monthly",
+        "medianAmountCents": 999,
+        "confidenceScore": 100,
+        "bites": 8,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": true
+      },
+      {
+        "id": "HELLOFRESH US NY_0",
+        "displayName": "HelloFresh",
+        "cadence": "weekly",
+        "medianAmountCents": 7194,
+        "confidenceScore": 100,
+        "bites": 10,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      }
+    ],
+    "possibleVampires": []
+  },
+  "tests/fixtures/banks/dkb-de.csv": {
+    "vampires": [
+      {
+        "id": "NETFLIX INTERNATIONAL B.V._0",
+        "displayName": "Netflix",
+        "cadence": "monthly",
+        "medianAmountCents": 1399,
+        "confidenceScore": 100,
+        "bites": 12,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "MCFIT GMBH_0",
+        "displayName": "MCFIT GMBH",
+        "cadence": "monthly",
+        "medianAmountCents": 2490,
+        "confidenceScore": 80,
+        "bites": 12,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      }
+    ],
+    "possibleVampires": []
+  },
+  "tests/fixtures/banks/ing-nl.csv": {
+    "vampires": [
+      {
+        "id": "NETFLIX INTERNATIONAL B.V._0",
+        "displayName": "Netflix",
+        "cadence": "monthly",
+        "medianAmountCents": 1399,
+        "confidenceScore": 100,
+        "bites": 8,
+        "hasPriceIncrease": true,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "SPOTIFY AB_0",
+        "displayName": "Spotify",
+        "cadence": "monthly",
+        "medianAmountCents": 1099,
+        "confidenceScore": 100,
+        "bites": 8,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "BASIC-FIT NEDERLAND_0",
+        "displayName": "BASIC-FIT NEDERLAND",
+        "cadence": "monthly",
+        "medianAmountCents": 2499,
+        "confidenceScore": 80,
+        "bites": 8,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "ZIGGO B.V._0",
+        "displayName": "ZIGGO B.V.",
+        "cadence": "monthly",
+        "medianAmountCents": 5450,
+        "confidenceScore": 80,
+        "bites": 8,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "VIDEOLAND_0",
+        "displayName": "VIDEOLAND",
+        "cadence": "monthly",
+        "medianAmountCents": 799,
+        "confidenceScore": 80,
+        "bites": 8,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "VIDEOLAND EXTRA KIDS_0",
+        "displayName": "VIDEOLAND EXTRA KIDS",
+        "cadence": "monthly",
+        "medianAmountCents": 499,
+        "confidenceScore": 80,
+        "bites": 8,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      }
+    ],
+    "possibleVampires": [
+      {
+        "id": "NS GROEP UTRECHT_6",
+        "displayName": "NS GROEP UTRECHT",
+        "cadence": "monthly",
+        "medianAmountCents": 3175,
+        "confidenceScore": 59,
+        "bites": 2,
+        "hasPriceIncrease": true,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "THUISBEZORGD.NL_0",
+        "displayName": "THUISBEZORGD.NL",
+        "cadence": "monthly",
+        "medianAmountCents": 2460,
+        "confidenceScore": 59,
+        "bites": 3,
+        "hasPriceIncrease": true,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "THUISBEZORGD.NL_1",
+        "displayName": "THUISBEZORGD.NL",
+        "cadence": "monthly",
+        "medianAmountCents": 2850,
+        "confidenceScore": 59,
+        "bites": 3,
+        "hasPriceIncrease": true,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "THUISBEZORGD.NL_2",
+        "displayName": "THUISBEZORGD.NL",
+        "cadence": "monthly",
+        "medianAmountCents": 3175,
+        "confidenceScore": 59,
+        "bites": 2,
+        "hasPriceIncrease": true,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "TIKKIE JAN_0",
+        "displayName": "TIKKIE JAN",
+        "cadence": "weekly",
+        "medianAmountCents": 1250,
+        "confidenceScore": 59,
+        "bites": 2,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      }
+    ]
+  },
+  "tests/fixtures/banks/itau-br.csv": {
+    "vampires": [
+      {
+        "id": "NETFLIX.COM_0",
+        "displayName": "Netflix",
+        "cadence": "monthly",
+        "medianAmountCents": 5590,
+        "confidenceScore": 100,
+        "bites": 8,
+        "hasPriceIncrease": true,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "SPOTIFY_0",
+        "displayName": "Spotify",
+        "cadence": "monthly",
+        "medianAmountCents": 2190,
+        "confidenceScore": 100,
+        "bites": 8,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "SMART FIT ACADEMIA_0",
+        "displayName": "Smart Fit",
+        "cadence": "monthly",
+        "medianAmountCents": 11990,
+        "confidenceScore": 100,
+        "bites": 8,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "GLOBOPLAY_0",
+        "displayName": "Globoplay",
+        "cadence": "monthly",
+        "medianAmountCents": 2490,
+        "confidenceScore": 100,
+        "bites": 8,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": true
+      },
+      {
+        "id": "GOOGLE YOUTUBE PREMIUM_0",
+        "displayName": "YouTube Premium",
+        "cadence": "monthly",
+        "medianAmountCents": 2490,
+        "confidenceScore": 100,
+        "bites": 8,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "GOOGLE ONE_0",
+        "displayName": "Google One",
+        "cadence": "monthly",
+        "medianAmountCents": 999,
+        "confidenceScore": 100,
+        "bites": 8,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      }
+    ],
+    "possibleVampires": [
+      {
+        "id": "PAO DE ACUCAR_4",
+        "displayName": "PAO DE ACUCAR",
+        "cadence": "monthly",
+        "medianAmountCents": 12955,
+        "confidenceScore": 59,
+        "bites": 2,
+        "hasPriceIncrease": true,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "PAO DE ACUCAR_5",
+        "displayName": "PAO DE ACUCAR",
+        "cadence": "monthly",
+        "medianAmountCents": 14502,
+        "confidenceScore": 59,
+        "bites": 2,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "UBER *TRIP_5",
+        "displayName": "UBER *TRIP",
+        "cadence": "monthly",
+        "medianAmountCents": 3690,
+        "confidenceScore": 59,
+        "bites": 2,
+        "hasPriceIncrease": true,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "PADARIA DO ZE_0",
+        "displayName": "PADARIA DO ZE",
+        "cadence": "monthly",
+        "medianAmountCents": 1342,
+        "confidenceScore": 59,
+        "bites": 2,
+        "hasPriceIncrease": true,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "PADARIA DO ZE_1",
+        "displayName": "PADARIA DO ZE",
+        "cadence": "monthly",
+        "medianAmountCents": 1580,
+        "confidenceScore": 59,
+        "bites": 3,
+        "hasPriceIncrease": true,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "PADARIA DO ZE_2",
+        "displayName": "PADARIA DO ZE",
+        "cadence": "monthly",
+        "medianAmountCents": 1865,
+        "confidenceScore": 59,
+        "bites": 3,
+        "hasPriceIncrease": true,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "TARIFA CESTA SERVICOS_0",
+        "displayName": "TARIFA CESTA SERVICOS",
+        "cadence": "quarterly",
+        "medianAmountCents": 4500,
+        "confidenceScore": 59,
+        "bites": 2,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      }
+    ]
+  },
+  "tests/fixtures/banks/nubank-br-probe.csv": {
+    "vampires": [
+      {
+        "id": "NETFLIX.COM_0",
+        "displayName": "Netflix",
+        "cadence": "monthly",
+        "medianAmountCents": 5590,
+        "confidenceScore": 100,
+        "bites": 9,
+        "hasPriceIncrease": true,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "SPOTIFY_0",
+        "displayName": "Spotify",
+        "cadence": "monthly",
+        "medianAmountCents": 2190,
+        "confidenceScore": 100,
+        "bites": 9,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "GLOBOPLAY_0",
+        "displayName": "Globoplay",
+        "cadence": "monthly",
+        "medianAmountCents": 2490,
+        "confidenceScore": 100,
+        "bites": 9,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "SMART FIT ACADEMIA_0",
+        "displayName": "Smart Fit",
+        "cadence": "monthly",
+        "medianAmountCents": 11990,
+        "confidenceScore": 100,
+        "bites": 9,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "DISNEY PLUS_0",
+        "displayName": "Disney Plus",
+        "cadence": "monthly",
+        "medianAmountCents": 3390,
+        "confidenceScore": 100,
+        "bites": 8,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": true
+      }
+    ],
+    "possibleVampires": []
+  },
+  "tests/fixtures/banks/nubank-br.csv": {
+    "vampires": [
+      {
+        "id": "NETFLIX.COM_0",
+        "displayName": "Netflix",
+        "cadence": "monthly",
+        "medianAmountCents": 5590,
+        "confidenceScore": 100,
+        "bites": 9,
+        "hasPriceIncrease": true,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "SPOTIFY_0",
+        "displayName": "Spotify",
+        "cadence": "monthly",
+        "medianAmountCents": 2190,
+        "confidenceScore": 100,
+        "bites": 9,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "GLOBOPLAY_0",
+        "displayName": "Globoplay",
+        "cadence": "monthly",
+        "medianAmountCents": 2490,
+        "confidenceScore": 100,
+        "bites": 9,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "SMART FIT ACADEMIA_0",
+        "displayName": "Smart Fit",
+        "cadence": "monthly",
+        "medianAmountCents": 11990,
+        "confidenceScore": 100,
+        "bites": 9,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "DISNEY PLUS_0",
+        "displayName": "Disney Plus",
+        "cadence": "monthly",
+        "medianAmountCents": 3390,
+        "confidenceScore": 100,
+        "bites": 8,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": true
+      }
+    ],
+    "possibleVampires": [
+      {
+        "id": "MERCADO EXTRA_2",
+        "displayName": "MERCADO EXTRA",
+        "cadence": "quarterly",
+        "medianAmountCents": 17025,
+        "confidenceScore": 59,
+        "bites": 2,
+        "hasPriceIncrease": true,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "UBER *TRIP_2",
+        "displayName": "UBER *TRIP",
+        "cadence": "quarterly",
+        "medianAmountCents": 2950,
+        "confidenceScore": 59,
+        "bites": 2,
+        "hasPriceIncrease": true,
+        "hasFreeTrial": false
+      }
+    ]
+  },
+  "tests/fixtures/banks/revolut-gb.csv": {
+    "vampires": [
+      {
+        "id": "NETFLIX_0",
+        "displayName": "Netflix",
+        "cadence": "monthly",
+        "medianAmountCents": 1099,
+        "confidenceScore": 100,
+        "bites": 8,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "SPOTIFY_0",
+        "displayName": "Spotify",
+        "cadence": "monthly",
+        "medianAmountCents": 1199,
+        "confidenceScore": 100,
+        "bites": 8,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "PUREGYM_0",
+        "displayName": "PUREGYM",
+        "cadence": "monthly",
+        "medianAmountCents": 2499,
+        "confidenceScore": 80,
+        "bites": 8,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      }
+    ],
+    "possibleVampires": [
+      {
+        "id": "TFL TRAVEL_2",
+        "displayName": "TFL TRAVEL",
+        "cadence": "monthly",
+        "medianAmountCents": 1225,
+        "confidenceScore": 59,
+        "bites": 2,
+        "hasPriceIncrease": true,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "TFL TRAVEL_3",
+        "displayName": "TFL TRAVEL",
+        "cadence": "monthly",
+        "medianAmountCents": 1445,
+        "confidenceScore": 59,
+        "bites": 2,
+        "hasPriceIncrease": true,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "TFL TRAVEL_4",
+        "displayName": "TFL TRAVEL",
+        "cadence": "monthly",
+        "medianAmountCents": 1665,
+        "confidenceScore": 59,
+        "bites": 2,
+        "hasPriceIncrease": true,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "TO JOHN SMITH_0",
+        "displayName": "TO JOHN SMITH",
+        "cadence": "quarterly",
+        "medianAmountCents": 5750,
+        "confidenceScore": 59,
+        "bites": 2,
+        "hasPriceIncrease": true,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "TO JOHN SMITH_1",
+        "displayName": "TO JOHN SMITH",
+        "cadence": "quarterly",
+        "medianAmountCents": 6950,
+        "confidenceScore": 59,
+        "bites": 2,
+        "hasPriceIncrease": true,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "TO JOHN SMITH_3",
+        "displayName": "TO JOHN SMITH",
+        "cadence": "quarterly",
+        "medianAmountCents": 8650,
+        "confidenceScore": 59,
+        "bites": 2,
+        "hasPriceIncrease": true,
+        "hasFreeTrial": false
+      }
+    ]
+  },
+  "tests/fixtures/banks/santander-es-probe.csv": {
+    "vampires": [
+      {
+        "id": "RECIBO MOVISTAR_0",
+        "displayName": "Movistar",
+        "cadence": "monthly",
+        "medianAmountCents": 5490,
+        "confidenceScore": 100,
+        "bites": 9,
+        "hasPriceIncrease": true,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "BASIC-FIT BARCELONA_0",
+        "displayName": "BASIC-FIT BARCELONA",
+        "cadence": "monthly",
+        "medianAmountCents": 2999,
+        "confidenceScore": 80,
+        "bites": 9,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "NETFLIX.COM_0",
+        "displayName": "Netflix",
+        "cadence": "monthly",
+        "medianAmountCents": 1299,
+        "confidenceScore": 100,
+        "bites": 9,
+        "hasPriceIncrease": true,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "SPOTIFY_0",
+        "displayName": "Spotify",
+        "cadence": "monthly",
+        "medianAmountCents": 1099,
+        "confidenceScore": 100,
+        "bites": 9,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      }
+    ],
+    "possibleVampires": []
+  },
+  "tests/fixtures/banks/santander-es.csv": {
+    "vampires": [
+      {
+        "id": "RECIBO MOVISTAR_0",
+        "displayName": "Movistar",
+        "cadence": "monthly",
+        "medianAmountCents": 5490,
+        "confidenceScore": 100,
+        "bites": 9,
+        "hasPriceIncrease": true,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "BASIC-FIT BARCELONA_0",
+        "displayName": "BASIC-FIT BARCELONA",
+        "cadence": "monthly",
+        "medianAmountCents": 2999,
+        "confidenceScore": 80,
+        "bites": 9,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "NETFLIX.COM_0",
+        "displayName": "Netflix",
+        "cadence": "monthly",
+        "medianAmountCents": 1299,
+        "confidenceScore": 100,
+        "bites": 9,
+        "hasPriceIncrease": true,
+        "hasFreeTrial": false
+      },
+      {
+        "id": "SPOTIFY_0",
+        "displayName": "Spotify",
+        "cadence": "monthly",
+        "medianAmountCents": 1099,
+        "confidenceScore": 100,
+        "bites": 9,
+        "hasPriceIncrease": false,
+        "hasFreeTrial": false
+      }
+    ],
+    "possibleVampires": []
+  }
+}

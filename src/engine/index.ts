@@ -8,6 +8,7 @@
 
 import type {
   AppError,
+  Cadence,
   CatalogEntry,
   ColumnLayout,
   DateFormat,
@@ -22,6 +23,7 @@ import type {
 } from './types';
 
 import { normalize, normalizeForDisplay } from './normalizer';
+import { isNonMerchant } from './nonMerchant';
 import { buildCandidates } from './grouper';
 import { detectCadence, detectFreeTrial } from './cadenceDetector';
 import { matchCatalog } from './catalogMatcher';
@@ -54,16 +56,30 @@ const EXCHANGE_RATES: ExchangeRates = Object.fromEntries(
   ),
 );
 
+/** Minimum confidence score for the vampire tier; below it (but > 0) is "possible". */
+export const VAMPIRE_THRESHOLD = 60;
+
+/** Minimum charges for the free-trial / price-history badges (non-long cadences). */
+export const MIN_CHARGES_FOR_FLAGS = 3;
+/** Cadences whose badges need only 2 charges. */
+export const LONG_CADENCES: ReadonlySet<Cadence> = new Set<Cadence>(['quarterly', 'yearly']);
+
 /**
  * Card/loan payments received ("PAGAMENTO RECEBIDO", "PAYMENT THANK YOU",
  * "PAGO RECIBIDO"). They are money moving into the account, never a subscription,
  * regardless of the statement's sign convention.
  */
-/** Minimum confidence score for the vampire tier; below it (but > 0) is "possible". */
-export const VAMPIRE_THRESHOLD = 60;
-
 const PAYMENT_RECEIVED_RE =
   /pagamento\s+recebido|pago\s+recibido|\bpayment\b.*\bthank\s*you\b|^\s*payment\s+received\b/i;
+
+/**
+ * Strip leading and trailing junk: runs of `* # _ ~ | \ / = + -` and whitespace
+ * (e.g. `****X*` -> `X`). Everything else is kept, including a trailing `.` and
+ * closing `)` or `]` (`ZIGGO B.V.`, `NETFLIX (US)` are unchanged).
+ */
+export function trimEdgeSymbols(s: string): string {
+  return s.replace(/^[*#_~|\\/=+\-\s]+|[*#_~|\\/=+\-\s]+$/g, '');
+}
 
 // ---------------------------------------------------------------------------
 // runDetection
@@ -96,7 +112,10 @@ export function runDetection(input: DetectionInput): DetectionResult {
   try {
     // Step 1: exclude credits before anything else.
     const debits = input.transactions.filter(
-      (t) => t.type !== 'credit' && !PAYMENT_RECEIVED_RE.test(t.description),
+      (t) =>
+        t.type !== 'credit' &&
+        !PAYMENT_RECEIVED_RE.test(t.description) &&
+        !isNonMerchant(t.description),
     );
 
     // Step 2: normalize each surviving transaction's merchant name.
@@ -132,6 +151,11 @@ export function runDetection(input: DetectionInput): DetectionResult {
       // 4a. Cadence — null means non-recurring (incl. single-transaction
       // groups), so the candidate is excluded entirely.
       if (cadence === null) continue;
+
+      // Badges need enough evidence: 3+ charges, or 2+ for quarterly/yearly
+      // (a year of data holds only 2 annual charges). Scoring keeps the raw flags.
+      const flagsAllowed =
+        candidate.bites.length >= MIN_CHARGES_FOR_FLAGS || LONG_CADENCES.has(cadence);
 
       // 4b. Free-trial detection.
       const hasFreeTrial = detectFreeTrial(
@@ -188,7 +212,9 @@ export function runDetection(input: DetectionInput): DetectionResult {
       const avatarSvg = generateAvatar(candidate.normalizedName);
       const displayName = match
         ? match.canonicalName
-        : normalizeForDisplay(candidate.bites[0].description) ||
+        : trimEdgeSymbols(normalizeForDisplay(candidate.bites[0].description)) ||
+          trimEdgeSymbols(candidate.normalizedName) ||
+          normalizeForDisplay(candidate.bites[0].description) ||
           candidate.normalizedName;
 
       // 4g. Assemble the Vampire.
@@ -206,8 +232,8 @@ export function runDetection(input: DetectionInput): DetectionResult {
         nextBiteDate,
         confidenceScore,
         isAmountStable: candidate.isAmountStable,
-        hasFreeTrial,
-        hasPriceIncrease: candidate.hasPriceIncrease,
+        hasFreeTrial: hasFreeTrial && flagsAllowed,
+        hasPriceIncrease: candidate.hasPriceIncrease && flagsAllowed,
         amountHistory: candidate.amountHistory,
         catalogEntry: match,
         avatarSvg,
