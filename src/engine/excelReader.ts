@@ -7,6 +7,7 @@
 import type * as XLSXNamespace from 'xlsx';
 import { DATE_HEADER_RE } from './headerKeywords';
 import { isHeaderRow, locateHeader } from './headerLocator';
+import { findReferenceDate, normalizeMonthNameDates } from './monthNameDates';
 import type { ExcelReadResult } from './types';
 
 type XLSXModule = typeof XLSXNamespace;
@@ -211,8 +212,22 @@ function readHtmlStatement(bytes: ArrayBuffer): ExcelReadResult {
   if (typeof DOMParser === 'undefined') return fail('HTML statements need a browser.');
   const doc = new DOMParser().parseFromString(decodeText(bytes), 'text/html');
   const tables = Array.from(doc.querySelectorAll('table')) as HTMLTableElement[];
-  const grid = pickStatementGrid(tables.map(tableGrid));
-  if (grid === null) return fail('No table found in the HTML statement.');
+  const grids = tables.map(tableGrid);
+  const picked = pickStatementGrid(grids);
+  if (picked === null) return fail('No table found in the HTML statement.');
+
+  // Dates like "15-oct." (no year): take the year from the statement's own
+  // full dates (e.g. "Fecha este Corte: 14-11-2026"), else from today.
+  const located = locateHeader(picked);
+  const dateCol = located.headers.findIndex((h) => DATE_HEADER_RE.test(fold(h)));
+  // Reference cells: other tables plus the rows above the header (never the
+  // movements themselves, whose descriptions may contain unrelated dates).
+  const contextCells = [
+    ...grids.filter((g) => g !== picked).flat(2),
+    ...picked.slice(0, located.headerRowIndex + 1).flat(),
+  ];
+  const reference = findReferenceDate(contextCells) ?? Date.now();
+  const grid = normalizeMonthNameDates(picked, located.headerRowIndex, dateCol, reference);
   const width = Math.max(...grid.map((r) => r.length));
   const csvText = grid
     .map((r) => Array.from({ length: width }, (_, i) => csvField(r[i] ?? '')).join(','))
