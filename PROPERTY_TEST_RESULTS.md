@@ -11,8 +11,8 @@ pass.
 
 Verified with `npx vitest run`:
 
-- **Test files:** 40 passed (40 total)
-- **Tests:** 580 passed (580 total)
+- **Test files:** 87 passed (87 total), Nov 26, 2026
+- **Tests:** 998 passed (998 total), with 117 `fc.assert` properties
 - Two real engine behaviors were surfaced by the properties and fixed in `src/`:
   - **Property 1** (normalizer idempotence) — once the generator was made
     bank-like it exposed that a single cleanup pass is not a fixpoint. Fixed by

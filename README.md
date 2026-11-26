@@ -41,18 +41,24 @@ The theme maps directly to money terms: vampire = recurring charge, bite = one c
 - Transaction data is never sent anywhere. The only `fetch` in the app loads the bundled sample CSVs from the same static site (`src/components/SamplePicker.tsx`).
 - The only thing stored is in `localStorage`, under one key (`vampire-hunter:crypt`): your **decisions** (stake / spare / garlic), your **language** and your **currency**. No transactions are written (`src/engine/cryptStorage.ts`).
 - The **Burn the Crypt** button wipes that storage and resets the app.
+- **Works offline:** a small service worker (our own Vite plugin, no dependencies) caches the app, including the Excel reader. After the first visit you can turn on airplane mode and still analyze a statement.
+- **A privacy seal you can check:** the footer counts every connection to another server with the browser's Resource Timing API and shows "0 external connections · offline ready". If the browser cannot measure, it says so instead of showing a false 0 (`src/components/PrivacySeal.tsx`).
 
 ## Security & privacy
 
 - **Content Security Policy** (`customHttp.yml`): the header sets `connect-src 'self'`, so the browser itself blocks any attempt to send data to another origin. Even a bug or a compromised dependency could not post your transactions elsewhere. `script-src 'self'` also rules out inline scripts and `eval`.
 - **Avatars are images, not HTML:** each vampire avatar is an SVG data URI rendered in an `<img>` tag. It is never injected as HTML, so merchant names from a CSV cannot run script.
 - **Dependencies:** `npm audit` reports 0 vulnerabilities.
-- **Exchange rates are approximate:** the static table in `src/data/exchangeRates.json` has an `asOf` date, shown next to the currency selector, and is only used to estimate threat levels.
+- **Exchange rates are approximate:** the static table in `src/data/exchangeRates.json` has an `asOf` date, shown in the footer, and is only used to estimate threat levels.
 
 ## Features
 
 - **Multi-currency:** display in USD, MXN, COP, ARS, CLP, EUR, BRL, GBP, CAD or PEN. The statement's currency is inferred from a currency column, ISO codes or symbols. Money is stored as integer cents.
 - **Supported bank formats:** the parser is tested against synthetic exports in the style of these banks (`tests/fixtures/banks/`): American Express (US), Bancolombia (CO), Chase (US), ING (NL), Itaú (BR), Nubank (BR), Revolut (GB) and Santander (ES). If auto-detection isn't sure about a file from any other bank, the manual column mapper is the fallback: you pick the date, description and amount columns yourself.
+- **Excel and "Excel" files:** `.xlsx` and `.xls` are read in the browser with SheetJS. Many banks (common in Latin America) download a **web page saved as `.xls`**; the reader detects it, parses it with the browser's inert `DOMParser` (no scripts run, nothing is fetched) and picks the table with the movements. Found with a real Ecuadorian statement.
+- **Dates without a year:** some statements write `15-oct.`. Month names in Spanish, English and Portuguese are understood, and the year comes from the statement's own cut date (`src/engine/monthNameDates.ts`).
+- **Title rows above the header:** bank name, account and period rows are skipped automatically (`src/engine/headerLocator.ts`).
+- **Not every debit is a merchant:** transfers, tax withholdings, ATM withdrawals and credit-card bill payments are never vampires. Bank fees are kept, because a recurring fee is a real vampire (`src/engine/nonMerchant.ts`).
 - **Messy bank formats:** dates in DD/MM/YYYY, MM/DD/YYYY or YYYY-MM-DD, amounts with comma or dot decimals, single amount column or split debit/credit columns, and a manual column mapper when auto-detection isn't sure.
 - **Latin-1 / Windows-1252 CSVs:** many European and Latin American banks export in these encodings. Files are decoded as UTF-8 first; if that is invalid, the browser's `TextDecoder` falls back to windows-1252, so accents like "PANADERÍA" and "Débito" survive. No network involved (`decodeCsvBytes` in `src/components/csvUtils.ts`, fixture in `tests/fixtures/encoding/`).
 - **Bilingual:** English and Spanish with a one-click switch (`src/i18n/en.json`, `es.json`).
@@ -118,24 +124,28 @@ Sample statements for trying the app are in `samples/` (fake data only).
 npm test         # vitest run
 ```
 
-Last run of `npx vitest run`: **42 test files, 591 tests, all passing.**
+Last run (Nov 26, 2026): `npx vitest run`: **87 test files, 998 tests, all passing**, including 117 fast-check properties. `npx playwright test`: **12 end-to-end tests** on the production build with the real security headers, including uploads with the network off and with the server stopped.
 
 The engine is covered by unit tests and by fast-check property tests (`tests/*.property.test.ts`, and property tests inside other test files; run counts per property are listed in [`PROPERTY_TEST_RESULTS.md`](PROPERTY_TEST_RESULTS.md)). There are also integration tests over the sample statements (`tests/integration.sampleStatements.test.ts`), over the bank fixtures (`tests/integration.bankFixtures.test.ts`), and UI tests for the burn flow, icons, garlic copy and sound.
 
 ## How Kiro was used
 
-- **Specs** (`.kiro/specs/`, 4 specs, each with design and tasks):
+- **Specs** (`.kiro/specs/`, 7 specs, 304 of 304 tasks done):
   - `vampire-hunter/`: the full app: CSV parsing, detection engine, crypt UI, persistence, i18n.
   - `gothic-icons-and-burn-animation/`: the follow-up polish: custom SVG icon system replacing emoji, and the Burn the Crypt animation.
   - `ux-burn-garlic-sound-fixes/`: full-viewport burn overlay, honest Garlic help text, and the synthesized ambient sound.
   - `bank-format-parser-fixes/` (Bug Fix spec): see below.
+  - `privacy-you-can-verify/`: the offline app, the privacy seal and Playwright tests that run with the real CSP.
+  - `excel-statement-support/` (Quick Spec): Excel import. Kiro asked 4 clarifying questions and, reviewing its own draft, flagged 8 problems before writing code.
+  - `non-merchant-false-positives-fix/` (Bug Fix spec): found with a real bank statement, see below.
 - **Steering** (`.kiro/steering/`): `product.md` (promise, audience, tone, vampire vocabulary), `tech.md` (stack and hard rules such as no network calls with transaction data, integer cents, pure engine) and `structure.md` (folder layout).
 - **Hooks** (`.kiro/hooks/run-engine-tests-on-save.json`): runs `npm test` whenever a file in `src/engine` or `tests` is saved, so failures show up immediately.
 - **MCP** (`.kiro/settings/mcp.json`): the Playwright MCP server, used to drive the live site and capture the screenshots in `docs/screenshots/`.
 - **Kiro CLI + custom agent `statement-tester`** (`.kiro/agents/statement-tester.json`): created with Kiro CLI. It writes realistic fake bank exports into `tests/fixtures/banks/` (it can't write to `src/`), runs them through the real engine with `scripts/detect.ts`, and reports expected vs detected. On its first run it detected 0 subscriptions on the raw bank formats. Later, 2 never-seen banks (Itaú BR and ING NL) exposed an overfitted parser. Both runs are documented in [`docs/kiro/statement-tester-runs.md`](docs/kiro/statement-tester-runs.md).
 - **Bug Fix spec `bank-format-parser-fixes`** (`.kiro/specs/bank-format-parser-fixes/`): the bug-condition test was written first, and failed on the unfixed code. A baseline of the sample results (`tests/baselines/inAppSamples.vampireIds.json`) was captured before any fix, and a preservation test checks that the 5 in-app samples keep exactly those vampire ids. Kiro asked before adding a new rule instead of patching the parser on its own.
+- **Tested on a real bank statement:** the author's own bank (Ecuador) found 4 problems no test had imagined: a web page saved as `.xls`, dates with no year, and transfers and a tax withholding listed as "possible" subscriptions. The first two were fixed in review; the last one went through a second Bug Fix spec (failing tests first, a golden baseline in `tests/baselines/detectionOutput.json`, and Kiro stopped to ask before changing a baseline). The statement was read only on the author's machine and only counts were reported. Result: 55 movements, 0 vampires, which is correct.
 - **Property-based tests:** the properties in `tests/*.property.test.ts` found four real bugs that example tests missed: the normalizer wasn't idempotent (Property 1), small sustained price steps weren't flagged (12b), two subscriptions from the same merchant grouped differently depending on row order (3b), and some avatars rendered with `fill="undefined"` because of a signed bit shift (8b). All four were fixed. [`PROPERTY_TEST_RESULTS.md`](PROPERTY_TEST_RESULTS.md) records each property with its failing counterexample before the fix and the passing run after it.
-- **Kiro IDE and Kiro Web together:** the IDE built the app task by task from the spec, while Kiro Web (the cloud agent) worked in parallel on separate branches and opened pull requests for property tests, catalog fixes and engine edge cases (bank-style negatives like `(15.49)`, ISO-only dates, phone and store numbers in merchant names, accent-insensitive matching). Every PR was reviewed and merged on GitHub.
+- **Kiro IDE and Kiro Web together:** the IDE built the app task by task from the spec, while Kiro Web (the cloud agent) worked in parallel on separate branches and opened pull requests for property tests, catalog fixes and engine edge cases (bank-style negatives like `(15.49)`, ISO-only dates, phone and store numbers in merchant names, accent-insensitive matching). 12 PRs were reviewed and merged on GitHub.
 - **Powers and tools used:**
   - **Aikido Security** (Kiro IDE): security scanning of the code and dependencies.
   - **ScoutQA:** automated exploratory testing of the live site.

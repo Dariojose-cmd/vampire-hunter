@@ -13,7 +13,7 @@
     "title": "Encuentra Tus Vampiros",
     "subtitle": "Sube tu estado de cuenta y cazaremos cada cargo recurrente que se esconde en las sombras.",
     "fileInputLabel": "Elegir un archivo CSV",
-    "dropZoneLabel": "Suelta tu CSV aquí o haz clic para buscar",
+    "dropZoneLabel": "Suelta tu estado de cuenta aquí o haz clic para buscar",
     "dropZoneActive": "Suéltalo para comenzar la cacería…",
     "browseButton": "Elegir archivo",
     "orText": "o",

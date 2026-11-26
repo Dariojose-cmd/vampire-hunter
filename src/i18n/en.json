@@ -13,7 +13,7 @@
     "title": "Find Your Vampires",
     "subtitle": "Upload your bank statement and we'll hunt down every sneaky recurring charge.",
     "fileInputLabel": "Choose a CSV file",
-    "dropZoneLabel": "Drop your CSV here or click to browse",
+    "dropZoneLabel": "Drop your bank statement here or click to browse",
     "dropZoneActive": "Release to unleash the hunt…",
     "browseButton": "Pick a file",
     "orText": "or",
